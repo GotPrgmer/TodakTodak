@@ -1,0 +1,10 @@
+package com.in28minutes.firstjavaproject;
+
+public class MultipleicationTableRunner {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		MultiplicationTable table = new MultiplicationTable();		table.print(7, 2, 5);
+	}
+
+}
