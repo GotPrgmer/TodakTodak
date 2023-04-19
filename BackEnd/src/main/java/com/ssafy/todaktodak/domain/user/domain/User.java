@@ -3,6 +3,7 @@ package com.ssafy.todaktodak.domain.user.domain;
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.sun.istack.NotNull;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name = "user")
 public class User {
 
