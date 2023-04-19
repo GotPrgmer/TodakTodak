@@ -2,7 +2,6 @@ package com.ssafy.todaktodak.domain.device.domain;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.sun.istack.NotNull;
-import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -14,9 +13,13 @@ import java.time.LocalDateTime;
 public class Device {
 
     @Id
-    @GeneratedValue
-    @Column(name = "user_id")
-    private Integer deviceId;
+    @Column(name = "baby_id")
+    private Integer babyId;
+
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "baby_id")
+    private Baby baby;
 
     @NotNull
     @Column(name = "user_email")
@@ -35,8 +38,7 @@ public class Device {
     private LocalDateTime userUpdatedDate;
 
 
-    @OneToOne(mappedBy = "device")
-    private Baby baby;
+
 
 
 }

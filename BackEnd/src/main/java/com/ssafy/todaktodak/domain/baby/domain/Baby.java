@@ -20,7 +20,6 @@ public class Baby {
 
 
     @Id
-    @GeneratedValue
     @Column(name = "baby_id")
     private Integer babyId;
 
@@ -28,14 +27,6 @@ public class Baby {
     @JoinColumn(name = "user_id")
     private User user;
 
-
-    @NotNull
-    @Column(name = "temperature",length = 4)
-    private String temperature;
-
-    @NotNull
-    @Column(name = "humidity",length = 3)
-    private String humidity;
 
     @NotNull
     @Column(name = "baby_nickname")
@@ -51,8 +42,8 @@ public class Baby {
     private LocalDateTime babyUpdatedDate;
 
 
-    @OneToOne
-    @JoinColumn(name = "device_id")
+    @OneToOne(mappedBy = "baby")
     private Device device;
+
 }
 
