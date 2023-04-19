@@ -32,7 +32,7 @@ public class User {
     private LocalDateTime userCreatedDate;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Baby> babys = new ArrayList<Baby>();
 
 

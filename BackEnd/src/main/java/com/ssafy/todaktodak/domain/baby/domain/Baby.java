@@ -2,6 +2,7 @@ package com.ssafy.todaktodak.domain.baby.domain;
 
 
 
+import com.ssafy.todaktodak.domain.device.domain.Device;
 import com.ssafy.todaktodak.domain.user.domain.User;
 import com.sun.istack.NotNull;
 import lombok.Builder;
@@ -49,8 +50,9 @@ public class Baby {
     @LastModifiedDate
     private LocalDateTime babyUpdatedDate;
 
-    @Builder.Default
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Baby> babys = new ArrayList<Baby>();
+
+    @OneToOne
+    @JoinColumn(name = "device_id")
+    private Device device;
 }
 
