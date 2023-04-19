@@ -13,7 +13,7 @@ public class Notice {
     @Column(name = "notice_id")
     private Integer noticeId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -23,9 +23,11 @@ public class Notice {
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(name = "notice_type")
     private NoticeType noticeType;
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(name = "check_status")
     private CheckStatus checkStatus;
 }
