@@ -4,10 +4,12 @@ oauth2:
       kakao:
         client-id: ${KAKAO_RESTAPI_KEY}
         client-secret: ${KAKAO_CLIENT_SECRET_KEY}
-        redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
+        redirect-uri: http://localhost:8080/login/oauth2/code/
         client-authentication-method: POST
         authorization-grant-type: authorization_code
-        scope: profile_nickname, account_email #동의 항목
+        scope:
+        - profile_nickname
+        - account_email #동의 항목
         client-name: Kakao
     provider:
       kakao:
@@ -15,3 +17,8 @@ oauth2:
         token-uri: https://kauth.kakao.com/oauth/token
         user-info-uri: https://kapi.kakao.com/v2/user/me
         user-name-attribute: id
+jwt:
+  secret : ${JWT_SECRET}
+  expiration-accesstoken-minutes : 3
+  expiration-refreshtoken-minutes : 10080
+  token-prefix : "Bearer "

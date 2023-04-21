@@ -19,7 +19,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.TodakTodak"))
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.todaktodak"))
                 .paths(PathSelectors.any())
                 .build();
     }
