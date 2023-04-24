@@ -5,6 +5,7 @@ import com.ssafy.todaktodak.global.auth.oauth.dto.KakaoAccessTokenDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.LoginResponseDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.SocialUserResponseDto;
 import com.ssafy.todaktodak.global.auth.oauth.service.KakaoService;
+import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 public class KakaoController {
     private final KakaoService kakaoService;
 
-    @GetMapping("/oauth/kakao/callback")
-    public ResponseEntity<LoginResponseDto> kakaoCallback(@RequestParam("code") String code, HttpServletResponse response) throws JsonProcessingException {
-        return kakaoService.verificationKakao(code,response);
+    @GetMapping("/login/oauth2/callback/kakao")
+    public ResponseEntity<LoginResponseDto> kakaoCallback(@RequestParam("code") String code) throws JsonProcessingException {
+        return kakaoService.verificationKakao(code);
     }
+
 
 
 

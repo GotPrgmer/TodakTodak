@@ -23,10 +23,7 @@ public class JwtProvider {
 
     private final Key key;
 
-    private
 
-    @Value("${jwt.secret}")
-    String jwtSecretKey;
 
 
     private static final String AUTHORITIES_KEY = "role";
@@ -44,6 +41,8 @@ public class JwtProvider {
     }
 
 
+
+
     public Date getExpiryDate(String AccessTokenExpiry) { // String to Date
         return new Date(System.currentTimeMillis() + Long.parseLong(AccessTokenExpiry));
     }
@@ -54,10 +53,12 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(JwtToken jwtToken, String token) {
-        Claims claims = jwtToken.getTokenClaims(token);
+        Claims claims = this.getTokenClaims(token);
         String authority = (String) claims.get(AUTHORITIES_KEY);
         Role inputAuthority = null;
         SimpleGrantedAuthority simpleAuthority = new SimpleGrantedAuthority(authority);
+        log.info(simpleAuthority.toString());
+        log.info(simpleAuthority.getAuthority());
         if (simpleAuthority.getAuthority().equals("ROLE_USER")) {
             inputAuthority = Role.USER;
         } else {
@@ -68,6 +69,38 @@ public class JwtProvider {
         authorities.add(simpleAuthority);
         return new UsernamePasswordAuthenticationToken(principal, jwtToken, authorities);
 
+    }
+
+    public boolean validate(String token) { // AccessToken(AppToken) 유효한지 체크
+        return this.getTokenClaims(token) != null;
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = getTokenClaims(token);
+        String roleList = claims.get("role", String.class);
+        return roleList;
+    }
+
+    public Claims getTokenClaims(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody(); // token의 Body가 하기 exception들로 인해 유효하지 않으면 각각에 해당하는 로그 콘솔에 찍음
+        } catch (SecurityException e) {
+            log.info("Invalid JWT signature.");
+        } catch (MalformedJwtException e) {
+            log.info("Invalid JWT token.");
+            // 처음 로그인(/auth/kakao, /auth/google) 시, AccessToken(AppToken) 없이 접근해도 token validate을 체크하기 때문에 exception 터트리지 않고 catch합니다.
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT token.");
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT token.");
+        } catch (IllegalArgumentException e) {
+            log.info("JWT token compact of handler are invalid.");
+        }
+        return null;
     }
 
 

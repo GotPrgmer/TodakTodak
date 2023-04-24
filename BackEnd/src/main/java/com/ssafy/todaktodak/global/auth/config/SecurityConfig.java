@@ -1,9 +1,10 @@
 package com.ssafy.todaktodak.global.auth.config;
 
-import lombok.RequiredArgsConstructor;
+import com.ssafy.todaktodak.global.auth.jwt.JwtAuthorizationFilter;
+import com.ssafy.todaktodak.global.auth.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,8 +13,17 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
+import javax.servlet.Filter;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JwtProvider jwtProvider;
+
+    @Autowired
+    public SecurityConfig(JwtProvider jwtProvider) {
+        this.jwtProvider = jwtProvider;
+    }
 
 
 
@@ -24,13 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(
                         "/v2/api-docs/**",
-                        "/","/user/kakao/callback/*",
+                        "/login/oauth2/*",
+                        "/login/oauth2/**",
                         "/webjars/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html/**",
                         "/swagger-resources/**",
-                        "/swagger-ui.html",
-                        "/**"
+                        "/swagger-ui.html"
+//                        "/**"
 
                         );
     }
@@ -48,16 +59,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
 
                         "/",
-                        "/**","/user/kakao/callback/*",
+                        "/login/oauth2/*",
+                        "/login/oauth2/**",
                         "/webjars/**",
-                        "/auth/account/**",
                         "/swagger-ui.html/**", "/swagger-ui/**",
-                        "/v2/api-docs/**", "/swagger-resources/**",
-                        "/members/nickname", "/members/reissue").permitAll()
+                        "/v2/api-docs/**", "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider),
+                    UsernamePasswordAuthenticationFilter.class);
 
     }
 }
