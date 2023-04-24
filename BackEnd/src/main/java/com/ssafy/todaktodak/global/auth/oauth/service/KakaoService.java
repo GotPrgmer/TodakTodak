@@ -62,7 +62,7 @@ public class KakaoService {
 
 
 
-    public ResponseEntity<LoginResponseDto> verificationKakao(String code, HttpServletResponse response){
+    public ResponseEntity<LoginResponseDto> verificationKakao(String code){
         KakaoAccessTokenDto kakaoAccessTokenDto = getAccessTokenByCode(code);
         log.info("빠져나옴");
 
@@ -161,7 +161,6 @@ public class KakaoService {
         User userUnwrapped = null;
         String jwtToken = null;
         String refreshToken = null;
-
         if (user.isPresent()) {
             userUnwrapped = user.get();
             // User 객체 사용
@@ -174,6 +173,7 @@ public class KakaoService {
         else{
             log.error("사용자가 없습니다.");
         }
+        log.info(refreshToken);
 
         return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.toEntity(userUnwrapped, jwtToken));
     }
