@@ -21,7 +21,7 @@ public class CookieUtil {
                 .maxAge(7 * 24 * 60 * 60) // 쿠키 유효기간 설정 (초 단위)
                 .path("/") // 쿠키의 경로 설정
                 .secure(true) // HTTPS에서만 쿠키를 전송하도록 설정
-                .sameSite("Lax") // SameSite 설정
+                .sameSite("None") // SameSite 설정
                 .httpOnly(true) // JavaScript에서 쿠키에 접근하지 못하도록 설정
                 .build();
 
