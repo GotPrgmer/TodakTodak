@@ -5,6 +5,19 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('홈 페이지');
+    return Container(
+      child: Column(
+        children: [
+          Flexible(
+            child: Container(color: Colors.blueAccent),
+            flex: 3,
+          ),
+          Flexible(
+            child: Container(color: Colors.greenAccent),
+            flex: 1,
+          )
+        ],
+      ),
+    );
   }
 }

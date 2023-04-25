@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'pages/home.dart' as home;
 import 'pages/video.dart' as video;
 import 'pages/cry.dart' as cry;
@@ -24,7 +25,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: theme,
       home: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Image.asset('Logo.png'),
+          centerTitle: true,
+          backgroundColor: Color(0xffFFDEDE),
+        ),
         body: [
           home.Home(),
           video.Video(),
@@ -32,6 +37,7 @@ class _MyAppState extends State<MyApp> {
           mypage.MyPage()
         ][selected_tab],
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color(0xffFFDEDE),
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,
           currentIndex: selected_tab,
