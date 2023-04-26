@@ -3,6 +3,8 @@ package com.ssafy.todaktodak.global.auth.oauth.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.todaktodak.domain.baby.domain.Baby;
+import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
 import com.ssafy.todaktodak.domain.user.domain.Role;
 import com.ssafy.todaktodak.domain.user.domain.User;
 import com.ssafy.todaktodak.domain.user.repository.UserRepository;
@@ -55,6 +57,8 @@ public class KakaoService {
     private final ObjectMapper objectMapper;
 
     private final UserRepository userRepository;
+
+    private final BabyRepository babyRepository;
 
     private final JwtProvider jwtProvider;
 
@@ -152,6 +156,9 @@ public class KakaoService {
             User newMember = User.kakaoSignupMember(socialUserResponseDto);
             userRepository.save(newMember);
 
+            Baby newBaby = Baby.newBabyCreate(newMember);
+            babyRepository.save(newBaby);
+
         }
 
     }
@@ -175,7 +182,7 @@ public class KakaoService {
         }
         log.info(refreshToken);
 
-        return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.toEntity(userUnwrapped, jwtToken));
+        return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.ofLoginInfo(userUnwrapped, jwtToken));
     }
 
 
