@@ -26,7 +26,7 @@ public class JwtProvider {
 
 
 
-    private static final String AUTHORITIES_KEY = "role";
+    private final String AUTHORITIES_KEY = "role";
 
     @Value("${jwt.expiration-accesstoken-minutes}")
     private String AccessTokenExpiry;
@@ -36,15 +36,15 @@ public class JwtProvider {
     }
 
     public JwtToken createJwt(String id, Role role) { // 추후 roleType 추가 시 interface 역할 하기 위해 생성
-        Date expiryDate = getExpiryDate(AccessTokenExpiry);
+        Date expiryDate = getExpiryDate();
         return new JwtToken(id, role, expiryDate, key);
     }
 
 
 
 
-    public Date getExpiryDate(String AccessTokenExpiry) { // String to Date
-        return new Date(System.currentTimeMillis() + Long.parseLong(AccessTokenExpiry));
+    public Date getExpiryDate() { // String to Date
+        return new Date(System.currentTimeMillis() + Long.parseLong(this.AccessTokenExpiry));
     }
 
     public String getId(String token) {
@@ -64,11 +64,11 @@ public class JwtProvider {
         } else {
             inputAuthority = Role.ADMIN;
         }
-        User principal = User.principalUser(Integer.parseInt(claims.getSubject()), inputAuthority);// 사실상 principal에 저장되는 값은 socialId값과 role뿐(소셜 로그인만 사용하여 password 저장하지 않아 ""로 넣음)
+        User principal = User.principalUser(Integer.parseInt(claims.getSubject()), inputAuthority);// 사실상 principal에 저장되는 값은 userId값과 role뿐(소셜 로그인만 사용하여 password 저장하지 않아 ""로 넣음)
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(simpleAuthority);
-        return new UsernamePasswordAuthenticationToken(principal, jwtToken, authorities);
 
+        return new UsernamePasswordAuthenticationToken(principal, null, authorities);
     }
 
     public boolean validate(String token) { // AccessToken(AppToken) 유효한지 체크
@@ -77,7 +77,7 @@ public class JwtProvider {
 
     public String getRoleFromToken(String token) {
         Claims claims = getTokenClaims(token);
-        String roleList = claims.get("role", String.class);
+        String roleList = claims.get(AUTHORITIES_KEY, String.class);
         return roleList;
     }
 

@@ -18,7 +18,7 @@ public class LoginResponseDto {
 
     private String jwtToken;
 
-    public static LoginResponseDto toEntity(User user, String jwtToken) {
+    public static LoginResponseDto ofLoginInfo(User user, String jwtToken) {
         return LoginResponseDto.builder()
                 .id(user.getUserId())
                 .email(user.getUserEmail())
