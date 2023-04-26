@@ -18,7 +18,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-    generate-ddl: false
+    generate-ddl: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

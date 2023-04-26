@@ -43,7 +43,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role userRole; // USER, MANAGER, ADMIN
 
-    @Column(name = "user_imageUrl")
+    @Column(name = "user_image_url")
     private String userImageUrl;
 
 
