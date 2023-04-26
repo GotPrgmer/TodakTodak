@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
       theme: theme,
       home: Scaffold(
         appBar: AppBar(
-          title: Image.asset('Logo.png'),
+          title: Image.asset('assets/Logo.png'),
           centerTitle: true,
           backgroundColor: Color(0xffFFDEDE),
         ),

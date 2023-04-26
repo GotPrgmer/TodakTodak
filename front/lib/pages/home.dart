@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:front/widgets/home/babyprofile.dart' as profile;
+import 'package:front/widgets/home/sensordata.dart' as sensordata;
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -9,11 +11,11 @@ class Home extends StatelessWidget {
       child: Column(
         children: [
           Flexible(
-            child: Container(color: Colors.blueAccent),
+            child: profile.Profile(),
             flex: 3,
           ),
           Flexible(
-            child: Container(color: Colors.greenAccent),
+            child: sensordata.SensorDataPage(),
             flex: 1,
           )
         ],

@@ -38,6 +38,9 @@ dependencies:
   flutter_svg: ^1.0.1
   flutter_webrtc: ^0.9.26
   socket_io_client: ^2.0.2
+  mqtt_client: ^9.3.1
+  ndialog: ^4.1.0
+  image: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +60,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/certs/RootCA.pem
+    - assets/certs/DeviceCertificate.crt
+    - assets/certs/Private.key
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
