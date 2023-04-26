@@ -22,9 +22,10 @@ public class BabyService {
 
     private final BabyRepository babyRepository;
 
-    public BabyInfoResponseDto babyInfoService(Integer babyId,Integer userId){
+    public BabyInfoResponseDto babyInfoService(Integer babyId,String userId){
+        Integer userIdToNumber = Integer.parseInt(userId);
         //babyId로 아기 조회
-        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userId);
+        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
         Baby findBaby = null;
         if ( baby.isPresent()) {
             findBaby = baby.get();

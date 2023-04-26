@@ -2,6 +2,7 @@ package com.ssafy.todaktodak.global.auth.jwt;
 
 import com.ssafy.todaktodak.domain.user.domain.Role;
 import com.ssafy.todaktodak.domain.user.domain.User;
+import com.ssafy.todaktodak.global.auth.oauth.service.CustomOAuth2User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class JwtProvider {
 
 
     public Date getExpiryDate() { // String to Date
-        return new Date(System.currentTimeMillis() + Long.parseLong(this.AccessTokenExpiry));
+        return new Date(System.currentTimeMillis() + Long.parseLong(this.AccessTokenExpiry)*1000*60);
     }
 
     public String getId(String token) {
@@ -64,8 +65,11 @@ public class JwtProvider {
         } else {
             inputAuthority = Role.ADMIN;
         }
-        User principal = User.principalUser(Integer.parseInt(claims.getSubject()), inputAuthority);// 사실상 principal에 저장되는 값은 userId값과 role뿐(소셜 로그인만 사용하여 password 저장하지 않아 ""로 넣음)
-        List<GrantedAuthority> authorities = new ArrayList<>();
+        Role role = inputAuthority;
+
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.name());
+        List<GrantedAuthority> authorities = new ArrayList<>(Collections.singletonList(grantedAuthority));
+        CustomOAuth2User principal = CustomOAuth2User.principalUser(Integer.parseInt(claims.getSubject()), inputAuthority);// 사실상 principal에 저장되는 값은 userId값과 role뿐(소셜 로그인만 사용하여 password 저장하지 않아 ""로 넣음)
         authorities.add(simpleAuthority);
 
         return new UsernamePasswordAuthenticationToken(principal, null, authorities);

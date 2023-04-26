@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,12 +20,12 @@ public class BabyController {
     private final BabyService babyService;
 
     @GetMapping("/baby/info/{babyId}")
-    public BabyInfoResponseDto BabyInfo(Authentication authentication,@RequestParam Integer babyId){
+    public BabyInfoResponseDto BabyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId){
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
         Integer test = 123;
 
-        return babyService.babyInfoService(babyId,test);
+        return babyService.babyInfoService(babyId,principal.getUsername());
     }
 
 
