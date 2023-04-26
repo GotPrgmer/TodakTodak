@@ -12,7 +12,12 @@ public enum ErrorCode {
 
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, 1001,"허용되지 않은 메서드입니다."),
 
-    TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, -2,"허용되지 않은 메서드입니다."),;
+    TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, 1002,"허용되지 않은 메서드입니다."),
+
+
+    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, 1003, "원하는 결과를 찾을 수 없습니다.");
+
+
 
 
     private final HttpStatus status;
@@ -20,4 +25,4 @@ public enum ErrorCode {
     private final String message;
 
 
-}
+    }
