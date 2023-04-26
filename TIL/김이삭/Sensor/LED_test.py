@@ -39,3 +39,4 @@ def publishData(txt):
        
 _thread.start_new_thread(publishData,("Spin-up new Thread...",))
 client.loop_forever()
+
