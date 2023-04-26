@@ -60,12 +60,7 @@ public class User {
     @LastModifiedDate
     private LocalDateTime userUpdatedDate;
 
-    public static User principalUser(Integer userId, Role role) {
-        return User.builder()
-                .userId(userId)
-                .userRole(role)
-                .build();
-    }
+
 
     public static User kakaoSignupMember( SocialUserResponseDto socialUserResponseDto) {
         return User.builder()
