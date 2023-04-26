@@ -16,7 +16,7 @@ client = mqtt.Client()
 client.on_connect = on_connect # Assign on_connect function to callback
 
 # Set folder path and file paths
-folder_path = f"us-east-1/"
+folder_path = f"ap-northeast-2/"
 config_file_path = folder_path + "aws_config.txt"
 rootCA_file_path = folder_path + "rootCA.pem"
 certificate_file_path = folder_path + "certificate.pem.crt"
@@ -32,23 +32,42 @@ with open(config_file_path, "r") as f:
 
 client.connect(aws_endpoint, 8883, 60) # Connect to AWS IoT
 
-def publishData():
+class TemperatureDataError(Exception):
+    pass
+
+
+def publishData(txt):
     while (True):
         try:
+            print(txt)
             temperature_c = dhtDevice.temperature
-            temperature_f = temperature_c * (9 / 5) + 32
             humidity = dhtDevice.humidity
+
+            if temperature_c is None:
+                raise TemperatureDataError("Temperature data is missing")
+
+            temperature_f = temperature_c * (9 / 5) + 32
             print("Temp: {:.1f} F / {:.1f} C Humidity: {}% ".format(temperature_f, temperature_c, humidity))
 
-            client.publish("raspi/data", payload=json.dumps({"C": temperature_c, "F": temperature_f, "H": humidity}), qos=0, retain=False)
+            # 반올림하여 소수점 두 자리까지 표현
+            rounded_temperature_c = round(temperature_c, 2)
+            rounded_temperature_f = round(temperature_f, 2)
+
+            client.publish("raspi/data", payload=json.dumps({"C": rounded_temperature_c, "F": rounded_temperature_f, "H": humidity}), qos=0, retain=False)
             time.sleep(1)
-            
+
         except KeyboardInterrupt:
             pass
             print('KeyboardInterrupt')
             exit()
         except RuntimeError as e:
             print("Reading from DHT failure: ", e.args)
+            client.publish("raspi/data", payload=json.dumps({"C": None, "F": None, "H": None}), qos=0, retain=False)
+        except TemperatureDataError as e:
+            print(e)
+            client.publish("raspi/data", payload=json.dumps({"C": None, "F": None, "H": None}), qos=0, retain=False)
+            time.sleep(1)
+
        
 _thread.start_new_thread(publishData,("Spin-up new Thread...",))
 client.loop_forever()
