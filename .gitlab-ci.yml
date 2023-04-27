@@ -15,6 +15,14 @@
 # https://docs.gitlab.com/ee/development/cicd/templates.html
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
+
+    
+stages:          # List of stages for jobs, and their order of execution
+  - sonarqube-check
+  - build
+  - test
+  - deploy
+
 sonarqube-check:
   image: gradle:jre11-slim
   variables:
@@ -27,12 +35,7 @@ sonarqube-check:
   script: gradle sonarqube -Dsonar.qualitygate.wait=true
   allow_failure: true
   rules:
-    - if: $CI_COMMIT_REF_NAME == 'main' || $CI_PIPELINE_SOURCE == 'merge_request_event'
-    
-stages:          # List of stages for jobs, and their order of execution
-  - build
-  - test
-  - deploy
+    - if: $CI_COMMIT_REF_NAME == 'develop' || $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
