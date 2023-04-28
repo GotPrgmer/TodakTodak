@@ -24,6 +24,7 @@ stages:          # List of stages for jobs, and their order of execution
   - deploy
 
 sonarqube-check:
+  stage: test
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
