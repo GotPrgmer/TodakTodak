@@ -24,7 +24,9 @@ stages:          # List of stages for jobs, and their order of execution
   - deploy
 
 sonarqube-check:
-  image: gradle:jre11-slim
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
@@ -32,10 +34,11 @@ sonarqube-check:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
-  script: sonar-scanner.bat -D"sonar.projectKey=S08P31B202" -D"sonar.sources=." -D"sonar.host.url=https://sonarqube.ssafy.com" -D"sonar.login=0f90fc8bedace6e393e89c909dcce2c979db8a9a"
+  script:
+    - sonar-scanner.bat -D"sonar.projectKey=S08P31B202" -D"sonar.sources=." -D"sonar.host.url=https://sonarqube.ssafy.com" -D"sonar.login=0f90fc8bedace6e393e89c909dcce2c979db8a9a"
   allow_failure: true
   rules:
-    - if: $CI_COMMIT_REF_NAME == 'develop' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_REF_NAME == 'main' || $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
