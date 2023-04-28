@@ -1,3 +1,10 @@
+spring:
+  profiles:
+    active : ${ACTIVE}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 oauth2:
   client:
     registration:
