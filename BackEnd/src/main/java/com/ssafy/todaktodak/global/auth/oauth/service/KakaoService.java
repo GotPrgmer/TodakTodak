@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
-import com.ssafy.todaktodak.domain.user.domain.Role;
 import com.ssafy.todaktodak.domain.user.domain.User;
 import com.ssafy.todaktodak.domain.user.repository.UserRepository;
 import com.ssafy.todaktodak.global.auth.jwt.JwtProvider;
@@ -25,7 +24,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Slf4j
@@ -50,6 +48,9 @@ public class KakaoService {
 
     @Value("${oauth2.client.registration.kakao.client-secret}")
     private String CLIENT_SECRET;
+
+    @Value("${s3-baby-default-image}")
+    private String S3_BABY_IMAGE;
 
 
     private final RestTemplate restTemplate;
@@ -156,7 +157,7 @@ public class KakaoService {
             User newMember = User.kakaoSignupMember(socialUserResponseDto);
             userRepository.save(newMember);
 
-            Baby newBaby = Baby.newBabyCreate(newMember);
+            Baby newBaby = Baby.newBabyCreate(newMember,S3_BABY_IMAGE);
             babyRepository.save(newBaby);
 
         }
