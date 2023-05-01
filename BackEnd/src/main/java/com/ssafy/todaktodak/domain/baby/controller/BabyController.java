@@ -29,13 +29,13 @@ public class BabyController {
     @PatchMapping("/baby/info/update/{babyId}")
     public BabyInfoResponseDto BabyInfoUpdate(Authentication authentication,
                                               @PathVariable("babyId") Integer babyId,
-                                              @RequestPart("baby_image") MultipartFile baby_image,
+                                              @RequestPart("babyImage") MultipartFile babyImage,
                                               @RequestPart(value="request") BabyUpdateRequestDto babyUpdateRequestDto)
             throws IOException {
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-        return babyService.babyInfoUpdateService(babyId,baby_image,babyUpdateRequestDto,principal.getUsername());
+        return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
     }
 
 
