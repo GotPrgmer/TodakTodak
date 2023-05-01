@@ -1,16 +1,15 @@
 package com.ssafy.todaktodak.domain.baby.controller;
 
 import com.ssafy.todaktodak.domain.baby.dto.BabyInfoResponseDto;
+import com.ssafy.todaktodak.domain.baby.dto.BabyUpdateRequestDto;
 import com.ssafy.todaktodak.domain.baby.service.BabyService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 
 
 @RestController
@@ -23,9 +22,20 @@ public class BabyController {
     public BabyInfoResponseDto BabyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId){
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
-        Integer test = 123;
 
         return babyService.babyInfoService(babyId,principal.getUsername());
+    }
+
+    @PatchMapping("/baby/info/update/{babyId}")
+    public BabyInfoResponseDto BabyInfoUpdate(Authentication authentication,
+                                              @PathVariable("babyId") Integer babyId,
+                                              @RequestPart("baby_image") MultipartFile baby_image,
+                                              @RequestPart(value="request") BabyUpdateRequestDto babyUpdateRequestDto)
+            throws IOException {
+
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+
+        return babyService.babyInfoUpdateService(babyId,baby_image,babyUpdateRequestDto,principal.getUsername());
     }
 
 

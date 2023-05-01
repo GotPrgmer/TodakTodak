@@ -9,6 +9,10 @@ spring:
       maxFileSize: 10MB
       maxRequestSize: 30MB
 
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
 oauth2:
   client:
     registration:
@@ -30,7 +34,7 @@ oauth2:
         user-name-attribute: id
 jwt:
   secret : ${JWT_SECRET}
-  expiration-accesstoken-minutes : 3
+  expiration-accesstoken-minutes : 180
   expiration-refreshtoken-minutes : 10080
   token-prefix : "Bearer "
 
@@ -47,3 +51,6 @@ cloud:
       auto: false
     profiles:
       include: Administrator
+
+s3-default-image : ${S3_DEFAULT_IMAGE}
+s3-baby-default-image : ${S3_BABY_IMAGE}
