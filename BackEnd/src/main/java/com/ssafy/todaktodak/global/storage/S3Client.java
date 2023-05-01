@@ -11,6 +11,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 
 @Slf4j
+@Component
 public class S3Client implements StorageClient{
     private AmazonS3 s3Client;
 
