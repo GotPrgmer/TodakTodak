@@ -69,7 +69,7 @@ public class S3Client implements StorageClient{
             if (fileUrl == null) {
                 return;
             }
-            s3Client.deleteObject(bucket, (key).substring(54));
+            s3Client.deleteObject(bucket, (key).substring(61));
         } catch (AmazonServiceException e) {
             log.error(e.getErrorMessage());
             System.exit(1);
