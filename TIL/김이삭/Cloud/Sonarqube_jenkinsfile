@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout and Clone') {
+            steps {
+                // gitlab project url
+                git branch: 'develop', credentialsId: 'todaktodak', url: 'https://lab.ssafy.com/s08-final/S08P31B202'
+                
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                dir('BackEnd') {
+                    // gradlew 권한 부여
+                    sh 'chmod +x ./gradlew'
+                    // gradlew build
+                    sh './gradlew build -x test'
+                }
+            }
+        }
+    //     stage('SonarQube analysis') {
+    //         steps{
+    //             withSonarQubeEnv('sonarqube-server'){
+    //                 script{
+                        
+    //                 }
+    //                 sh '''
+    //                     "sonar-scanner -Dsonar.projectKey=S08P31B202 -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.ssafy.com -Dsonar.login=0f90fc8bedace6e393e89c909dcce2c979db8a9a"
+    //                 '''
+    //             }
+    //         }
+    //   }
+        stage('SonarQube analysis') {
+            steps {
+                // sonarqube server 설정
+                withSonarQubeEnv('sonarqube-server') {
+                    script {
+                        def scannerHome = tool 'sonarqube-scanner';
+                        sh "${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=S08P31B202 \
+                            -Dsonar.sources=BackEnd,front \
+                            -Dsonar.host.url=https://sonarqube.ssafy.com \
+                            -Dsonar.login=0f90fc8bedace6e393e89c909dcce2c979db8a9a \
+                            -Dsonar.java.binaries=BackEnd/build/classes"
+                    }
+                    // dir('BackEnd'){
+                    //     script {
+                    //         def scannerHome = tool 'sonarqube-scanner';
+                    //         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=S08P31B202 -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.ssafy.com -Dsonar.login=0f90fc8bedace6e393e89c909dcce2c979db8a9a -Dsonar.java.binaries=build/classes"
+                    //     }
+                    // }
+                    // FrontEnd 프로젝트 정적 분석
+                    // dir('front') {
+                    //     script {
+                    //         def scannerHome = tool 'sonarqube-scanner';
+                    //         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=S08P31B202-FrontEnd -Dsonar.sources=. -Dsonar.host.url=https://sonarqube.ssafy.com -Dsonar.login=0f90fc8bedace6e393e89c909dcce2c979db8a9a"
+                    //     }
+                    // }
+                }
+            }
+        }
+    }
+        
+}
