@@ -4,8 +4,8 @@ import { Box, AppBar, Toolbar } from "@mui/material";
 function TopBar() {
   return (
     <>
-      <Box>
-        <AppBar position="fixed">
+      <Box sx={{ display: "flex" }}>
+        <AppBar>
           <Toolbar>
             <div>토닥토닥</div>
           </Toolbar>
