@@ -1,10 +1,7 @@
 package com.ssafy.todaktodak.global.auth.oauth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class KakaoAccessTokenDto {

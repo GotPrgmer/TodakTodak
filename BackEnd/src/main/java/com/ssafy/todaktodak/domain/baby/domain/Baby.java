@@ -1,11 +1,9 @@
 package com.ssafy.todaktodak.domain.baby.domain;
 
 
-
+import com.ssafy.todaktodak.domain.baby.dto.BabyUpdateRequestDto;
 import com.ssafy.todaktodak.domain.device.domain.Device;
-import com.ssafy.todaktodak.domain.user.domain.Role;
 import com.ssafy.todaktodak.domain.user.domain.User;
-import com.ssafy.todaktodak.global.auth.oauth.dto.SocialUserResponseDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +15,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Builder
@@ -28,7 +24,6 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "baby")
 public class Baby {
-
 
     @Id
     @GeneratedValue
@@ -84,11 +79,11 @@ public class Baby {
     @OneToOne(mappedBy = "baby")
     private Device device;
 
-    public static Baby newBabyCreate(User user){
+    public static Baby newBabyCreate(User user, String babyImage){
         return Baby.builder()
                 .user(user)
                 .babyNickname("별명")
-                .babyImageUrl("")
+                .babyImageUrl(babyImage)
                 .babyGender(Gender.X)
                 .babyConstellation("-")
                 .babyBirthYear("-")
@@ -97,6 +92,18 @@ public class Baby {
                 .babyDDay(0)
                 .babyJodiak("-")
                 .build();
+    }
+    public void updateBaby(BabyUpdateRequestDto babyUpdateRequestDto,String imageUrl) {
+        this.babyNickname = babyUpdateRequestDto.getBabyNickname();
+        this.babyImageUrl = imageUrl;
+        this.babyGender = Gender.ofString(babyUpdateRequestDto.getBabyGender());
+        this.babyBirthYear = babyUpdateRequestDto.getBabyBirthYear();
+        this.babyBirthMonth = babyUpdateRequestDto.getBabyBirthMonth();
+        this.babyBirthDay = babyUpdateRequestDto.getBabyBirthDay();
+
+
+
+
     }
 
 }
