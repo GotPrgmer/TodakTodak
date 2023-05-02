@@ -9,6 +9,9 @@ public class BabyUpdateRequestDto {
     @NotNull
     private String babyNickname;
 
+    @NotNull
+    private String babyName;
+
 
     @NotNull
     private String babyGender;
