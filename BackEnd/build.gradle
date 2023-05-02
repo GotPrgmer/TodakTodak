@@ -20,6 +20,9 @@ repositories {
 }
 
 dependencies {
+	//s3
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.387'
+
 	//configuration
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	// jwt

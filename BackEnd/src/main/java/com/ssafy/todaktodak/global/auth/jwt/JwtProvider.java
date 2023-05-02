@@ -1,7 +1,6 @@
 package com.ssafy.todaktodak.global.auth.jwt;
 
 import com.ssafy.todaktodak.domain.user.domain.Role;
-import com.ssafy.todaktodak.domain.user.domain.User;
 import com.ssafy.todaktodak.global.auth.oauth.service.CustomOAuth2User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -11,12 +10,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Component

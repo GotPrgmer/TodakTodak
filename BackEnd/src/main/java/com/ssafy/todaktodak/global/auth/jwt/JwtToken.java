@@ -1,14 +1,14 @@
 package com.ssafy.todaktodak.global.auth.jwt;
 
 import com.ssafy.todaktodak.domain.user.domain.Role;
-import io.jsonwebtoken.*;
-import lombok.Getter;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,13 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/todaktodak?serverTimezone=Asia/Seoul
-    username: ${USER_NAME}
-    password: ${USER_PASSWORD}
+    url : jdbc:mysql://localhost:3306/todaktodak?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ${LOCAL_NAME}
+    password: ${LOCAL_PASSWORD}
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         strategy: org.hibernate.cfg.ImprovedNamingStrategy
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -19,6 +19,3 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
