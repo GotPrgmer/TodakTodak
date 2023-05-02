@@ -2,13 +2,14 @@ import React from "react";
 import TopBar from "../../organisms/TopBar";
 import BottomBar from "../../organisms/BottomBar";
 
-function Profile() {
+function Cry() {
   return (
-    <div>
+    <>
       <TopBar />
+      <div>Cry</div>
       <BottomBar />
-    </div>
+    </>
   );
 }
 
-export default Profile;
+export default Cry;
