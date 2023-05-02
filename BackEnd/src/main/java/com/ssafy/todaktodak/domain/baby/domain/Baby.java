@@ -39,6 +39,10 @@ public class Baby {
     @Column(name = "baby_nickname")
     private String babyNickname;
 
+    @NotNull
+    @Column(name = "baby_name")
+    private String babyName;
+
     @Column(name = "baby_image_url")
     private String babyImageUrl;
 
@@ -82,6 +86,7 @@ public class Baby {
     public static Baby newBabyCreate(User user, String babyImage){
         return Baby.builder()
                 .user(user)
+                .babyName("이름")
                 .babyNickname("별명")
                 .babyImageUrl(babyImage)
                 .babyGender(Gender.X)
@@ -93,8 +98,10 @@ public class Baby {
                 .babyJodiak("-")
                 .build();
     }
+
     public void updateBaby(BabyUpdateRequestDto babyUpdateRequestDto,String imageUrl) {
         this.babyNickname = babyUpdateRequestDto.getBabyNickname();
+        this.babyName = babyUpdateRequestDto.getBabyName();
         this.babyImageUrl = imageUrl;
         this.babyGender = Gender.ofString(babyUpdateRequestDto.getBabyGender());
         this.babyBirthYear = babyUpdateRequestDto.getBabyBirthYear();
