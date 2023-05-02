@@ -24,7 +24,7 @@ public class BabyController {
 //        UserDetails principal = (UserDetails) authentication.getPrincipal();
 
 //        return babyService.babyInfoService(babyId,principal.getUsername());
-        String userTestId = String.valueOf(3);
+        String userTestId = String.valueOf(1);
         return babyService.babyInfoService(babyId, userTestId);
     }
 
@@ -38,7 +38,7 @@ public class BabyController {
 //        UserDetails principal = (UserDetails) authentication.getPrincipal();
 //
 //        return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
-        String userTestId = String.valueOf(3);
+        String userTestId = String.valueOf(1);
         return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,userTestId);
     }
 
