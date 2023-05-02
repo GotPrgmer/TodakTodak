@@ -20,9 +20,7 @@ public class BabyController {
 
     @GetMapping("/baby/info/{babyId}")
     public BabyInfoResponseDto BabyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId){
-
         UserDetails principal = (UserDetails) authentication.getPrincipal();
-
         return babyService.babyInfoService(babyId,principal.getUsername());
     }
 
