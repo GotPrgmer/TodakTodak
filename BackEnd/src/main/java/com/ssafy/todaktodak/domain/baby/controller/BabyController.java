@@ -21,9 +21,11 @@ public class BabyController {
     @GetMapping("/baby/info/{babyId}")
     public BabyInfoResponseDto BabyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId){
 
-        UserDetails principal = (UserDetails) authentication.getPrincipal();
+//        UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-        return babyService.babyInfoService(babyId,principal.getUsername());
+//        return babyService.babyInfoService(babyId,principal.getUsername());
+        String userTestId = String.valueOf(3);
+        return babyService.babyInfoService(babyId, userTestId);
     }
 
     @PatchMapping("/baby/info/update/{babyId}")
@@ -33,9 +35,11 @@ public class BabyController {
                                               @RequestPart(value="request") BabyUpdateRequestDto babyUpdateRequestDto)
             throws IOException {
 
-        UserDetails principal = (UserDetails) authentication.getPrincipal();
-
-        return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
+//        UserDetails principal = (UserDetails) authentication.getPrincipal();
+//
+//        return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
+        String userTestId = String.valueOf(3);
+        return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,userTestId);
     }
 
 
