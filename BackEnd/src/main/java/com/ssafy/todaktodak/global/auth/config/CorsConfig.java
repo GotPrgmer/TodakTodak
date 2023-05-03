@@ -10,10 +10,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedOriginPatterns("*") // 일반적으로 localhost:3000이나 http://hostname/uri~로 설정할텐데 앱으로 하게되면 어떨지 모르겠음
-                .allowedMethods("*")
-                .allowedHeaders("*");
+                .allowedOrigins("https://todaktodak.kr", "https://localhost","https://localhost:3000", "http://localhost", "http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+                .allowCredentials(true);
 
     }
 
