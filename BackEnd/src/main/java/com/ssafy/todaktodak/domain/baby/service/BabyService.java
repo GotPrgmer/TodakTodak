@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.ssafy.todaktodak.global.error.ErrorCode.BIRTH_DATE_NOT_VALID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -73,19 +75,19 @@ public class BabyService {
         Integer month = babyUpdateRequestDto.getBabyBirthMonth();
         Integer day = babyUpdateRequestDto.getBabyBirthDay();
         // 별자리 찾기
-        String babyConstellation = findConstellation(month, day);
+        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
         log.info(babyConstellation);
         // 띠 찾기
-        String babyZodiac = findZodiac(year);
+        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
         log.info(babyZodiac);
         // dday 계산
-        Integer babyDDay = findDDay(year,month,day);
+        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
         log.info(String.valueOf(babyDDay));
         findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,babyDDay,imageUrl);
         return BabyInfoResponseDto.ofBaby(findBaby);
     }
 
-    public String findConstellation(Integer month,Integer day){
+    public Optional<String> findConstellation(Integer month,Integer day){
         String[] constellationSigns = {
                 "염소", "물병", "물고기", "양", "황소", "쌍둥이",
                 "게", "사자", "처녀", "천칭", "전갈", "사수", "염소"
@@ -93,11 +95,11 @@ public class BabyService {
         int[] endDates = {20, 19, 21, 20, 21, 22, 23, 23, 24, 23, 23, 25};
 
         int zodiacIndex = month - (day < endDates[month - 1] ? 1 : 0);
-        return constellationSigns[zodiacIndex];
+        return Optional.of(constellationSigns[zodiacIndex]);
 
     }
 
-    public String findZodiac(Integer year){
+    public Optional<String> findZodiac(Integer year){
         if (year == null || 1900>year){
             throw new IllegalArgumentException();
         }
@@ -107,11 +109,11 @@ public class BabyService {
         };
         int temp = year % 12;
 
-        return zodiacSigns[temp];
+        return Optional.of(zodiacSigns[temp]);
 
     }
 
-    public Integer findDDay(Integer year,Integer month, Integer day){
+    public Optional<Integer> findDDay(Integer year,Integer month, Integer day){
 
         Calendar birthDay = Calendar.getInstance();
         birthDay.set(year, month, day);
@@ -121,7 +123,7 @@ public class BabyService {
         long now = System.currentTimeMillis();
 
 
-        return Math.toIntExact((now - birthDayToMills) / dayFromMill);
+        return Optional.of(Math.toIntExact((now - birthDayToMills) / dayFromMill));
 
     }
 
