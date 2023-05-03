@@ -1,10 +1,15 @@
 package com.ssafy.todaktodak.domain.cry.dto;
 
+
+import java.sql.Timestamp;
+
 public class CryRecordingRequestDto {
 
-    private Integer parentId;
+    private String deviceSerial;
 
-    private Integer babyId;
+    private Timestamp cryStartTime;
+
+    private Timestamp cryEndTime;
 
 
 }
