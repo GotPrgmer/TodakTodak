@@ -1,62 +1,91 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 
 function Edit() {
-    const navigate = useNavigate();
-    const navigateToProfile = () => { navigate('/') };
+  const navigate = useNavigate();
+  const navigateToProfile = () => { navigate('/') };
 
-    const { state } = useLocation();
-    console.log(state)
+  const { register, handleSubmit, watch } = useForm();
+  const onSubmit = data => console.log(data);
 
-    const { register, handleSubmit } = useForm();
+  const date = new Date();
 
-    const { watch, } = useForm();
-    const [imagePreview, setImagePreview] = useState("");
-    const image = watch("image");
-    useEffect(() => {
-        if (image && image.length > 0) {
-        const file = image[0];
-        setImagePreview(URL.createObjectURL(file));
-        }
-    }, [image]);
+  const data = useLocation();
+  console.log(data)
+
+  const [imagePreview, setImagePreview] = useState(data.state.baby_image_url);
+  const image = watch("image");
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const file = image[0];
+      setImagePreview(URL.createObjectURL(file));
+    }
+  }, [image]);
+
+  const gender = data.state.baby_gender === 'unknown' ? "other" : data.state.baby_gender;
+  const year = data.state.baby_birth_year === '' ? "" : data.state.baby_birth_year;
+  const month = data.state.baby_birth_month === '' ? "" : data.state.baby_birth_month;
+  const day = data.state.baby_birth_day === '' ? "" : data.state.baby_birth_day;
+
 
   return (
-    <>
-          <div className="bg-cover bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')]">
-              <div className="h-screen w-screen ">
-                  <div className="flex">
-                      <div className="w-screen mt-16">
-                        <button onClick={navigateToProfile} className="ml-5">취소</button>    
-                      </div>
-                      <div  className="w-screen mt-16 text-right">
-                        <button className="mr-5">완료</button>  
-                      </div>
-                  </div>
-                  
-                  <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
-                      {/* <input
-                        className="block"
-                        id="nickname"
-                        type="text"
-                        placeholder={ state.baby_nickname }
-                        {...register("nickname")}
-                         
-                    />
-                      <input
-                        className="block"
-                        id="name"
-                        type="text"
-                        placeholder= { state.baby_id }
-                        {...register("name")}    
-                    /> */}
-                      <input {...register("image")} id="picture" type="file"/>
-                    <button type="submit">로그인</button>
-                  </form>
-              </div>
+    <div className="h-screen w-full text-center bg-cover bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')] flex items-center">
+        <form className="" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex justify-center">
+            <label htmlFor="picture">
+              <input style={{ display: 'none' }} {...register("image")} id="picture" type="file" />
+              <img className="rounded-full w-44 h-44" src={imagePreview} alt="" ></img>
+            </label>
           </div>
-    </>
+
+          <div className="flex justify-center mt-3">
+            <input className="block bg-transparent text-center" placeholder={ data.state.baby_nickname } {...register("nickname", { required: true, maxLength: 10 })} />
+          </div>
+
+          <div className="flex justify-center mt-3">
+            <select className="block bg-transparent text-center w-20" defaultValue={gender} {...register("gender", { required: true })}>
+              <option value="other">성별</option>
+              <option value="male">남자</option>
+              <option value="female">여자</option>
+            </select>
+
+            <input className="block bg-transparent text-center w-20" placeholder="이름" {...register("name", { required: true, maxLength: 10 })} />
+          </div>
+          
+          <div className="flex justify-center mt-3">
+            <select className="bg-transparent text-center w-20" defaultValue={year} {...register("year", { required: true })}>
+              <option value="">년</option>
+              {Array.from({length: 11}, (_, i) => date.getFullYear() - i).map(i => (
+                <option key={i} value={i}>{i}</option>
+              ))}
+            </select>
+
+            <select className="bg-transparent text-center w-20" defaultValue={month} {...register("month", { required: true })}>
+              <option value="">월</option>
+              {Array.from({length: 12}, (_, i) => 1 + i ).map(i => (
+                <option key={i} value={i}>{i}</option>
+              ))}
+              
+            </select>
+
+            <select className="bg-transparent text-center w-20" defaultValue={day} {...register("day", { required: true })}>
+              <option value="">일</option>
+              {Array.from({length: 31}, (_, i) => 1 + i ).map(i => (
+                <option key={i} value={i}>{i}</option>
+              ))}
+            </select>
+          </div>
+
+
+          <div className="w-screen mt-5">
+            <button onClick={navigateToProfile}>취소</button>    
+            <input className="ml-20" type="submit" value="완료"/>
+          </div>
+        </form>
+
+      </div>
   );
 }
 

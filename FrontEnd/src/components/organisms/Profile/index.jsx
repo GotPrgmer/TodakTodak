@@ -39,7 +39,7 @@ function BabyProfile() {
                         <p className="mt-1">{data.baby_jodiak} / { data.baby_constellation }</p>
                     </div>
                     <div className="flex items-center">
-                        <p className="text-xl">D+ 9,625{d_day}</p>
+                        <p className="text-xl">D+ { data.baby_dday }</p>
                     </div>
                 </div>
             </div>
