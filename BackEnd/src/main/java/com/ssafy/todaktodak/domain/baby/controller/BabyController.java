@@ -4,8 +4,10 @@ import com.ssafy.todaktodak.domain.baby.dto.BabyInfoResponseDto;
 import com.ssafy.todaktodak.domain.baby.dto.BabyUpdateRequestDto;
 import com.ssafy.todaktodak.domain.baby.service.BabyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +34,7 @@ public class BabyController {
     public BabyInfoResponseDto BabyInfoUpdate(Authentication authentication,
                                               @PathVariable("babyId") Integer babyId,
                                               @RequestPart("babyImage") MultipartFile babyImage,
-                                              @RequestPart(value="request") BabyUpdateRequestDto babyUpdateRequestDto)
+                                              @RequestPart(value="request")  BabyUpdateRequestDto babyUpdateRequestDto)
             throws IOException {
 
 //        UserDetails principal = (UserDetails) authentication.getPrincipal();

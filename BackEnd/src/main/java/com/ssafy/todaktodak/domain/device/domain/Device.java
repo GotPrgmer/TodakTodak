@@ -13,27 +13,20 @@ import java.time.LocalDateTime;
 public class Device {
 
     @Id
-    @Column(name = "baby_id")
-    private Integer babyId;
+    @Column(name = "device_id")
+    private Integer deviceId;
 
-    @MapsId
     @OneToOne
     @JoinColumn(name = "baby_id")
     private Baby baby;
 
-    @NotNull
-    @Column(name = "user_email")
-    private String userEmail;
 
-    @Column(name = "user_imageUrl")
-    private String userImageUrl;
-
-    @Column(name = "user_created_date", updatable = false)
+    @Column(name = "device_created_date", updatable = false)
     @CreatedDate
     private LocalDateTime userCreatedDate;
 
 
-    @Column(name = "user_updated_date")
+    @Column(name = "device_updated_date")
     @LastModifiedDate
     private LocalDateTime userUpdatedDate;
 
