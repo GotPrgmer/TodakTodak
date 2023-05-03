@@ -74,6 +74,7 @@ public class BabyService {
         Integer year = babyUpdateRequestDto.getBabyBirthYear();
         Integer month = babyUpdateRequestDto.getBabyBirthMonth();
         Integer day = babyUpdateRequestDto.getBabyBirthDay();
+
         // 별자리 찾기
         String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
         log.info(babyConstellation);
@@ -88,6 +89,9 @@ public class BabyService {
     }
 
     public Optional<String> findConstellation(Integer month,Integer day){
+        if (month == null || day == null) {
+            return Optional.empty();
+        }
         String[] constellationSigns = {
                 "염소", "물병", "물고기", "양", "황소", "쌍둥이",
                 "게", "사자", "처녀", "천칭", "전갈", "사수", "염소"
@@ -101,7 +105,7 @@ public class BabyService {
 
     public Optional<String> findZodiac(Integer year){
         if (year == null || 1900>year){
-            throw new IllegalArgumentException();
+            return Optional.empty();
         }
         String[] zodiacSigns = {
                 "원숭이", "닭", "개", "돼지", "쥐", "소",
@@ -114,6 +118,9 @@ public class BabyService {
     }
 
     public Optional<Integer> findDDay(Integer year,Integer month, Integer day){
+        if (year == null || month == null || day == null){
+            return Optional.empty();
+        }
 
         Calendar birthDay = Calendar.getInstance();
         birthDay.set(year, month, day);
