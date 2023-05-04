@@ -2,33 +2,69 @@ import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
 import React, { Component } from "react";
-
 import UserVideoComponent from "./UserVideoComponent";
 import BottomBar from "../../organisms/BottomBar";
 import TopBar from "../../organisms/TopBar";
 
+// // 함수형
+// import { OpenVidu } from "openvidu-browser";
+// import React, { useState, useEffect, useCallback } from "react";
+// import axios from "axios";
+
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
+console.log(APPLICATION_SERVER_URL);
+// const APPLICATION_SERVER_URL = "https://todaktodak.kr/";
 
+//함수형
+// function Video() {
+//   const [mySessionId, setMySessionId] = useState("todak000001");
+//   const [myUserName, setMyUserName] = useState("000001");
+//   const [session, setSession] = useState(undefined);
+//   const [mainStreamManager, setMainStreamManager] = useState(undefined);
+//   const [publisher, setPublisher] = useState(undefined);
+//   const [subscribers, setsubscriber] = useState([]);
+
+//   const leaveSession = useCallback(() => {
+//     if (session) {
+//       session.disconnect()
+//     }
+
+//     setOV(undefined);
+//     setSession(undefined)
+//     setMySessionId('todak000001')
+//   })
+
+// }
+
+// 클래스형
 class Video extends Component {
   constructor(props) {
     super(props);
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: "SessionA",
-      myUserName: "Participant" + Math.floor(Math.random() * 100),
+      // SessionId는 Camera Serial Number(로그인 후 시도)
+      // mySessionId: "SessionA",
+      mySessionId: "todak000001",
+      // UserName은 로그인 한 후 생성되는 pk 번호
+      // myUserName: "Participant" + Math.floor(Math.random() * 100),
+      myUserName: "000001",
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
     };
+    // console.log(this.state.subscribers);
 
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
-    this.switchCamera = this.switchCamera.bind(this);
-    this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
-    this.handleChangeUserName = this.handleChangeUserName.bind(this);
+    // 카메라 전후 변경(필요없음)
+    // this.switchCamera = this.switchCamera.bind(this);
+    // SessionId 변경(필요없음)
+    // this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
+    // UserName 변경(필요없음)
+    // this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
   }
@@ -45,17 +81,19 @@ class Video extends Component {
     this.leaveSession();
   }
 
-  handleChangeSessionId(e) {
-    this.setState({
-      mySessionId: e.target.value,
-    });
-  }
+  // SessionId 변경
+  // handleChangeSessionId(e) {
+  //   this.setState({
+  //     mySessionId: e.target.value,
+  //   });
+  // }
 
-  handleChangeUserName(e) {
-    this.setState({
-      myUserName: e.target.value,
-    });
-  }
+  // UserName 변경
+  // handleChangeUserName(e) {
+  //   this.setState({
+  //     myUserName: e.target.value,
+  //   });
+  // }
 
   handleMainVideoStream(stream) {
     if (this.state.mainStreamManager !== stream) {
@@ -76,6 +114,7 @@ class Video extends Component {
     }
   }
 
+  // joinSession
   joinSession() {
     // --- 1) Get an OpenVidu object ---
 
@@ -177,6 +216,8 @@ class Video extends Component {
     );
   }
 
+  // 방을 나가는 함수
+  // todaktodak 서비스에서는 필요없음
   leaveSession() {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
 
@@ -191,54 +232,58 @@ class Video extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
-      myUserName: "Participant" + Math.floor(Math.random() * 100),
+      // mySessionId: "SessionA",
+      mySessionId: "todak000001",
+      // myUserName: "Participant" + Math.floor(Math.random() * 100),
+      myUserName: "000001",
       mainStreamManager: undefined,
       publisher: undefined,
     });
   }
 
-  async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
+  // 카메라 전후 변경 기능
+  // todak Service에서 필요없음
+  // async switchCamera() {
+  //   try {
+  //     const devices = await this.OV.getDevices();
+  //     var videoDevices = devices.filter(
+  //       (device) => device.kind === "videoinput"
+  //     );
 
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
+  //     if (videoDevices && videoDevices.length > 1) {
+  //       var newVideoDevice = videoDevices.filter(
+  //         (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
+  //       );
 
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
+  //       if (newVideoDevice.length > 0) {
+  //         // Creating a new publisher with specific videoSource
+  //         // In mobile devices the default and first camera is the front one
+  //         var newPublisher = this.OV.initPublisher(undefined, {
+  //           videoSource: newVideoDevice[0].deviceId,
+  //           publishAudio: true,
+  //           publishVideo: true,
+  //           mirror: true,
+  //         });
 
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
+  //         //newPublisher.once("accessAllowed", () => {
+  //         await this.state.session.unpublish(this.state.mainStreamManager);
 
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice[0],
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  //         await this.state.session.publish(newPublisher);
+  //         this.setState({
+  //           currentVideoDevice: newVideoDevice[0],
+  //           mainStreamManager: newPublisher,
+  //           publisher: newPublisher,
+  //         });
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
 
   render() {
     const mySessionId = this.state.mySessionId;
-    const myUserName = this.state.myUserName;
+    // const myUserName = this.state.myUserName;
 
     return (
       <>
@@ -246,16 +291,17 @@ class Video extends Component {
         <div className="container">
           {this.state.session === undefined ? (
             <div id="join">
-              <div id="img-div">
+              {/* <div id="img-div">
                 <img
                   src="resources/images/openvidu_grey_bg_transp_cropped.png"
                   alt="OpenVidu logo"
                 />
-              </div>
+              </div> */}
               <div id="join-dialog" className="jumbotron vertical-center">
-                <h1> Join a video session </h1>
+                {/* <h1> Join a video session </h1> */}
                 <form className="form-group" onSubmit={this.joinSession}>
-                  <p>
+                  {/* userName 변경 form */}
+                  {/* <p>
                     <label>Participant: </label>
                     <input
                       className="form-control"
@@ -265,8 +311,9 @@ class Video extends Component {
                       onChange={this.handleChangeUserName}
                       required
                     />
-                  </p>
-                  <p>
+                  </p> */}
+                  {/* SessionId 변경 form */}
+                  {/* <p>
                     <label> Session: </label>
                     <input
                       className="form-control"
@@ -276,7 +323,7 @@ class Video extends Component {
                       onChange={this.handleChangeSessionId}
                       required
                     />
-                  </p>
+                  </p> */}
                   <p className="text-center">
                     <input
                       className="btn btn-lg btn-success"
@@ -301,24 +348,24 @@ class Video extends Component {
                   onClick={this.leaveSession}
                   value="Leave session"
                 />
-                <input
+                {/* <input
                   className="btn btn-large btn-success"
                   type="button"
                   id="buttonSwitchCamera"
                   onClick={this.switchCamera}
                   value="Switch Camera"
-                />
+                /> */}
               </div>
 
-              {this.state.mainStreamManager !== undefined ? (
+              {/* {this.state.mainStreamManager !== undefined ? (
                 <div id="main-video" className="col-md-6">
                   <UserVideoComponent
                     streamManager={this.state.mainStreamManager}
                   />
                 </div>
-              ) : null}
+              ) : null} */}
               <div id="video-container" className="col-md-6">
-                {this.state.publisher !== undefined ? (
+                {/* {this.state.publisher !== undefined ? (
                   <div
                     className="stream-container col-md-6 col-xs-6"
                     onClick={() =>
@@ -327,14 +374,14 @@ class Video extends Component {
                   >
                     <UserVideoComponent streamManager={this.state.publisher} />
                   </div>
-                ) : null}
+                ) : null} */}
                 {this.state.subscribers.map((sub, i) => (
                   <div
                     key={sub.id}
                     className="stream-container col-md-6 col-xs-6"
                     onClick={() => this.handleMainVideoStream(sub)}
                   >
-                    <span>{sub.id}</span>
+                    {/* <span>{sub.id}</span> */}
                     <UserVideoComponent streamManager={sub} />
                   </div>
                 ))}
@@ -367,17 +414,21 @@ class Video extends Component {
     return await this.createToken(sessionId);
   }
 
+  // Session 생성
   async createSession(sessionId) {
     const response = await axios.post(
       APPLICATION_SERVER_URL + "api/sessions",
       { customSessionId: sessionId },
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
     );
     return response.data; // The sessionId
   }
 
+  // Session 입장에 필요한 Token
   async createToken(sessionId) {
     const response = await axios.post(
       APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
