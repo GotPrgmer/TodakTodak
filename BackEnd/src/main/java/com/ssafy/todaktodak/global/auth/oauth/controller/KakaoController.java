@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class KakaoController {
     private final KakaoService kakaoService;
 
-    @GetMapping("/login/oauth2/callback/kakao")
+//    @GetMapping("/login/oauth2/callback/kakao")
+    @GetMapping("/login/kakao")
     public ResponseEntity<LoginResponseDto> kakaoCallback(@RequestParam("code") String code) throws JsonProcessingException {
         return kakaoService.verificationKakao(code);
     }

@@ -19,7 +19,7 @@ oauth2:
       kakao:
         client-id: ${KAKAO_RESTAPI_KEY}
         client-secret: ${KAKAO_CLIENT_SECRET_KEY}
-        redirect-uri: http://localhost:8080/login/oauth2/code/
+        redirect-uri: http://localhost:3000/login/oauth2/code/
         client-authentication-method: POST
         authorization-grant-type: authorization_code
         scope:
