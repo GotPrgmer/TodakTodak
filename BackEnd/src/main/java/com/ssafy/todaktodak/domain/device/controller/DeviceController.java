@@ -54,7 +54,7 @@ public class DeviceController {
 	 * 
 	 * 	   This method creates a new Session in OpenVidu Server. The session
 	 */
-	@PostMapping(value = "/api/sessions", consumes = {"application/json;charset=UTF-8", "text/plain;charset=UTF-8"})
+	@PostMapping(value = "/api/sessions", consumes = {"application/json;charset=UTF-8"})
 	public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
 			throws OpenViduJavaClientException, OpenViduHttpException {
 		SessionProperties properties = SessionProperties.fromJson(params).build(); // SessionProperties 클래스의 인스턴스를 생성한다.
@@ -70,7 +70,7 @@ public class DeviceController {
 	 * 
 	 * 	   This method creates a new Connection in OpenVidu Server. The connection
 	 */
-	@PostMapping("/api/sessions/{sessionId}/connections") 
+	@PostMapping(value = "/api/sessions/{sessionId}/connections", consumes = {"application/json;charset=UTF-8"})
 	public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
 			@RequestBody(required = false) Map<String, Object> params)
 			throws OpenViduJavaClientException, OpenViduHttpException { 
