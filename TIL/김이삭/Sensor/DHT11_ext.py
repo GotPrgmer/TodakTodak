@@ -80,3 +80,4 @@ def publishData(txt):
 # 새로운 스레드를 생성하여 publishData 함수를 실행
 _thread.start_new_thread(publishData,("Spin-up new Thread...",))
 client.loop_forever()
+
