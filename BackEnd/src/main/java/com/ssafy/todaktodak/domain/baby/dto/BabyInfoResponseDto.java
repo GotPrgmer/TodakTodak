@@ -13,19 +13,23 @@ public class BabyInfoResponseDto {
     private Integer babyId;
     private String parentEmail;
 
+    private String babyName;
+
     private String babyNickname;
 
     private String babyImageUrl;
 
     private String babyGender;
 
-    private String babyBirthYear;
+    private Integer babyBirthYear;
 
-    private String babyBirthMonth;
+    private Integer babyBirthMonth;
 
-    private String babyBirthDay;
+    private Integer babyBirthDay;
 
-    private String babyJodiak;
+    private Integer babyDDay;
+
+    private String babyZodiak;
 
     private String babyConstellation;
 
@@ -34,6 +38,8 @@ public class BabyInfoResponseDto {
         return BabyInfoResponseDto.builder()
                 .babyId(baby.getBabyId())
                 .parentEmail(baby.getUser().getUserEmail())
+
+                .babyDDay(baby.getBabyDDay())
 
                 .babyNickname(baby.getBabyNickname())
 
@@ -49,9 +55,10 @@ public class BabyInfoResponseDto {
 
                 .babyBirthDay(baby.getBabyBirthDay())
 
-                .babyJodiak(baby.getBabyJodiak())
+                .babyZodiak(baby.getBabyZodiak())
 
                 .babyConstellation(baby.getBabyConstellation())
+                .babyName(baby.getBabyName())
                 .build();
 
     }

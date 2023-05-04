@@ -10,11 +10,10 @@ import { bottomBarAtom } from "../../../states/recoilHomeState";
 
 function BottomBar() {
   const [value, setValue] = useRecoilState(bottomBarAtom);
-  // const [value, setValue] = useState(0);
 
   return (
     <div>
-      <Box className=" fixed bottom-0">
+      <Box className=" fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
         <BottomNavigation
           showLabels
           value={value}
@@ -25,24 +24,28 @@ function BottomBar() {
           <BottomNavigationAction
             label="홈"
             icon={<ChildCareIcon />}
+            value={0}
             component={Link}
             to="/"
           />
           <BottomNavigationAction
             label="실시간영상"
             icon={<CameraIndoorIcon />}
+            value={1}
             component={Link}
             to="/video"
           />
           <BottomNavigationAction
             label="울음기록"
             icon={<VolumeUpIcon />}
+            value={2}
             component={Link}
             to="/cry"
           />
           <BottomNavigationAction
             label="마이페이지"
             icon={<PersonIcon />}
+            value={3}
             component={Link}
             to="/mypage"
           />
