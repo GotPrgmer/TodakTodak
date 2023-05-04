@@ -13,6 +13,8 @@ public class BabyInfoResponseDto {
     private Integer babyId;
     private String parentEmail;
 
+    private String babyName;
+
     private String babyNickname;
 
     private String babyImageUrl;
@@ -56,6 +58,7 @@ public class BabyInfoResponseDto {
                 .babyZodiak(baby.getBabyZodiak())
 
                 .babyConstellation(baby.getBabyConstellation())
+                .babyName(baby.getBabyName())
                 .build();
 
     }
