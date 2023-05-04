@@ -8,7 +8,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useRecoilState } from "recoil";
 import { bottomBarAtom } from "../../../states/recoilHomeState";
 
-function BottomBar() {
+function BottomBar(props) {
   const [value, setValue] = useRecoilState(bottomBarAtom);
 
   return (
@@ -34,6 +34,7 @@ function BottomBar() {
             value={1}
             component={Link}
             to="/video"
+            onClick={props.joinSession}
           />
           <BottomNavigationAction
             label="울음기록"
