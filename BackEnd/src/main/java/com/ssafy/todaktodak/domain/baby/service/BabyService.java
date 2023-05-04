@@ -62,7 +62,7 @@ public class BabyService {
 
         Baby findBaby = baby.get();
         String imageUrl = null;
-        if (!file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
             String preImg = findBaby.getBabyImageUrl();
             if (preImg != null && !preImg.startsWith(this.DEFAULT_IMAGE_S3)) {
                 s3Client.deleteFile(preImg);
