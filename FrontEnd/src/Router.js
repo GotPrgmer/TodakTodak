@@ -5,6 +5,8 @@ import Video from "./components/pages/Video";
 import Cry from "./components/pages/Cry";
 import MyPage from "./components/pages/MyPage";
 import Edit from "./components/pages/Edit";
+import KakaoLogin from './components/pages/Login/index';
+import Loading from "./components/pages/Loading";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
   {
     path: "/edit",
     element: <Edit />,
+  },
+  {
+    path: "/login",
+    element: <KakaoLogin />,
+  },
+  {
+    path: "/login/oauth2/code/kakao",
+    element: <Loading />,
   },
 ]);
 
