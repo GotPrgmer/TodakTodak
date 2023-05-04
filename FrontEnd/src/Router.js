@@ -4,6 +4,7 @@ import Profile from "./components/pages/Profile";
 import Video from "./components/pages/Video";
 import Cry from "./components/pages/Cry";
 import MyPage from "./components/pages/MyPage";
+import Edit from "./components/pages/Edit";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/mypage",
     element: <MyPage />,
+  },
+  {
+    path: "/edit",
+    element: <Edit />,
   },
 ]);
 
