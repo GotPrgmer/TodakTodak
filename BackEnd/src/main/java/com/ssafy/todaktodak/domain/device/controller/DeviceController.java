@@ -32,7 +32,7 @@ import io.openvidu.java.client.SessionProperties;
  * 
  */
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DeviceController {
 
 	@Value("${OPENVIDU_URL}")
