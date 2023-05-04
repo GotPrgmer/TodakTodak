@@ -39,8 +39,7 @@ public class BabyController {
                                               @RequestPart(value = "babyImage",required = false) MultipartFile babyImage,
                                               @RequestPart(value="request")  BabyUpdateRequestDto babyUpdateRequestDto)
             throws IOException {
-        log.info(babyImage.toString());
-        log.info(babyUpdateRequestDto.toString());
+
 //        UserDetails principal = (UserDetails) authentication.getPrincipal();
 //
 //        return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());

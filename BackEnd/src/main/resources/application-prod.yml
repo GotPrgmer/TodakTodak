@@ -21,3 +21,5 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+OPENVIDU_URL: https://todaktodak.kr:8443/
+OPENVIDU_SECRET: noinjung
