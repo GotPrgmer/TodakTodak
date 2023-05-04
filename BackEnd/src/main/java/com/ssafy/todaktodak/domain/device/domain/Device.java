@@ -20,6 +20,15 @@ public class Device {
     @JoinColumn(name = "baby_id")
     private Baby baby;
 
+    @Column(name = "serial_number")
+    private String serialNumber;
+
+    @Column(name = "session_id")
+    private String sessionId;
+
+    @Column(name = "session_token")
+    private String sessionToken;
+
 
     @Column(name = "device_created_date", updatable = false)
     @CreatedDate
