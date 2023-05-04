@@ -6,6 +6,7 @@ import com.ssafy.todaktodak.domain.baby.service.BabyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
@@ -32,10 +33,10 @@ public class BabyController {
         return babyService.babyInfoService(babyId, userTestId);
     }
 
-    @PatchMapping("/baby/info/update/{babyId}")
+    @PatchMapping(value = "/baby/info/update/{babyId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public BabyInfoResponseDto BabyInfoUpdate(Authentication authentication,
                                               @PathVariable("babyId") Integer babyId,
-                                              @RequestPart("babyImage") MultipartFile babyImage,
+                                              @RequestPart(value = "babyImage",required = false) MultipartFile babyImage,
                                               @RequestPart(value="request")  BabyUpdateRequestDto babyUpdateRequestDto)
             throws IOException {
         log.info(babyImage.toString());
