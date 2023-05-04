@@ -1,41 +1,17 @@
+// // class형
 import { OpenVidu } from "openvidu-browser";
-
 import axios from "axios";
 import React, { Component } from "react";
 import UserVideoComponent from "./UserVideoComponent";
 import BottomBar from "../../organisms/BottomBar";
 import TopBar from "../../organisms/TopBar";
 
-// // 함수형
-// import { OpenVidu } from "openvidu-browser";
-// import React, { useState, useEffect, useCallback } from "react";
-// import axios from "axios";
+// const APPLICATION_SERVER_URL =
+//   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
 
-const APPLICATION_SERVER_URL =
-  process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
-console.log(APPLICATION_SERVER_URL);
-// const APPLICATION_SERVER_URL = "https://todaktodak.kr/";
-
-//함수형
-// function Video() {
-//   const [mySessionId, setMySessionId] = useState("todak000001");
-//   const [myUserName, setMyUserName] = useState("000001");
-//   const [session, setSession] = useState(undefined);
-//   const [mainStreamManager, setMainStreamManager] = useState(undefined);
-//   const [publisher, setPublisher] = useState(undefined);
-//   const [subscribers, setsubscriber] = useState([]);
-
-//   const leaveSession = useCallback(() => {
-//     if (session) {
-//       session.disconnect()
-//     }
-
-//     setOV(undefined);
-//     setSession(undefined)
-//     setMySessionId('todak000001')
-//   })
-
-// }
+// const APPLICATION_SERVER_URL = "http://todaktodak.kr:8080/";
+const APPLICATION_SERVER_URL = "https://demos.openvidu.io/";
+// ------------------------------------------------------------------------------------------------------
 
 // 클래스형
 class Video extends Component {
@@ -46,6 +22,7 @@ class Video extends Component {
     this.state = {
       // SessionId는 Camera Serial Number(로그인 후 시도)
       // mySessionId: "SessionA",
+      // mySessionId: "todak000001",
       mySessionId: "todak000001",
       // UserName은 로그인 한 후 생성되는 pk 번호
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
@@ -54,6 +31,7 @@ class Video extends Component {
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
+      tokenList: [],
     };
     // console.log(this.state.subscribers);
 
@@ -77,6 +55,7 @@ class Video extends Component {
     window.removeEventListener("beforeunload", this.onbeforeunload);
   }
 
+  // leaveSession 함수 - 2
   onbeforeunload(event) {
     this.leaveSession();
   }
@@ -138,6 +117,7 @@ class Video extends Component {
           var subscriber = mySession.subscribe(event.stream, undefined);
           var subscribers = this.state.subscribers;
           subscribers.push(subscriber);
+          // console.log("subscribers", subscribers);
 
           // Update the state with the new subscribers
           this.setState({
@@ -160,6 +140,9 @@ class Video extends Component {
 
         // Get a token from the OpenVidu deployment
         this.getToken().then((token) => {
+          let tokenList = this.state.tokenList;
+          tokenList.push(token);
+          // console.log(tokenList);
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -216,6 +199,7 @@ class Video extends Component {
     );
   }
 
+  // leaveSession 함수 - 1
   // 방을 나가는 함수
   // todaktodak 서비스에서는 필요없음
   leaveSession() {
@@ -233,7 +217,7 @@ class Video extends Component {
       session: undefined,
       subscribers: [],
       // mySessionId: "SessionA",
-      mySessionId: "todak000001",
+      mySessionId: "4545",
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: "000001",
       mainStreamManager: undefined,
@@ -243,43 +227,43 @@ class Video extends Component {
 
   // 카메라 전후 변경 기능
   // todak Service에서 필요없음
-  // async switchCamera() {
-  //   try {
-  //     const devices = await this.OV.getDevices();
-  //     var videoDevices = devices.filter(
-  //       (device) => device.kind === "videoinput"
-  //     );
+  async switchCamera() {
+    try {
+      const devices = await this.OV.getDevices();
+      var videoDevices = devices.filter(
+        (device) => device.kind === "videoinput"
+      );
 
-  //     if (videoDevices && videoDevices.length > 1) {
-  //       var newVideoDevice = videoDevices.filter(
-  //         (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-  //       );
+      if (videoDevices && videoDevices.length > 1) {
+        var newVideoDevice = videoDevices.filter(
+          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
+        );
 
-  //       if (newVideoDevice.length > 0) {
-  //         // Creating a new publisher with specific videoSource
-  //         // In mobile devices the default and first camera is the front one
-  //         var newPublisher = this.OV.initPublisher(undefined, {
-  //           videoSource: newVideoDevice[0].deviceId,
-  //           publishAudio: true,
-  //           publishVideo: true,
-  //           mirror: true,
-  //         });
+        if (newVideoDevice.length > 0) {
+          // Creating a new publisher with specific videoSource
+          // In mobile devices the default and first camera is the front one
+          var newPublisher = this.OV.initPublisher(undefined, {
+            videoSource: newVideoDevice[0].deviceId,
+            publishAudio: true,
+            publishVideo: true,
+            mirror: true,
+          });
 
-  //         //newPublisher.once("accessAllowed", () => {
-  //         await this.state.session.unpublish(this.state.mainStreamManager);
+          //newPublisher.once("accessAllowed", () => {
+          await this.state.session.unpublish(this.state.mainStreamManager);
 
-  //         await this.state.session.publish(newPublisher);
-  //         this.setState({
-  //           currentVideoDevice: newVideoDevice[0],
-  //           mainStreamManager: newPublisher,
-  //           publisher: newPublisher,
-  //         });
-  //       }
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
+          await this.state.session.publish(newPublisher);
+          this.setState({
+            currentVideoDevice: newVideoDevice[0],
+            mainStreamManager: newPublisher,
+            publisher: newPublisher,
+          });
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -324,14 +308,14 @@ class Video extends Component {
                       required
                     />
                   </p> */}
-                  <p className="text-center">
+                  {/* <p className="text-center">
                     <input
                       className="btn btn-lg btn-success"
                       name="commit"
                       type="submit"
                       value="JOIN"
                     />
-                  </p>
+                  </p> */}
                 </form>
               </div>
             </div>
@@ -389,7 +373,7 @@ class Video extends Component {
             </div>
           ) : null}
         </div>
-        <BottomBar />
+        <BottomBar joinSession={this.joinSession} />
       </>
     );
   }
@@ -409,6 +393,7 @@ class Video extends Component {
    * Visit https://docs.openvidu.io/en/stable/application-server to learn
    * more about the integration of OpenVidu in your application server.
    */
+
   async getToken() {
     const sessionId = await this.createSession(this.state.mySessionId);
     return await this.createToken(sessionId);
@@ -421,7 +406,7 @@ class Video extends Component {
       { customSessionId: sessionId },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
         },
       }
     );
@@ -434,7 +419,7 @@ class Video extends Component {
       APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
       {},
       {
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json;charset=UTF-8" },
       }
     );
     return response.data; // The token
