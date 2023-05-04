@@ -32,6 +32,7 @@ import io.openvidu.java.client.SessionProperties;
  * 
  */
 @RestController
+@CrossOrigin(origins = "*")
 public class Controller {
 
 	@Value("${OPENVIDU_URL}")
@@ -58,6 +59,7 @@ public class Controller {
 			throws OpenViduJavaClientException, OpenViduHttpException {
 		SessionProperties properties = SessionProperties.fromJson(params).build(); // SessionProperties 클래스의 인스턴스를 생성한다.
 		Session session = openvidu.createSession(properties);	// OpenVidu 클래스의 인스턴스의 createSession 메소드를 호출한다.
+
 		return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK); // 세션 ID를 반환한다.
 	}
 
