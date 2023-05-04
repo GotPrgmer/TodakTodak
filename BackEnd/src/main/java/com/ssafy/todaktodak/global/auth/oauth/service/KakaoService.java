@@ -5,12 +5,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
+import com.ssafy.todaktodak.domain.device.domain.Device;
 import com.ssafy.todaktodak.domain.user.domain.User;
 import com.ssafy.todaktodak.domain.user.repository.UserRepository;
 import com.ssafy.todaktodak.global.auth.jwt.JwtProvider;
 import com.ssafy.todaktodak.global.auth.oauth.dto.KakaoAccessTokenDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.LoginResponseDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.SocialUserResponseDto;
+import com.ssafy.todaktodak.global.error.CustomException;
+import com.ssafy.todaktodak.global.error.ErrorCode;
 import com.ssafy.todaktodak.global.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -154,21 +157,23 @@ public class KakaoService {
 
         if (duplicateUser == null) {
             // 회원가입
-            User newMember = User.kakaoSignupMember(socialUserResponseDto);
-            userRepository.save(newMember);
-
-            Baby newBaby = Baby.newBabyCreate(newMember,S3_BABY_IMAGE);
+            User newUser = User.kakaoSignupMember(socialUserResponseDto);
+            userRepository.save(newUser);
+            // 아기 초기 세팅 추가
+            Baby newBaby = Baby.newBabyCreate(newUser,S3_BABY_IMAGE);
             babyRepository.save(newBaby);
+            // 디바이스 설정
+//            Device newDevice =  Device.
 
         }
 
     }
 
     public ResponseEntity<LoginResponseDto> kakaoLogin(String email) {
-        Optional<User> user = userRepository.findUserByUserEmail(email);
         User userUnwrapped = null;
         String jwtToken = null;
         String refreshToken = null;
+        Optional<User> user = userRepository.findUserByUserEmail(email);
         if (user.isPresent()) {
             userUnwrapped = user.get();
             // User 객체 사용
@@ -179,7 +184,7 @@ public class KakaoService {
             //        redisUtil.dataExpirationsInput(memberId, refreshToken, 7);
         }
         else{
-            log.error("사용자가 없습니다.");
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
         log.info(refreshToken);
 
