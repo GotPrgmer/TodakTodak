@@ -1,26 +1,26 @@
 package com.ssafy.todaktodak.domain.baby.dto;
 
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
+@Builder
 public class BabyUpdateRequestDto {
 
-    @NotNull
     private String babyNickname;
 
+    private String babyName;
 
-    @NotNull
+
     private String babyGender;
 
-    @NotNull
-    private String babyBirthYear;
+    private Integer babyBirthYear;
 
-    @NotNull
-    private String babyBirthMonth;
+    private Integer babyBirthMonth;
 
-    @NotNull
-    private String babyBirthDay;
+    private Integer babyBirthDay;
 
 
 
