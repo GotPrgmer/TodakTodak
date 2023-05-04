@@ -33,7 +33,7 @@ public class BabyController {
         return babyService.babyInfoService(babyId, userTestId);
     }
 
-    @RequestMapping(value = "/baby/info/update/{babyId}" , method = RequestMethod.PATCH , consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/baby/info/update/{babyId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public BabyInfoResponseDto BabyInfoUpdate(Authentication authentication,
                                               @PathVariable("babyId") Integer babyId,
                                               @RequestPart("babyImage") MultipartFile babyImage,
