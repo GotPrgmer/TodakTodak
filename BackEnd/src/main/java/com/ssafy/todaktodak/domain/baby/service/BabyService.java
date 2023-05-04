@@ -15,7 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.ssafy.todaktodak.global.error.ErrorCode.BIRTH_DATE_NOT_VALID;
 
 @Slf4j
 @Service
@@ -65,13 +71,68 @@ public class BabyService {
         } else {
             imageUrl = findBaby.getBabyImageUrl();
         }
-        findBaby.updateBaby(babyUpdateRequestDto,imageUrl);
+        Integer year = babyUpdateRequestDto.getBabyBirthYear();
+        Integer month = babyUpdateRequestDto.getBabyBirthMonth();
+        Integer day = babyUpdateRequestDto.getBabyBirthDay();
 
+        // 별자리 찾기
+        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        log.info(babyConstellation);
+        // 띠 찾기
+        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        log.info(babyZodiac);
+        // dday 계산
+        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        log.info(String.valueOf(babyDDay));
+        findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,babyDDay,imageUrl);
         return BabyInfoResponseDto.ofBaby(findBaby);
-
-
-
-        //
     }
+
+    public Optional<String> findConstellation(Integer month,Integer day){
+        if (month == null || day == null) {
+            return Optional.empty();
+        }
+        String[] constellationSigns = {
+                "염소", "물병", "물고기", "양", "황소", "쌍둥이",
+                "게", "사자", "처녀", "천칭", "전갈", "사수", "염소"
+        };
+        int[] endDates = {20, 19, 21, 20, 21, 22, 23, 23, 24, 23, 23, 25};
+
+        int zodiacIndex = month - (day < endDates[month - 1] ? 1 : 0);
+        return Optional.of(constellationSigns[zodiacIndex]);
+
+    }
+
+    public Optional<String> findZodiac(Integer year){
+        if (year == null || 1900>year){
+            return Optional.empty();
+        }
+        String[] zodiacSigns = {
+                "원숭이", "닭", "개", "돼지", "쥐", "소",
+                "호랑이", "토끼", "용", "뱀", "말", "양"
+        };
+        int temp = year % 12;
+
+        return Optional.of(zodiacSigns[temp]);
+
+    }
+
+    public Optional<Integer> findDDay(Integer year,Integer month, Integer day){
+        if (year == null || month == null || day == null){
+            return Optional.empty();
+        }
+
+        Calendar birthDay = Calendar.getInstance();
+        birthDay.set(year, month, day);
+
+        long birthDayToMills = birthDay.getTimeInMillis();
+        long dayFromMill = 1000 * 60 * 60 * 24;
+        long now = System.currentTimeMillis();
+
+
+        return Optional.of(Math.toIntExact((now - birthDayToMills) / dayFromMill));
+
+    }
+
 
 }

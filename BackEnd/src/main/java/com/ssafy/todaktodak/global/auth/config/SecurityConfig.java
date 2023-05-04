@@ -37,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html/**",
                         "/swagger-resources/**",
                         "/swagger-ui.html"
-//                        "/**"
 
                         );
     }
@@ -52,21 +51,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers(
-
-                        "/",
-                        "/login/oauth2/*",
-                        "/login/oauth2/**",
-                        "/webjars/**",
-                        "/swagger-ui.html/**", "/swagger-ui/**",
-                        "/v2/api-docs/**", "/swagger-resources/**").permitAll()
-                .anyRequest().authenticated()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider),
-                    UsernamePasswordAuthenticationFilter.class);
+                .authorizeRequests().anyRequest().permitAll();
+//                .antMatchers(
+//
+//                        "/",
+//                        "/login/oauth2/*",
+//                        "/login/oauth2/**",
+//                        "/webjars/**",
+//                        "/swagger-ui.html/**", "/swagger-ui/**",
+//                        "/v2/api-docs/**", "/swagger-resources/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider),
+//                    UsernamePasswordAuthenticationFilter.class);
 
     }
 }

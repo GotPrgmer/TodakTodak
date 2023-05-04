@@ -13,7 +13,8 @@ class SensorDataPage extends StatefulWidget {
 
 class _SensorDataPageState extends State<SensorDataPage> {
   String _connectionStatus = 'origin';
-  String _receivedMessage = ''; // Store received message
+  String _receivedMessage =
+      '{"C": "disconnect", "H":"disconnect"}'; // Store received message
   late MqttServerClient client;
 
   @override
@@ -103,16 +104,26 @@ class _SensorDataPageState extends State<SensorDataPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                children: [
+              Stack(
+                children: <Widget>[
                   Image.asset('assets/temperature.png'),
-                  Text(jsonDecode(_receivedMessage)['C'].toString()),
+                  Positioned(
+                    top: 60,
+                    left: 66,
+                    child: Text(
+                        jsonDecode(_receivedMessage)['C'].toString() + '°C'),
+                  )
                 ],
               ),
-              Column(
+              Stack(
                 children: [
                   Image.asset('assets/humidity.png'),
-                  Text(jsonDecode(_receivedMessage)['H'].toString())
+                  Positioned(
+                    top: 60,
+                    left: 66,
+                    child: Text(
+                        jsonDecode(_receivedMessage)['H'].toString() + '%'),
+                  )
                 ],
               ),
             ],
