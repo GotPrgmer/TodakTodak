@@ -1,4 +1,4 @@
-package io.openvidu.basic.java;
+package com.ssafy.todaktodak.domain.device.controller;
 
 import java.util.Map;
 
@@ -33,7 +33,7 @@ import io.openvidu.java.client.SessionProperties;
  */
 @RestController
 @CrossOrigin(origins = "*")
-public class Controller {
+public class DeviceController {
 
 	@Value("${OPENVIDU_URL}")
 	private String OPENVIDU_URL;
