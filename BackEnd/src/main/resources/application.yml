@@ -54,3 +54,4 @@ cloud:
 
 s3-default-image : ${S3_DEFAULT_IMAGE}
 s3-baby-default-image : ${S3_BABY_IMAGE}
+s3-user-default-image : ${S3_USER_IMAGE}

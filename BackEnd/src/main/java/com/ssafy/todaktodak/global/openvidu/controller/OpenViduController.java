@@ -1,25 +1,13 @@
 package com.ssafy.todaktodak.global.openvidu.controller;
 
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import io.openvidu.java.client.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import io.openvidu.java.client.Connection;
-import io.openvidu.java.client.ConnectionProperties;
-import io.openvidu.java.client.OpenVidu;
-import io.openvidu.java.client.OpenViduHttpException;
-import io.openvidu.java.client.OpenViduJavaClientException;
-import io.openvidu.java.client.Session;
-import io.openvidu.java.client.SessionProperties;
+import javax.annotation.PostConstruct;
+import java.util.Map;
 
 /*
  * 해당 컨트롤러의 역할은 OpenVidu 서버와 통신하여 OpenVidu 서버에 세션을 생성하고, 세션에 연결을 생성하는 것이다.
