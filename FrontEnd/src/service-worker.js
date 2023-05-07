@@ -12,9 +12,6 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import {precacheAndRoute} from 'workbox-precaching';
-
-precacheAndRoute(self.__WB_MANIFEST);
 
 clientsClaim();
 
