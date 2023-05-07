@@ -1,8 +1,6 @@
 package com.ssafy.todaktodak.domain.baby.dto;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

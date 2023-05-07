@@ -19,3 +19,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
+
+OPENVIDU_URL: https://todaktodak.kr:8443/
+OPENVIDU_SECRET: noinjung
