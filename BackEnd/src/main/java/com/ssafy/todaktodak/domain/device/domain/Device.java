@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="device")
@@ -52,7 +54,7 @@ public class Device {
     @LastModifiedDate
     private LocalDateTime userUpdatedDate;
 
-    public static Device newDeviceCreate(Baby baby, String babyImage){
+    public static Device newDeviceCreate(Baby baby){
         return Device.builder()
                 .baby(baby)
                 .serialNumber("todak"+baby.getBabyId())

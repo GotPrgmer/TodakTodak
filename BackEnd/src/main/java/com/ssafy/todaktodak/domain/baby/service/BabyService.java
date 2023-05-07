@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Objects;
 import java.util.Optional;
 
 import static com.ssafy.todaktodak.global.error.ErrorCode.BIRTH_DATE_NOT_VALID;
@@ -37,7 +34,7 @@ public class BabyService {
     private String DEFAULT_IMAGE_S3;
 
     @Transactional
-    public BabyInfoResponseDto babyInfoService(Integer babyId,String userId){
+    public BabyInfoResponseDto babyInfo(Integer babyId,String userId){
         Integer userIdToNumber = Integer.parseInt(userId);
         //babyId로 아기 조회
         Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
@@ -51,7 +48,7 @@ public class BabyService {
     }
 
     @Transactional
-    public BabyInfoResponseDto babyInfoUpdateService(Integer babyId, MultipartFile file, BabyUpdateRequestDto babyUpdateRequestDto, String userId) throws IOException {
+    public BabyInfoResponseDto babyInfoUpdate(Integer babyId, MultipartFile file, BabyUpdateRequestDto babyUpdateRequestDto, String userId) throws IOException {
         //babyId로 아기 조회
         Integer userIdToNumber = Integer.parseInt(userId);
         Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
