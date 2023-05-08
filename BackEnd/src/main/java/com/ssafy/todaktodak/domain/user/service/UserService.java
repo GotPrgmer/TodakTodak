@@ -31,8 +31,10 @@ public class UserService {
 
 
     @Transactional
-    public UserInfoResponseDto userInfo(Integer userId) {
-        Optional<User> user = userRepository.findUserByUserId(userId);
+    public UserInfoResponseDto userInfo(String userId) {
+        Integer userIdToInteger = Integer.parseInt(userId);
+
+        Optional<User> user = userRepository.findUserByUserId(userIdToInteger);
 
         if ( user.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
@@ -44,9 +46,11 @@ public class UserService {
     }
 
     @Transactional
-    public UserInfoUpdateResponseDto userInfoUpdate(Integer userId, UserInfoUpdateRequestDto request, MultipartFile file) throws IOException {
+    public UserInfoUpdateResponseDto userInfoUpdate(String userId, UserInfoUpdateRequestDto request, MultipartFile file) throws IOException {
+        Integer userIdToInteger = Integer.parseInt(userId);
+
         // 사용자 조회
-        Optional<User> user = userRepository.findUserByUserId(userId);
+        Optional<User> user = userRepository.findUserByUserId(userIdToInteger);
         if ( user.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
