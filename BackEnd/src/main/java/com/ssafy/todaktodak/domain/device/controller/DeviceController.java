@@ -23,12 +23,8 @@ public class DeviceController {
 
 
     @GetMapping("/device/info/{babyId}")
-    public DeviceInfoResponseDto babyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId){
+    public DeviceInfoResponseDto babyInfo(@PathVariable("babyId") Integer babyId){
 
-//        UserDetails principal = (UserDetails) authentication.getPrincipal();
-
-//        return babyService.babyInfoService(babyId,principal.getUsername());
-        String userTestId = String.valueOf(1);
         return deviceService.deviceInfo(babyId);
     }
 

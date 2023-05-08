@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,11 +25,9 @@ public class BabyController {
     @GetMapping("/baby/info/{babyId}")
     public BabyInfoResponseDto babyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId){
 
-//        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-//        return babyService.babyInfoService(babyId,principal.getUsername());
-        String userTestId = String.valueOf(1);
-        return babyService.babyInfo(babyId, userTestId);
+        return babyService.babyInfo(babyId,principal.getUsername());
     }
 
     @PatchMapping(value = "/baby/info/update/{babyId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
@@ -38,11 +37,9 @@ public class BabyController {
                                               @RequestPart(value="request")  BabyUpdateRequestDto babyUpdateRequestDto)
             throws IOException {
 
-//        UserDetails principal = (UserDetails) authentication.getPrincipal();
-//
-//        return babyService.babyInfoUpdateService(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
-        String userTestId = String.valueOf(1);
-        return babyService.babyInfoUpdate(babyId,babyImage,babyUpdateRequestDto,userTestId);
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+
+        return babyService.babyInfoUpdate(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
     }
 
 
