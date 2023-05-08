@@ -16,6 +16,7 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class BabyController {
 
     private final BabyService babyService;
