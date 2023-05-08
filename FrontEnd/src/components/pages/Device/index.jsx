@@ -14,7 +14,7 @@ const APPLICATION_SERVER_URL = "https://demos.openvidu.io/";
 // ------------------------------------------------------------------------------------------------------
 
 // 클래스형
-class Video extends Component {
+class Device extends Component {
   constructor(props) {
     super(props);
 
@@ -426,4 +426,4 @@ class Video extends Component {
   }
 }
 
-export default Video;
+export default Device;
