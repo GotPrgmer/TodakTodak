@@ -5,11 +5,11 @@ import java.sql.Timestamp;
 
 public class CryRecordingRequestDto {
 
-    private String deviceSerial;
+    private String babyId;
 
-    private Timestamp cryStartTime;
+    private String cryStartTime;
 
-    private Timestamp cryEndTime;
+    private String cryEndTime;
 
 
 }
