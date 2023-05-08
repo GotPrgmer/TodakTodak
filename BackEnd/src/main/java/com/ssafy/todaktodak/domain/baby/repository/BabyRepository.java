@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface BabyRepository extends JpaRepository<Baby,Integer> {
 
     List<Baby> findBabiesByUserUserId(Integer userId);
+
     Optional<Baby> findByBabyIdAndUserUserId(Integer babyId,Integer userId);
 
 }

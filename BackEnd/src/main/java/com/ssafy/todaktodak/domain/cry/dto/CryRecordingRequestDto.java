@@ -1,15 +1,17 @@
 package com.ssafy.todaktodak.domain.cry.dto;
 
 
+import lombok.Getter;
+
 import java.sql.Timestamp;
 
+@Getter
 public class CryRecordingRequestDto {
 
     private String babyId;
 
-    private String cryStartTime;
-
-    private String cryEndTime;
+    private Long cryStartDate;
+    private Long cryEndDate;
 
 
 }
