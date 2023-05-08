@@ -30,8 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(
                         "/v2/api-docs/**",
-                        "/login/oauth2/*",
-                        "/login/oauth2/**",
+                        "/api/login/oauth2/*",
+                        "/api/login/oauth2/**",
                         "/webjars/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html/**",
@@ -51,23 +51,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                .and()
+//                .authorizeRequests().anyRequest().permitAll();
+                .antMatchers(
+
+                        "/",
+                        "/api/login/oauth2/*",
+                        "/api/login/oauth2/**",
+                        "/webjars/**",
+                        "/swagger-ui.html/**", "/swagger-ui/**",
+                        "/v2/api-docs/**", "/swagger-resources/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .authorizeRequests().anyRequest().permitAll();
-//                .antMatchers(
-//
-//                        "/",
-//                        "/login/oauth2/*",
-//                        "/login/oauth2/**",
-//                        "/webjars/**",
-//                        "/swagger-ui.html/**", "/swagger-ui/**",
-//                        "/v2/api-docs/**", "/swagger-resources/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider),
-//                    UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(new JwtAuthorizationFilter(jwtProvider),
+                    UsernamePasswordAuthenticationFilter.class);
 
     }
 }
