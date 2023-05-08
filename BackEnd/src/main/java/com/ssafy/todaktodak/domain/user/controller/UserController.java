@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,11 +26,9 @@ public class UserController {
     @GetMapping("/user/info")
     public UserInfoResponseDto userInfo(Authentication authentication){
 
-//        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-//        return babyService.babyInfoService(babyId,principal.getUsername());
-        Integer userTestId = 1;
-        return userService.userInfo(userTestId);
+        return userService.userInfo(principal.getUsername());
     }
 
     @PatchMapping(value = "/user/info/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
@@ -39,11 +38,9 @@ public class UserController {
             throws IOException {
         log.info(request.getUserNickname());
 
-//        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-//        return babyService.babyInfoService(babyId,principal.getUsername());
-        Integer userTestId = 1;
-        return userService.userInfoUpdate(userTestId,request,userImage);
+        return userService.userInfoUpdate(principal.getUsername(),request,userImage);
     }
 
 }
