@@ -27,7 +27,7 @@ oauth2:
       kakao:
         client-id: ${KAKAO_RESTAPI_KEY}
         client-secret: ${KAKAO_CLIENT_SECRET_KEY}
-        redirect-uri: http://todaktodak.kr/api/login/oauth2/code/
+        redirect-uri: https://todaktodak.kr/api/login/oauth2/code/
         client-authentication-method: POST
         authorization-grant-type: authorization_code
         scope:
