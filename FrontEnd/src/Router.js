@@ -5,6 +5,7 @@ import Video from "./components/pages/Video";
 import Cry from "./components/pages/Cry";
 import MyPage from "./components/pages/MyPage";
 import Edit from "./components/pages/Edit";
+import Device from "./components/pages/Device";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
     path: "/edit",
     element: <Edit />,
   },
+  {
+    path: "/device",
+    element: <Device />,
+  },
+  
 ]);
 
 export default router;
