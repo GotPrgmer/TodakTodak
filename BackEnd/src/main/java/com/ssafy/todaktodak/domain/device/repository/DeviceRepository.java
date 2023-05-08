@@ -12,4 +12,6 @@ public interface DeviceRepository extends JpaRepository<Device,Integer> {
 
     Optional<Device> findByDeviceId(Integer DeviceId);
 
+    Optional<Device> findByBabyBabyId(Integer BabyId);
+
 }
