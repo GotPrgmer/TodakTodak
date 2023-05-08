@@ -29,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers(
+                        "/api/cry/record/*",
+                        "/api/cry/record/**",
                         "/v2/api-docs/**",
                         "/api/login/oauth2/*",
                         "/api/login/oauth2/**",
@@ -51,10 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//                .and()
-//                .authorizeRequests().anyRequest().permitAll();
                 .antMatchers(
 
+                        "/api/cry/record/*",
+                        "/api/cry/record/**",
                         "/",
                         "/api/login/oauth2/*",
                         "/api/login/oauth2/**",
