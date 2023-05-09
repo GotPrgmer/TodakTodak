@@ -60,39 +60,39 @@ public class CryService {
 
     }
 
-    public CryLoggingResponseDto cryLogging(CryLoggingRequestDto cryLoggingRequestDto){
-
-        Integer year = cryLoggingRequestDto.getYear();
-        Integer month = cryLoggingRequestDto.getMonth();
-        Integer day = cryLoggingRequestDto.getDay();
-
-
-        Integer babyId = Integer.parseInt(cryLoggingRequestDto.getBabyId());
-
-        LocalDateTime endDateTime = LocalDateTime.of(year, month, day, 23, 59, 59);
-        LocalDateTime startDateTime = endDateTime.minusDays(6)
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0);
-
-        Optional<Baby> baby = babyRepository.findById(babyId);
-
-
-        if ( baby.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
-        }
-
-        Baby findBaby = baby.get();
-        List<Cry> cryLogList = cryRepository.findAllByBabyIdAndCryStartDateBetween(babyId, startDateTime, endDateTime);
-        //cryLogList를 날짜별로 리스트를 만들어서 해당 리스트에 add를 해서 마지막에 dto에 넣어주는 방식으로 하면될듯
-
-
-        return CryLoggingResponseDto.ofCry(newCry);
-
-
-
-
-    }
+//    public CryLoggingResponseDto cryLogging(CryLoggingRequestDto cryLoggingRequestDto){
+//
+//        Integer year = cryLoggingRequestDto.getYear();
+//        Integer month = cryLoggingRequestDto.getMonth();
+//        Integer day = cryLoggingRequestDto.getDay();
+//
+//
+//        Integer babyId = Integer.parseInt(cryLoggingRequestDto.getBabyId());
+//
+//        LocalDateTime endDateTime = LocalDateTime.of(year, month, day, 23, 59, 59);
+//        LocalDateTime startDateTime = endDateTime.minusDays(6)
+//                .withHour(0)
+//                .withMinute(0)
+//                .withSecond(0);
+//
+//        Optional<Baby> baby = babyRepository.findById(babyId);
+//
+//
+//        if ( baby.isEmpty()) {
+//            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+//        }
+//
+//        Baby findBaby = baby.get();
+//        List<Cry> cryLogList = cryRepository.findAllByBabyIdAndCryStartDateBetween(babyId, startDateTime, endDateTime);
+//        //cryLogList를 날짜별로 리스트를 만들어서 해당 리스트에 add를 해서 마지막에 dto에 넣어주는 방식으로 하면될듯
+//
+//
+//        return CryLoggingResponseDto.ofCry(newCry);
+//
+//
+//
+//
+//    }
 
 
 }
