@@ -23,7 +23,6 @@ function KakaoLogin() {
 
       <h1>
         <a href={KAKAO_AUTH_URL}>Kakao Login</a>
-        <h1>제발!!!!!!!!!</h1>
       </h1>
     </>
   );
