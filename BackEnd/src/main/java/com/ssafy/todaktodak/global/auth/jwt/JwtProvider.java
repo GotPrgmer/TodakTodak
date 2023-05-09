@@ -2,6 +2,8 @@ package com.ssafy.todaktodak.global.auth.jwt;
 
 import com.ssafy.todaktodak.domain.user.domain.Role;
 import com.ssafy.todaktodak.global.auth.oauth.service.CustomOAuth2User;
+import com.ssafy.todaktodak.global.error.CustomException;
+import com.ssafy.todaktodak.global.error.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -94,8 +96,10 @@ public class JwtProvider {
                     .getBody(); // token의 Body가 하기 exception들로 인해 유효하지 않으면 각각에 해당하는 로그 콘솔에 찍음
         } catch (SecurityException e) {
             log.info("Invalid JWT signature.");
+            throw new CustomException(ErrorCode.JWT_TOKEN_NOT_VALID_SIGNATURE);
         } catch (MalformedJwtException e) {
             log.info("Invalid JWT token.");
+            throw new CustomException(ErrorCode.JWT_TOKEN_NOT_VALID_SIGNATURE);
             // 처음 로그인(/auth/kakao, /auth/google) 시, AccessToken(AppToken) 없이 접근해도 token validate을 체크하기 때문에 exception 터트리지 않고 catch합니다.
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT token.");
