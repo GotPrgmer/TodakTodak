@@ -271,7 +271,7 @@ class Device extends Component {
 
     return (
       <>
-        <TopBar />
+        {/* <TopBar /> */}
         <div className="container">
           {this.state.session === undefined ? (
             <div id="join">
@@ -373,7 +373,7 @@ class Device extends Component {
             </div>
           ) : null}
         </div>
-        <BottomBar joinSession={this.joinSession} />
+        {/* <BottomBar joinSession={this.joinSession} /> */}
       </>
     );
   }
