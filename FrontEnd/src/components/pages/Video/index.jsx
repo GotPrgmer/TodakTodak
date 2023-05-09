@@ -8,9 +8,10 @@ import TopBar from "../../organisms/TopBar";
 
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
+// console.log(process.env.NODE_ENV);
 
-// const APPLICATION_SERVER_URL = "http://todaktodak.kr:8080/";
-const APPLICATION_SERVER_URL = "https://demos.openvidu.io/";
+const APPLICATION_SERVER_URL = "https://todaktodak.kr:8080/";
+// const APPLICATION_SERVER_URL = "https://demos.openvidu.io/";
 // ------------------------------------------------------------------------------------------------------
 
 // 클래스형
@@ -227,43 +228,43 @@ class Video extends Component {
 
   // 카메라 전후 변경 기능
   // todak Service에서 필요없음
-  async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
+  // async switchCamera() {
+  //   try {
+  //     const devices = await this.OV.getDevices();
+  //     var videoDevices = devices.filter(
+  //       (device) => device.kind === "videoinput"
+  //     );
 
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
+  //     if (videoDevices && videoDevices.length > 1) {
+  //       var newVideoDevice = videoDevices.filter(
+  //         (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
+  //       );
 
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
+  //       if (newVideoDevice.length > 0) {
+  //         // Creating a new publisher with specific videoSource
+  //         // In mobile devices the default and first camera is the front one
+  //         var newPublisher = this.OV.initPublisher(undefined, {
+  //           videoSource: newVideoDevice[0].deviceId,
+  //           publishAudio: true,
+  //           publishVideo: true,
+  //           mirror: true,
+  //         });
 
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
+  //         //newPublisher.once("accessAllowed", () => {
+  //         await this.state.session.unpublish(this.state.mainStreamManager);
 
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice[0],
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  //         await this.state.session.publish(newPublisher);
+  //         this.setState({
+  //           currentVideoDevice: newVideoDevice[0],
+  //           mainStreamManager: newPublisher,
+  //           publisher: newPublisher,
+  //         });
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -308,14 +309,14 @@ class Video extends Component {
                       required
                     />
                   </p> */}
-                  {/* <p className="text-center">
+                  <p className="text-center">
                     <input
                       className="btn btn-lg btn-success"
                       name="commit"
                       type="submit"
                       value="JOIN"
                     />
-                  </p> */}
+                  </p>
                 </form>
               </div>
             </div>
@@ -325,13 +326,13 @@ class Video extends Component {
             <div id="session">
               <div id="session-header">
                 <h1 id="session-title">{mySessionId}</h1>
-                <input
+                {/* <input
                   className="btn btn-large btn-danger"
                   type="button"
                   id="buttonLeaveSession"
                   onClick={this.leaveSession}
                   value="Leave session"
-                />
+                /> */}
                 {/* <input
                   className="btn btn-large btn-success"
                   type="button"
@@ -373,7 +374,10 @@ class Video extends Component {
             </div>
           ) : null}
         </div>
-        <BottomBar joinSession={this.joinSession} />
+        <BottomBar
+          joinSession={this.joinSession}
+          leaveSession={this.leaveSession}
+        />
       </>
     );
   }
