@@ -2,17 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import editIcon from '../../../assets/edit.png';
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 
 function BabyProfile() {
     const [data, setData] = useState([]);
+    const babyLists = useRecoilValue(babyPK);
+    const jwt_token = useRecoilValue(jwtToken);
 
     const navigate = useNavigate();
     const navigateToEdit = () => { navigate('/edit', { state: data }); };
 
     useEffect(() => {
         async function loadData() {
-            const response = await axios.get('http://todaktodak.kr:8080/baby/info/2')
-            // console.log(response.data);
+            const response = await axios.get(`http://todaktodak.kr:8080/api/baby/info/${babyLists[0]}`, {
+                headers: {
+                    Authorization: `Bearer ${jwt_token}`
+            }})
             setData(response.data);
         }
         loadData()
