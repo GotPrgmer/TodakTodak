@@ -1,6 +1,8 @@
 package com.ssafy.todaktodak.global.util;
 
 import com.ssafy.todaktodak.global.auth.oauth.dto.LoginResponseDto;
+import com.ssafy.todaktodak.global.error.CustomException;
+import com.ssafy.todaktodak.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
@@ -10,6 +12,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+
+import static com.ssafy.todaktodak.global.error.ErrorCode.BAD_REQUEST;
 
 @Slf4j
 @Service
@@ -26,8 +30,7 @@ public class CookieUtil {
                 .build();
 
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
-//        if (response == null) throw new CustomException(BAD_REQUEST);
-        if(response == null) log.error("response가 없어요");
+        if (response == null) throw new CustomException(BAD_REQUEST);
         response.setHeader("Set-Cookie", cookie.toString());
 
         return ResponseEntity.ok(loginResponse);
