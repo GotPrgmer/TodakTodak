@@ -7,7 +7,7 @@ import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 function Loading() {
   const navigate = useNavigate();
   const navigateToHome = () => {
-    navigate("/");
+    navigate("/profile");
   };
 
   const [babyData, setBabyData] = useRecoilState(babyPK);

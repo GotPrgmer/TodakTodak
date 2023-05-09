@@ -16,12 +16,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Profile />} />
+          <Route path="/" element={<KakaoLogin />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/video" element={<Video />} />
           <Route path="/cry" element={<Cry />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/edit" element={<Edit />} />
-          <Route path="/login" element={<KakaoLogin />} />
+          {/* <Route path="/login" element={<KakaoLogin />} /> */}
           <Route path="/api/login/oauth2/code/kakao" element={<Loading />} />
           <Route path="/device" element={<Device />} />
         </Routes>
