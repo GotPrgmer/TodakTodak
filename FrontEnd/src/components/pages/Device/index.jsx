@@ -3,8 +3,8 @@ import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
 import React, { Component } from "react";
 import UserVideoComponent from "./UserVideoComponent";
-import BottomBar from "../../organisms/BottomBar";
-import TopBar from "../../organisms/TopBar";
+// import BottomBar from "../../organisms/BottomBar";
+// import TopBar from "../../organisms/TopBar";
 
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";

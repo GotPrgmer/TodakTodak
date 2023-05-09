@@ -1,39 +1,62 @@
 // // Service Worker 설치 및 활성화
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging/sw";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+// importScripts("https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js");
 
-// Initialize the Firebase app in the service worker by passing in
-// your app's Firebase config object.
-// https://firebase.google.com/docs/web/setup#config-object
-const firebaseApp = initializeApp({
-  apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM-key",
-  authDomain: "todaktodak-6846e.firebaseapp.com",
-  databaseURL: "https://project-id.firebaseio.com",
-  projectId: "todaktodak-6846e",
-  storageBucket: "todaktodak-6846e.appspot.com",
-  messagingSenderId: "964401813700",
-  appId: "1:964401813700:web:ea0d9e4fc146ea76531191",
-  measurementId: "G-P2DYY794B6",
-});
+// importScripts("https://www.gstatic.com/firebasejs/7.8.0/firebase-messaging.js");
 
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-const messaging = getMessaging(firebaseApp);
-onBackgroundMessage(messaging, (payload) => {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
-  // Customize notification here
-  const notificationTitle = "Background Message Title";
-  const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/firebase-logo.png",
-  };
+// firebase.initializeApp({
+//   apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM-key",
+//   authDomain: "todaktodak-6846e.firebaseapp.com",
+//   databaseURL: "https://project-id.firebaseio.com",
+//   projectId: "todaktodak-6846e",
+//   storageBucket: "todaktodak-6846e.appspot.com",
+//   messagingSenderId: "964401813700",
+//   appId: "1:964401813700:web:ea0d9e4fc146ea76531191",
+//   measurementId: "G-P2DYY794B6",
+// });
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+// const messaging = firebase.messaging();
+
+// messaging.setBackgroundMessageHandler(function (payload) {
+//   return self.registration.showNotification(payload);
+// });
+
+// import { initializeApp } from "firebase/app";
+// import { getMessaging } from "firebase/messaging/sw";
+// import { onBackgroundMessage } from "firebase/messaging/sw";
+
+// // Initialize the Firebase app in the service worker by passing in
+// // your app's Firebase config object.
+// // https://firebase.google.com/docs/web/setup#config-object
+
+// let self;
+// const firebaseApp = initializeApp({
+//   apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM-key",
+//   authDomain: "todaktodak-6846e.firebaseapp.com",
+//   databaseURL: "https://project-id.firebaseio.com",
+//   projectId: "todaktodak-6846e",
+//   storageBucket: "todaktodak-6846e.appspot.com",
+//   messagingSenderId: "964401813700",
+//   appId: "1:964401813700:web:ea0d9e4fc146ea76531191",
+//   measurementId: "G-P2DYY794B6",
+// });
+
+// // Retrieve an instance of Firebase Messaging so that it can handle background
+// // messages.
+// const messaging = getMessaging(firebaseApp);
+// onBackgroundMessage(messaging, (payload) => {
+//   console.log(
+//     "[firebase-messaging-sw.js] Received background message ",
+//     payload
+//   );
+//   // Customize notification here
+//   const notificationTitle = "Background Message Title";
+//   const notificationOptions = {
+//     body: "Background Message body.",
+//     icon: "/firebase-logo.png",
+//   };
+
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
 // let self;
 

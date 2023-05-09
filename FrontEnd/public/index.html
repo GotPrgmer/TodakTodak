@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
 
-    <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
+    <link rel="/manifest" href="manifest.json" crossorigin="use-credentials" />
+    <!-- 기존 Code -->
+    <!-- <link rel="manifest" href="manifest.json" crossorigin="use-credentials" /> -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -48,7 +50,8 @@
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
-        .register("service-worker.js")
+        // .register("service-worker.js") // 기존 Code
+        .register("/service-worker.js")
         .then((reg) => console.log("Service worker registered.", reg));
     }
   </script>

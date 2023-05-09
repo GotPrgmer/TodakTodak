@@ -26,7 +26,7 @@ function BottomBar(props) {
             icon={<ChildCareIcon />}
             value={0}
             component={Link}
-            to="/"
+            to="/profile"
             onClick={props.leaveSession}
           />
           <BottomNavigationAction
