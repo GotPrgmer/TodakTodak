@@ -1,3 +1,6 @@
+// Service Worker 설치 및 활성화
+let self;
+
 self.addEventListener("install", function (e) {
   console.log("fcm sw install..");
   self.skipWaiting();
@@ -7,6 +10,7 @@ self.addEventListener("activate", function (e) {
   console.log("fcm sw activate..");
 });
 
+// Web push 알림 노출
 self.addEventListener("push", function (e) {
   console.log("push: ", e.data.json());
   if (!e.data.json()) return;

@@ -27,6 +27,7 @@ function BottomBar(props) {
             value={0}
             component={Link}
             to="/"
+            onClick={props.leaveSession}
           />
           <BottomNavigationAction
             label="실시간영상"
@@ -34,7 +35,7 @@ function BottomBar(props) {
             value={1}
             component={Link}
             to="/video"
-            onClick={props.joinSession}
+            // onClick={props.joinSession}
           />
           <BottomNavigationAction
             label="울음기록"
@@ -42,6 +43,7 @@ function BottomBar(props) {
             value={2}
             component={Link}
             to="/cry"
+            onClick={props.leaveSession}
           />
           <BottomNavigationAction
             label="마이페이지"
@@ -49,6 +51,7 @@ function BottomBar(props) {
             value={3}
             component={Link}
             to="/mypage"
+            onClick={props.leaveSession}
           />
         </BottomNavigation>
       </Box>
