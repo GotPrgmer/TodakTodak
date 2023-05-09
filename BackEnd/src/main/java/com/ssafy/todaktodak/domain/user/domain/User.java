@@ -1,6 +1,7 @@
 package com.ssafy.todaktodak.domain.user.domain;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
+import com.ssafy.todaktodak.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.SocialUserResponseDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -69,5 +70,10 @@ public class User {
                 .userImageUrl(socialUserResponseDto.getImageUrl())
                 .userRole(Role.USER)
                 .build();
+    }
+
+    public void updateUser(UserInfoUpdateRequestDto request, String userImageUrl) {
+        this.userNickname = request.getUserNickname();
+        this.userImageUrl = userImageUrl;
     }
 }

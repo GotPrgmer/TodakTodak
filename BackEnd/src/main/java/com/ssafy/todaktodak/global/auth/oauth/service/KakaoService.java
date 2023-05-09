@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
 import com.ssafy.todaktodak.domain.device.domain.Device;
+import com.ssafy.todaktodak.domain.device.repository.DeviceRepository;
 import com.ssafy.todaktodak.domain.user.domain.User;
 import com.ssafy.todaktodak.domain.user.repository.UserRepository;
 import com.ssafy.todaktodak.global.auth.jwt.JwtProvider;
@@ -27,7 +28,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -63,6 +66,8 @@ public class KakaoService {
     private final UserRepository userRepository;
 
     private final BabyRepository babyRepository;
+
+    private final DeviceRepository deviceRepository;
 
     private final JwtProvider jwtProvider;
 
@@ -163,33 +168,37 @@ public class KakaoService {
             Baby newBaby = Baby.newBabyCreate(newUser,S3_BABY_IMAGE);
             babyRepository.save(newBaby);
             // 디바이스 설정
-//            Device newDevice =  Device.
+            Device newDevice =  Device.newDeviceCreate(newBaby);
+            deviceRepository.save(newDevice);
 
         }
 
     }
 
     public ResponseEntity<LoginResponseDto> kakaoLogin(String email) {
-        User userUnwrapped = null;
-        String jwtToken = null;
-        String refreshToken = null;
-        Optional<User> user = userRepository.findUserByUserEmail(email);
-        if (user.isPresent()) {
-            userUnwrapped = user.get();
-            // User 객체 사용
-            jwtToken = jwtProvider.createJwt(userUnwrapped.getUserId().toString(), userUnwrapped.getUserRole()).createAccessToken();
-            refreshToken = jwtProvider.createJwt(userUnwrapped.getUserId().toString(), userUnwrapped.getUserRole()).createRefreshToken();
 
-//            String memberId = jwtProvider.getId(jwtToken);
-            //        redisUtil.dataExpirationsInput(memberId, refreshToken, 7);
-        }
-        else{
+        Optional<User> user = userRepository.findUserByUserEmail(email);
+
+        if ( user.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
+        User findUser = user.get();
+        // User 객체 사용
+        String jwtToken = jwtProvider.createJwt(findUser.getUserId().toString(), findUser.getUserRole()).createAccessToken();
+        String refreshToken = jwtProvider.createJwt(findUser.getUserId().toString(), findUser.getUserRole()).createRefreshToken();
+
+//            String memberId = jwtProvider.getId(jwtToken);
+        //        redisUtil.dataExpirationsInput(memberId, refreshToken, 7);
+
+        List<Baby> babies = babyRepository.findBabiesByUserUserId(findUser.getUserId());
+        List<Integer> babyIds = babies.stream()
+                .map(Baby::getBabyId)
+                .collect(Collectors.toList());
+
+
         log.info(refreshToken);
 
-        return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.ofLoginInfo(userUnwrapped, jwtToken));
+        return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.ofLoginInfo(findUser,babyIds, jwtToken));
     }
-
 
 }

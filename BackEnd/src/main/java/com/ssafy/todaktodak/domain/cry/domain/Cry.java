@@ -1,7 +1,8 @@
 package com.ssafy.todaktodak.domain.cry.domain;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
-import com.ssafy.todaktodak.domain.user.domain.User;
+import com.ssafy.todaktodak.domain.cry.dto.CryRecordingRequestDto;
+import com.ssafy.todaktodak.domain.device.domain.Device;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,14 @@ public class Cry {
 
 
     @NotNull
-    private Integer cryTime;
+    private Long cryTime;
+
+    @Column(name = "cry_start_date")
+    private LocalDateTime cryStartDate;
+
+    @Column(name = "cry_end_date")
+    private LocalDateTime cryEndDate;
+
 
     @Column(name = "cry_created_date", updatable = false)
     @CreatedDate
@@ -45,6 +53,15 @@ public class Cry {
     @Column(name = "cry_updated_date")
     @LastModifiedDate
     private LocalDateTime cryUpdatedDate;
+
+    public static Cry newCryRecordCreate(Baby baby,LocalDateTime cryStartDate,LocalDateTime cryEndDate,Long cryTime){
+        return Cry.builder()
+                .baby(baby)
+                .cryTime(cryTime)
+                .cryStartDate(cryStartDate)
+                .cryEndDate(cryEndDate)
+                .build();
+    }
 
 
 
