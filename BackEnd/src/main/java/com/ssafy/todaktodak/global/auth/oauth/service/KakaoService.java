@@ -77,7 +77,6 @@ public class KakaoService {
 
     public ResponseEntity<LoginResponseDto> verificationKakao(String code){
         KakaoAccessTokenDto kakaoAccessTokenDto = getAccessTokenByCode(code);
-        log.info("빠져나옴");
 
         SocialUserResponseDto socialUserResponseDto = getUserInfoByAccessToken(kakaoAccessTokenDto.getAccessToken());
 
@@ -102,8 +101,6 @@ public class KakaoService {
         params.add("redirect_uri", REDIRECT_URI + "kakao");
         params.add("code", code);
         params.add("client_secret", CLIENT_SECRET);
-        log.info(CLIENT_ID);
-        log.info(params.toString());
 
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
 
@@ -119,7 +116,7 @@ public class KakaoService {
             log.info(kakaoAccessTokenDto.toString());
         } catch (JsonProcessingException e) {
             //글로벌로 예외처리 하기
-            log.error("글로벌로 예외처리 하기");
+            throw new CustomException(ErrorCode.JSON_DATA_INVALID);
         }
         return kakaoAccessTokenDto;
     }
@@ -136,7 +133,6 @@ public class KakaoService {
         String url = GET_USER_INFO_URI;
 
         String userInfo = restTemplate.postForObject(url, kakaoUserInfoRequest, String.class);
-        log.info(userInfo);
 
         SocialUserResponseDto socialUserResponseDto = SocialUserResponseDto.builder().build();
         try{
@@ -148,7 +144,7 @@ public class KakaoService {
 
         }
         catch (JsonProcessingException e) {
-            log.error("글로벌 익셉션 발생!");
+            throw new CustomException(ErrorCode.JSON_DATA_INVALID);
         }
         return socialUserResponseDto;
     }
@@ -190,13 +186,15 @@ public class KakaoService {
 //            String memberId = jwtProvider.getId(jwtToken);
         //        redisUtil.dataExpirationsInput(memberId, refreshToken, 7);
 
-        List<Integer> babyIds = babyRepository.findIdByUserUserId(findUser.getUserId());
+        List<Baby> babies = babyRepository.findBabiesByUserUserId(findUser.getUserId());
+        List<Integer> babyIds = babies.stream()
+                .map(Baby::getBabyId)
+                .collect(Collectors.toList());
 
 
         log.info(refreshToken);
 
         return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.ofLoginInfo(findUser,babyIds, jwtToken));
     }
-
 
 }

@@ -1,15 +1,22 @@
 package com.ssafy.todaktodak.domain.cry.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+
 import java.sql.Timestamp;
 
+@Getter
 public class CryRecordingRequestDto {
 
-    private String deviceSerial;
+    @JsonProperty("babyId")
+    private String babyId;
 
-    private Timestamp cryStartTime;
+    @JsonProperty("cryStartDate")
+    private Long cryStartDate;
 
-    private Timestamp cryEndTime;
+    @JsonProperty("cryEndDate")
+    private Long cryEndDate;
 
 
 }
