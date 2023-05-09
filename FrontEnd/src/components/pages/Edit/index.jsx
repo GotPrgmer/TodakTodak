@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { jwtToken } from "../../../states/recoilHomeState";
 
 function Edit() {
   const navigate = useNavigate();
   const navigateToProfile = () => { navigate('/') };
 
   const { register, handleSubmit, watch } = useForm();
+  
+  const jwt_token = useRecoilValue(jwtToken);
 
   const onSubmit = info => {
     console.log(info)
@@ -28,11 +32,11 @@ function Edit() {
       formData.append('babyImage', info.image[0]);
     }
 
-    fetch(`http://todaktodak.kr:8080/baby/info/update/${data.state.baby_id}`, {
+    fetch(`http://todaktodak.kr:8080/api/baby/info/update/${data.state.baby_id}`, {
       method: "PATCH",
       body: formData,
       headers: {
-        // "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${jwt_token}`
       },
     })
       .then((response) => {
