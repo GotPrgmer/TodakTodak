@@ -9,4 +9,18 @@ const bottomBarAtom = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export { bottomBarAtom };
+const babyPK = atom({
+  key: "babyPK",
+  default: [],
+});
+
+const jwtToken = atom({
+  key: "jwtToken",
+  default: '',
+});
+
+export {
+  bottomBarAtom,
+  babyPK,
+  jwtToken
+};
