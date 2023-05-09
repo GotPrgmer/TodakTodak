@@ -44,15 +44,17 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
 
-  <!-- 추가 Code -->
-  <!-- 없으면 Download 안됌 -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("service-worker.js") // 기존 Code
-        .then((reg) => console.log("Service worker registered.", reg));
-    }
-  </script>
+    <!-- 추가 Code -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("sw-cached-site.js", function () {
+          navigator.serviceWorker.register("sw.js", {
+            scope: "/",
+          });
+        });
+      }
+      window.process = { env: { NODE_ENV: "production" } };
+    </script>
+  </body>
 </html>

@@ -12,6 +12,17 @@ import Loading from "./components/pages/Loading";
 import Device from "./components/pages/Device";
 
 function App() {
+  /* 추가 Code */
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) => {
+        console.log(
+          "ServiceWorker registration successful with scope: ",
+          registration.active
+        );
+      });
+  }
   return (
     <>
       <BrowserRouter>
