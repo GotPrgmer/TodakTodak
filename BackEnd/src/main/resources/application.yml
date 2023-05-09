@@ -53,13 +53,13 @@ cloud:
       include: Administrator
 
 
-server:
-  ssl:
-    key-store: classpath:keystore.p12
-    key-store-type: PKCS12
-    key-store-password: ${KEY_STORE_PASSWORD}
-    key-alias: ${KEY_ALIAS}
-  port: 9090
+#server:
+#  ssl:
+#    key-store: classpath:keystore.p12
+#    key-store-type: PKCS12
+#    key-store-password: ${KEY_STORE_PASSWORD}
+#    key-alias: ${KEY_ALIAS}
+#  port: 443
   http2:
     enabled: true
 s3-default-image : ${S3_DEFAULT_IMAGE}
