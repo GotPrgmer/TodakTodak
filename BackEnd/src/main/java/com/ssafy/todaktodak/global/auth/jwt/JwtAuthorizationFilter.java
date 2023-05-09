@@ -5,6 +5,8 @@ import com.ssafy.todaktodak.domain.user.domain.Role;
 import com.ssafy.todaktodak.global.error.ErrorCode;
 import com.ssafy.todaktodak.global.error.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,12 +52,25 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
         } catch (ExpiredJwtException e) {
-            response.setStatus(ErrorCode.TOKEN_NOT_VALID.getStatus().value());
+            response.setStatus(ErrorCode.EXPIRED_JWT_TOKEN.getStatus().value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ErrorCode.TOKEN_NOT_VALID)));
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ErrorCode.EXPIRED_JWT_TOKEN)));
             response.getWriter().flush();
             response.getWriter().close();
-
+        }
+        catch (SecurityException | UnsupportedJwtException | MalformedJwtException  e) {
+            response.setStatus(ErrorCode.JWT_TOKEN_NOT_VALID.getStatus().value());
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ErrorCode.JWT_TOKEN_NOT_VALID)));
+            response.getWriter().flush();
+            response.getWriter().close();
+        }
+        catch (IllegalArgumentException  e) {
+            response.setStatus(ErrorCode.BAD_REQUEST.getStatus().value());
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ErrorCode.BAD_REQUEST)));
+            response.getWriter().flush();
+            response.getWriter().close();
         }
 
     }

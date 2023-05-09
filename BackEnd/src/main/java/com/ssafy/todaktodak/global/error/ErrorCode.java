@@ -15,7 +15,7 @@ public enum ErrorCode {
     //인증
     TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, 1002,"허용되지 않은 메서드입니다."),
 
-    JWT_TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, 1003,"jwt토큰 인증 실패입니다."),
+    JWT_TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, 1003,"잘못된 jwt토큰입니다."),
 
     EXPIRED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, 1004,"만료된 jwt토큰입니다."),
 
