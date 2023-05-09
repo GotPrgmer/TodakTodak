@@ -15,7 +15,7 @@ function BabyProfile() {
 
     useEffect(() => {
         async function loadData() {
-            const response = await axios.get(`http://todaktodak.kr:8080/api/baby/info/${babyLists[0]}`, {
+            const response = await axios.get(`https://todaktodak.kr:8080/api/baby/info/${babyLists[0]}`, {
                 headers: {
                     Authorization: `Bearer ${jwt_token}`
             }})

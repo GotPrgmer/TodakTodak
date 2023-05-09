@@ -1,26 +1,65 @@
-import React from 'react';
-import { useMqtt } from 'react-mqtt';
+import React, { useState, useEffect } from 'react';
+import { Amplify, PubSub } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub';
 
-function MQTTComponent() {
-  const { message, status } = useMqtt('aw9r86eiouxek-ats.iot.ap-northeast-2.amazonaws.com', {
-    clientId: 'clientId-' + Math.random().toString(16).substring(2, 8),
-    clean: true,
-  });
+Amplify.configure({
+  Auth: {
+    identityPoolId: '',
+    region: 'ap-northeast-2',
+  },
+});
 
-  const handleMessage = (topic, message) => {
-    console.log(`Received message: ${message.toString()} on topic ${topic}`);
-  };
+const SensorDataPage = () => {
+  const [connectionStatus, setConnectionStatus] = useState('origin');
+  const [receivedMessage, setReceivedMessage] = useState('{"C": "disconnect", "H":"disconnect"}');
 
-  if (status === 'connected') {
-    message.subscribe('raspi/data');
-    message.on('message', handleMessage);
+  useEffect(() => {
+    connectToMQTT();
+  }, []);
+  
+
+  const connectToMQTT = async () => {
+    const topic = 'raspi/data';
+
+    PubSub.addPluggable(
+      new AWSIoTProvider({
+        // aws_pubsub_region: 'ap-northeast-2',
+        aws_pubsub_endpoint: 'aw9r86eiouxek-ats.iot.ap-northeast-2.amazonaws.com',
+      })
+    );
+
+    try {
+      PubSub.subscribe(topic).subscribe({
+        next: data => {
+          console.log(`Received message: ${JSON.stringify(data.value)}`);
+          setReceivedMessage(JSON.stringify(data.value));
+        },
+        error: error => console.error(error),
+        close: () => {
+          setConnectionStatus('Disconnected');
+          console.log('Disconnected from MQTT');
+        },
+      });
+
+      setConnectionStatus('Connected');
+      console.log('Connected to MQTT');
+    } catch (error) {
+      console.error(`Error subscribing to ${topic}: ${error}`);
+    }
   }
 
   return (
     <div>
-      <h1>MQTT Example</h1>
+      <div>{connectionStatus}</div>
+      <div>{receivedMessage}</div>
     </div>
   );
 }
 
-export default MQTTComponent;
+export default SensorDataPage;
+      // <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
+      //     {/* <img src={temperatureImage} alt="Temperature" /> */}
+      //       {JSON.parse(receivedMessage)['C']}°C
+      //     {/* <img src={humidityImage} alt="Humidity" /> */}
+      //       {JSON.parse(receivedMessage)['H']}%
+      // </div>

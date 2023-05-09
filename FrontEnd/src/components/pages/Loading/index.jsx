@@ -21,7 +21,7 @@ function Loading() {
         console.log('인가코드 : ' + code)
 
         async function transferCode() {
-            await axios.get(`http://todaktodak.kr:8080/api/login/oauth2/code/kakao?code=${code}`)
+            await axios.get(`https://todaktodak.kr:8080/api/login/oauth2/code/kakao?code=${code}`)
                 .then((response) => {
                     console.log(response)
                     // console.log(response.data.jwt_token)

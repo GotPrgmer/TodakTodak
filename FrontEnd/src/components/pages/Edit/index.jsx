@@ -32,7 +32,7 @@ function Edit() {
       formData.append('babyImage', info.image[0]);
     }
 
-    fetch(`http://todaktodak.kr:8080/api/baby/info/update/${data.state.baby_id}`, {
+    fetch(`https://todaktodak.kr:8080/api/baby/info/update/${data.state.baby_id}`, {
       method: "PATCH",
       body: formData,
       headers: {
