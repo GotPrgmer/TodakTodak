@@ -9,19 +9,20 @@ import BabyProfile from "../../organisms/Profile";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
-
   const navigate = useNavigate();
-  const navigateToLogin = () => { navigate('/login'); };
+  const navigateToLogin = () => {
+    navigate("/");
+  };
 
   return (
     <div>
-        <TopBar />
-        <div className="pt-16">
-              <BabyProfile />
+      <TopBar />
+      <div className="pt-16">
+        <BabyProfile />
         {/* <Sensor/> */}
         <button onClick={navigateToLogin}>로그인 페이지</button>
-        </div>
-        <BottomBar />
+      </div>
+      <BottomBar />
     </div>
   );
 }
