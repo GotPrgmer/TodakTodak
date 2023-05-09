@@ -190,13 +190,15 @@ public class KakaoService {
 //            String memberId = jwtProvider.getId(jwtToken);
         //        redisUtil.dataExpirationsInput(memberId, refreshToken, 7);
 
-        List<Integer> babyIds = babyRepository.findIdByUserUserId(findUser.getUserId());
+        List<Baby> babies = babyRepository.findBabiesByUserUserId(findUser.getUserId());
+        List<Integer> babyIds = babies.stream()
+                .map(Baby::getBabyId)
+                .collect(Collectors.toList());
 
 
         log.info(refreshToken);
 
         return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.ofLoginInfo(findUser,babyIds, jwtToken));
     }
-
 
 }

@@ -308,14 +308,14 @@ class Device extends Component {
                       required
                     />
                   </p> */}
-                  {/* <p className="text-center">
+                  <p className="text-center">
                     <input
                       className="btn btn-lg btn-success"
                       name="commit"
                       type="submit"
                       value="JOIN"
                     />
-                  </p> */}
+                  </p>
                 </form>
               </div>
             </div>

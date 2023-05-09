@@ -13,25 +13,25 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
-oauth2:
-  client:
-    registration:
-      kakao:
-        client-id: ${KAKAO_RESTAPI_KEY}
-        client-secret: ${KAKAO_CLIENT_SECRET_KEY}
-        redirect-uri: http://localhost:3000/login/oauth2/code/
-        client-authentication-method: POST
-        authorization-grant-type: authorization_code
-        scope:
-        - profile_nickname
-        - account_email #동의 항목
-        client-name: Kakao
-    provider:
-      kakao:
-        authorization-uri: https://kauth.kakao.com/oauth/authorize
-        token-uri: https://kauth.kakao.com/oauth/token
-        user-info-uri: https://kapi.kakao.com/v2/user/me
-        user-name-attribute: id
+#oauth2:
+#  client:
+#    registration:
+#      kakao:
+#        client-id: ${KAKAO_RESTAPI_KEY}
+#        client-secret: ${KAKAO_CLIENT_SECRET_KEY}
+#        redirect-uri: http://todaktodak.kr/api/login/oauth2/code/
+#        client-authentication-method: POST
+#        authorization-grant-type: authorization_code
+#        scope:
+#        - profile_nickname
+#        - account_email #동의 항목
+#        client-name: Kakao
+#    provider:
+#      kakao:
+#        authorization-uri: https://kauth.kakao.com/oauth/authorize
+#        token-uri: https://kauth.kakao.com/oauth/token
+#        user-info-uri: https://kapi.kakao.com/v2/user/me
+#        user-name-attribute: id
 jwt:
   secret : ${JWT_SECRET}
   expiration-accesstoken-minutes : 180
@@ -52,6 +52,16 @@ cloud:
     profiles:
       include: Administrator
 
+
+#server:
+#  ssl:
+#    key-store: classpath:keystore.p12
+#    key-store-type: PKCS12
+#    key-store-password: ${KEY_STORE_PASSWORD}
+#    key-alias: ${KEY_ALIAS}
+#  port: 443
+  http2:
+    enabled: true
 s3-default-image : ${S3_DEFAULT_IMAGE}
 s3-baby-default-image : ${S3_BABY_IMAGE}
 s3-user-default-image : ${S3_USER_IMAGE}
