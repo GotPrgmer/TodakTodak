@@ -24,9 +24,7 @@ function requestPermission() {
 
       // Initialize Firebase Cloud Messaging and get a reference to the service
       const messaging = getMessaging(app);
-      onMessage(messaging, (payload) => {
-        console.log("메시지가 도착했습니다.", payload);
-      });
+
       getToken(messaging, {
         vapidKey:
           "BJDkRufFUee-pV7LadIZN6VJ05FlsXyIZvWpwx93Liqle0ThtBhT7pICyodK7GFeER3K5UBToayJK22knAFwK2M",
@@ -44,6 +42,9 @@ function requestPermission() {
           console.log("An error occurred while retrieving token. ", err);
           // ...
         });
+      onMessage(messaging, (payload) => {
+        console.log("메시지가 도착했습니다.", payload);
+      });
     } else {
       console.log("Do not get token");
     }

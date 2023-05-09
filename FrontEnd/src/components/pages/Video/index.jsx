@@ -23,8 +23,8 @@ class Video extends Component {
     this.state = {
       // SessionId는 Camera Serial Number(로그인 후 시도)
       // mySessionId: "SessionA",
-      // mySessionId: "todak000001",
       mySessionId: "todak000001",
+      // mySessionId: "4545",
       // UserName은 로그인 한 후 생성되는 pk 번호
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: "000001",
