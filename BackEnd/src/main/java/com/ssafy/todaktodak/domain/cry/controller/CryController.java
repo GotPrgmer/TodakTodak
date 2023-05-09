@@ -22,9 +22,9 @@ public class CryController {
         return cryService.cryRecording(cryRecordingRequestDto);
     }
 
-    @GetMapping(value = "/cry/logging")
-    public CryLoggingResponseDto cryLogging(@RequestBody CryLoggingRequestDto cryLoggingRequestDto){
-        return cryService.cryLogging(cryLoggingRequestDto);
-    }
+//    @GetMapping(value = "/cry/logging")
+//    public CryLoggingResponseDto cryLogging(@RequestBody CryLoggingRequestDto cryLoggingRequestDto){
+//        return cryService.cryLogging(cryLoggingRequestDto);
+//    }
 
 }
