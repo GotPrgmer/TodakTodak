@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
 import com.ssafy.todaktodak.domain.cry.domain.Cry;
-import com.ssafy.todaktodak.domain.cry.dto.CryLoggingRequestDto;
-import com.ssafy.todaktodak.domain.cry.dto.CryLoggingResponseDto;
 import com.ssafy.todaktodak.domain.cry.dto.CryRecordingRequestDto;
 import com.ssafy.todaktodak.domain.cry.dto.CryRecordingResponseDto;
 import com.ssafy.todaktodak.domain.cry.repository.CryRepository;
