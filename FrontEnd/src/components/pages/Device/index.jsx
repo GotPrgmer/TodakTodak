@@ -111,7 +111,7 @@ class Device extends Component {
     // or files from your local hard drive
     // Note: the pose library adds "tmImage" object to your window (window.tmImage)
     this.state.model = await tmImage.load(modelURL, metadataURL);
-    this.state.maxPredictions = model.getTotalClasses();
+    this.state.maxPredictions = this.state.model.getTotalClasses();
 
     // Convenience function to setup a webcam
     const flip = true; // whether to flip the webcam
@@ -119,7 +119,7 @@ class Device extends Component {
     this.state.webcam = new tmImage.Webcam(size, size, flip); // width, height, flip
     await this.state.webcam.setup(); // request access to the webcam
     await this.state.webcam.play();
-    window.requestAnimationFrame(loop);
+    window.requestAnimationFrame(this.loop);
 
     // append elements to the DOM
     // document.getElementById("webcam-container").appendChild(webcam.canvas);
@@ -130,8 +130,8 @@ class Device extends Component {
   }
   async loop() {
       this.state.webcam.update(); // update the webcam frame
-      await predict();
-      window.requestAnimationFrame(loop);
+      await this.predict();
+      window.requestAnimationFrame(this.loop);
   }
   // run the webcam image through the image model
   async predict() {
@@ -288,6 +288,8 @@ class Device extends Component {
 
     return (
       <>
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
         {/* <TopBar /> */}
         <div className="container">
           {this.state.session === undefined ? (
