@@ -27,6 +27,9 @@ class Device extends Component {
       publisher: undefined,
       subscribers: [],
       tokenList: [],
+      URL: "https://teachablemachine.withgoogle.com/models/_6gIxAahL/",
+      modelURL:URL + "model.json",
+      metadataURL:URL + "metadata.json"
     };
     // console.log(this.state.subscribers);
 
@@ -49,6 +52,7 @@ class Device extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+
   }
 
   // leaveSession 함수 - 2
@@ -70,7 +74,7 @@ class Device extends Component {
   //   });
   // }
 
-  handleMainVideoStream(stream) {
+  handleMainVideoStream(stream) { // 메인 비디오 스트림
     if (this.state.mainStreamManager !== stream) {
       this.setState({
         mainStreamManager: stream,
@@ -78,7 +82,7 @@ class Device extends Component {
     }
   }
 
-  deleteSubscriber(streamManager) {
+  deleteSubscriber(streamManager) { // 세션에 참여한 사람들의 스트림을 subscribers에서 삭제
     let subscribers = this.state.subscribers;
     let index = subscribers.indexOf(streamManager, 0);
     if (index > -1) {
@@ -89,8 +93,51 @@ class Device extends Component {
     }
   }
 
+  // Load the image model and setup the webcam
+  async init() {
+    const modelURL = this.state.modelURL;
+    const metadataURL = this.state.metadataURL;
+
+    // load the model and metadata
+    // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+    // or files from your local hard drive
+    // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
+
+    // Convenience function to setup a webcam
+    const flip = true; // whether to flip the webcam
+    const size = 200;
+    webcam = new tmImage.Webcam(size, size, flip); // width, height, flip
+    await webcam.setup(); // request access to the webcam
+    await webcam.play();
+    window.requestAnimationFrame(loop);
+
+    // append elements to the DOM
+    // document.getElementById("webcam-container").appendChild(webcam.canvas);
+    // labelContainer = document.getElementById("label-container");
+    // for (let i = 0; i < maxPredictions; i++) { // and class labels
+    //     labelContainer.appendChild(document.createElement("div"));
+    // }
+  }
+  async loop() {
+      webcam.update(); // update the webcam frame
+      await predict();
+      window.requestAnimationFrame(loop);
+  }
+  // run the webcam image through the image model
+  async predict() {
+      // predict can take in an image, video or canvas html element
+      const prediction = await model.predict(webcam.canvas);
+      for (let i = 0; i < maxPredictions; i++) {
+          const classPrediction =
+              prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+          labelContainer.childNodes[i].innerHTML = classPrediction;
+          console.log(classPrediction);
+      }
+  }
   // joinSession
-  joinSession() {
+  joinSession() { // 세션에 참여
     // --- 1) Get an OpenVidu object ---
 
     this.OV = new OpenVidu();
@@ -120,6 +167,10 @@ class Device extends Component {
             subscribers: subscribers, // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           });
         });
+
+        // tmImage
+        this.init();
+
 
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => { // 세션에 참여한 사람이 나갔을 때
@@ -221,45 +272,7 @@ class Device extends Component {
     });
   }
 
-  // 카메라 전후 변경 기능
-  // todak Service에서 필요없음
-  async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
-
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice[0],
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  
 
   render() {
     const mySessionId = this.state.mySessionId;
