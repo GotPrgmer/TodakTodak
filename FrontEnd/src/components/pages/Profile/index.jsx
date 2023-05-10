@@ -7,6 +7,7 @@ import BabyProfile from "../../organisms/Profile";
 // import { useEffect } from "react";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import SensorDataPage from "../../organisms/Sensor/index";
 
 function Profile() {
   const navigate = useNavigate();
@@ -21,8 +22,9 @@ function Profile() {
         <BabyProfile />
         {/* <Sensor/> */}
         <button onClick={navigateToLogin}>로그인 페이지</button>
-      </div>
-      <BottomBar />
+        <SensorDataPage/>
+        </div>
+        <BottomBar />
     </div>
   );
 }
