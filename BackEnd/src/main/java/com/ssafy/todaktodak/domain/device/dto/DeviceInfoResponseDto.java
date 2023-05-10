@@ -1,8 +1,5 @@
 package com.ssafy.todaktodak.domain.device.dto;
 
-import com.ssafy.todaktodak.domain.baby.domain.Baby;
-import com.ssafy.todaktodak.domain.baby.domain.Gender;
-import com.ssafy.todaktodak.domain.baby.dto.BabyInfoResponseDto;
 import com.ssafy.todaktodak.domain.device.domain.Device;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +18,7 @@ public class DeviceInfoResponseDto {
 
         return DeviceInfoResponseDto.builder()
                 .serialNumber(device.getSerialNumber())
-                .sessionToken(device.getSessionToken())
+                .sessionToken(device.getConnectionId())
                 .sessionId(device.getSessionId())
                 .build();
 

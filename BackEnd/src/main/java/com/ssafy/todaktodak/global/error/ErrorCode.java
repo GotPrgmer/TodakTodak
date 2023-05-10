@@ -28,8 +28,12 @@ public enum ErrorCode {
 
     JSON_DATA_INVALID(HttpStatus.BAD_REQUEST, 2002, "유효한 데이터가 아닙니다."),
 
+    // 오픈비두
+
+    SESSION_ID_NOT_VALID(HttpStatus.NOT_FOUND, 3000, "세션이 존재하지 않습니다."),
+
     // 기타 오류
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 2000, "내부 서버 오류입니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "내부 서버 오류입니다.");
 
 
 
