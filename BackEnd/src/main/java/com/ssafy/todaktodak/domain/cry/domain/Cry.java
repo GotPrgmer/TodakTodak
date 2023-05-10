@@ -1,8 +1,6 @@
 package com.ssafy.todaktodak.domain.cry.domain;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
-import com.ssafy.todaktodak.domain.cry.dto.CryRecordingRequestDto;
-import com.ssafy.todaktodak.domain.device.domain.Device;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

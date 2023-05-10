@@ -1,7 +1,5 @@
 package com.ssafy.todaktodak.domain.cry.controller;
 
-import com.ssafy.todaktodak.domain.cry.dto.CryLoggingRequestDto;
-import com.ssafy.todaktodak.domain.cry.dto.CryLoggingResponseDto;
 import com.ssafy.todaktodak.domain.cry.dto.CryRecordingRequestDto;
 import com.ssafy.todaktodak.domain.cry.dto.CryRecordingResponseDto;
 import com.ssafy.todaktodak.domain.cry.service.CryService;

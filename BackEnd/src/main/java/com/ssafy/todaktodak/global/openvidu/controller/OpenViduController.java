@@ -3,12 +3,12 @@ package com.ssafy.todaktodak.global.openvidu.controller;
 import com.ssafy.todaktodak.global.openvidu.dto.OpenViduCreateConnectionResponseDto;
 import com.ssafy.todaktodak.global.openvidu.dto.OpenViduCreateSessionResponseDto;
 import com.ssafy.todaktodak.global.openvidu.service.OpenViduService;
-import io.openvidu.java.client.*;
+import io.openvidu.java.client.OpenVidu;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;

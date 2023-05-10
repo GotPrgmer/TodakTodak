@@ -2,7 +2,6 @@ package com.ssafy.todaktodak.global.util;
 
 import com.ssafy.todaktodak.global.auth.oauth.dto.LoginResponseDto;
 import com.ssafy.todaktodak.global.error.CustomException;
-import com.ssafy.todaktodak.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
