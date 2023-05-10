@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import router from "./Router";
-import "./firebase";
+// import "./firebase";
 import Profile from "./components/pages/Profile";
 import Video from "./components/pages/Video";
 import Cry from "./components/pages/Cry";
