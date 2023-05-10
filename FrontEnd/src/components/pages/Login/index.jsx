@@ -19,9 +19,9 @@ function KakaoLogin() {
 
   return (
     <>
-      <button onClick={navigateToHome}>Home</button>
+      <button className="font-new" onClick={navigateToHome}>Home</button>
 
-      <h1>
+      <h1 className="font-new">
         <a href={KAKAO_AUTH_URL}>Kakao Login</a>
         <div> PWA Download 5트 </div>
       </h1>

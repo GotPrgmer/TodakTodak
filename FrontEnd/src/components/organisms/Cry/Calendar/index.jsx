@@ -43,12 +43,12 @@ function ModalCalender(props) {
 
   return (
     <>
-      <div>
+      <div className="font-new">
         <div>
-          <button className="flex" onClick={openModal}>
+          <button className="float-left ml-3" onClick={openModal}>
             <img src={CalendarIcon} alt="" />
-            <p>{moment(pickDate).format("YYYY년 MM월 DD일") + '(' + week[moment(pickDate).day()] + ')'} </p>
           </button>
+          <p className="float-right">{moment(pickDate).format("YYYY년 MM월 DD일") + '(' + week[moment(pickDate).day()] + ')'} </p>
 
           <Modal
             ariaHideApp={false}
