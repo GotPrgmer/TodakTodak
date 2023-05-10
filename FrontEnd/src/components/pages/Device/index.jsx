@@ -3,8 +3,8 @@ import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
 import React, { Component } from "react";
 import UserVideoComponent from "./UserVideoComponent";
-import BottomBar from "../../organisms/BottomBar";
-import TopBar from "../../organisms/TopBar";
+// import BottomBar from "../../organisms/BottomBar";
+// import TopBar from "../../organisms/TopBar";
 
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
@@ -271,7 +271,7 @@ class Device extends Component {
 
     return (
       <>
-        <TopBar />
+        {/* <TopBar /> */}
         <div className="container">
           {this.state.session === undefined ? (
             <div id="join">
@@ -373,7 +373,7 @@ class Device extends Component {
             </div>
           ) : null}
         </div>
-        <BottomBar joinSession={this.joinSession} />
+        {/* <BottomBar joinSession={this.joinSession} /> */}
       </>
     );
   }
