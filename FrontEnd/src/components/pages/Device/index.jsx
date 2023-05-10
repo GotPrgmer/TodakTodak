@@ -3,6 +3,8 @@ import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
 import React, { Component } from "react";
 import UserVideoComponent from "./UserVideoComponent";
+import * as tf from "@tensorflow/tfjs";
+import * as tmImage from "@teachablemachine/image";
 // import BottomBar from "../../organisms/BottomBar";
 // import TopBar from "../../organisms/TopBar";
 
@@ -288,6 +290,7 @@ class Device extends Component {
 
     return (
       <>
+      
       {/* <TopBar /> */}
         <div className="container">
           {this.state.session === undefined ? (
