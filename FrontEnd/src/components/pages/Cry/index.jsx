@@ -152,7 +152,7 @@ function Cry() {
     "rgba(240, 240, 240)",
     "rgba(240, 240, 240)",
     "rgba(240, 240, 240)",
-    "rgba(54, 162, 235)",
+    "rgba(255, 191, 135)",
   ]);
 
   const setColorsHandler = (idx) => {
@@ -163,7 +163,7 @@ function Cry() {
       "rgba(240, 240, 240)",
       "rgba(240, 240, 240)",
     ];
-    newColors[idx] = "rgba(54, 162, 235)";
+    newColors[idx] = "rgba(255, 191, 135)";
     setColors(newColors);
   };
 
@@ -213,7 +213,7 @@ function Cry() {
               <p className="text-xl font-semibold">울음기록 <span className="text-lg">{clickedDate}</span></p>
               <button className="text-green-400 font-semibold" onClick={btnClick}>더 보기</button>
             </div>
-            <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked} />
+            <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked}/>
           </div>
         </div>
       </div>
