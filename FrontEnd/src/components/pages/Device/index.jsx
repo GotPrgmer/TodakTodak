@@ -288,9 +288,7 @@ class Device extends Component {
 
     return (
       <>
-      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-        {/* <TopBar /> */}
+      {/* <TopBar /> */}
         <div className="container">
           {this.state.session === undefined ? (
             <div id="join">
