@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import TopBar from "../../organisms/TopBar";
 import { Bar } from "react-chartjs-2";
 import BottomBar from "../../organisms/BottomBar";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +11,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
+} from "chart.js"; 
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Crylist from './../../organisms/Cry/index';
 import ModalCalender from "../../organisms/Cry/Calendar";

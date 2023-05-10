@@ -33,9 +33,9 @@ class Device extends Component {
       model: undefined,
       webcam: undefined,
       maxPredictions: undefined,
-      URL: "https://teachablemachine.withgoogle.com/models/_6gIxAahL/",
-      modelURL:URL + "model.json",
-      metadataURL:URL + "metadata.json"
+      url: "https://teachablemachine.withgoogle.com/models/_6gIxAahL/",
+      modelURL:undefined,
+      metadataURL:undefined
     };
     // console.log(this.state.subscribers);
 
@@ -105,15 +105,20 @@ class Device extends Component {
   
   // Load the image model and setup the webcam
   async init() {
-    const modelURL = this.state.modelURL;
-    const metadataURL = this.state.metadataURL;
-
+    const modelURL = this.state.url + "model.json";
+    const metadataURL = this.state.url + "metadata.json";
+    this.state.model = modelURL;
+    this.state.metadataURL = metadataURL;
     // load the model and metadata
     // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
     // or files from your local hard drive
     // Note: the pose library adds "tmImage" object to your window (window.tmImage)
     this.state.model = await tmImage.load(modelURL, metadataURL);
+    // console.log("model")
+    // console.log(this.state.model)
     this.state.maxPredictions = this.state.model.getTotalClasses();
+    // console.log("prediction")
+    // console.log("prediction" + this.state.maxPredictions)
 
     // Convenience function to setup a webcam
     const flip = true; // whether to flip the webcam
@@ -133,6 +138,7 @@ class Device extends Component {
   async loop() {
       this.state.webcam.update(); // update the webcam frame
       await this.predict();
+      console.log("i'm loop");
       window.requestAnimationFrame(this.loop);
   }
   // run the webcam image through the image model
@@ -179,6 +185,7 @@ class Device extends Component {
         });
 
         // tmImage
+        console.log("init");
         this.init();
 
 
