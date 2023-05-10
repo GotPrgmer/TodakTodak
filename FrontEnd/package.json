@@ -19,6 +19,7 @@
     "aws-amplify": "^5.2.0",
     "aws-iot-device-sdk": "^2.2.12",
     "axios": "^1.4.0",
+    "chart.js": "^4.3.0",
     "chartjs": "^0.3.24",
     "chartjs-plugin-datalabels": "^2.2.0",
     "firebase": "^9.21.0",
