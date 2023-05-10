@@ -40,7 +40,6 @@ public class User {
     @Column(name = "user_nickname")
     private String userNickname;
 
-    @NotNull
     @Column(name = "fcm_key")
     private String fcmKey;
 
