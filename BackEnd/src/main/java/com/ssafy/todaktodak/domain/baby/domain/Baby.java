@@ -64,8 +64,6 @@ public class Baby {
     @Column(name = "baby_birth_day")
     private Integer babyBirthDay;
 
-    @Column(name = "baby_d_day")
-    private Integer babyDDay;
 
     @Column(name = "baby_zodiak")
     private String babyZodiak;
@@ -104,12 +102,11 @@ public class Baby {
                 .babyBirthYear(DateTime.now().getYear())
                 .babyBirthMonth(DateTime.now().getMonthOfYear())
                 .babyBirthDay(DateTime.now().getDayOfMonth())
-                .babyDDay(0)
                 .babyZodiak("-")
                 .build();
     }
 
-    public void updateBaby(BabyUpdateRequestDto babyUpdateRequestDto,String babyConstellation,String babyZodiak,Integer babyDDay,String imageUrl) {
+    public void updateBaby(BabyUpdateRequestDto babyUpdateRequestDto,String babyConstellation,String babyZodiak,String imageUrl) {
         this.babyNickname = babyUpdateRequestDto.getBabyNickname();
         this.babyName = babyUpdateRequestDto.getBabyName();
         this.babyImageUrl = imageUrl;
@@ -119,7 +116,6 @@ public class Baby {
         this.babyBirthDay = babyUpdateRequestDto.getBabyBirthDay();
         this.babyConstellation = babyConstellation;
         this.babyZodiak = babyZodiak;
-        this.babyDDay = babyDDay;
 
 
 
