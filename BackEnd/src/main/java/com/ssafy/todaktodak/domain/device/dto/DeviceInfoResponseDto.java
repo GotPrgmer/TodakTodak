@@ -11,14 +11,14 @@ public class DeviceInfoResponseDto {
 
     private String sessionId;
 
-    private String sessionToken;
+    private String connectionToken;
 
 
     public static DeviceInfoResponseDto ofDevice(Device device) {
 
         return DeviceInfoResponseDto.builder()
                 .serialNumber(device.getSerialNumber())
-                .sessionToken(device.getConnectionId())
+                .connectionToken(device.getConnectionId())
                 .sessionId(device.getSessionId())
                 .build();
 
