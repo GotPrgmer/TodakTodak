@@ -12,6 +12,8 @@ public interface BabyRepository extends JpaRepository<Baby,Integer> {
 
     List<Baby> findBabiesByUserUserId(Integer userId);
 
+    Optional<Baby> findById(Integer babyId);
+
     Optional<Baby> findByBabyIdAndUserUserId(Integer babyId,Integer userId);
 
 }

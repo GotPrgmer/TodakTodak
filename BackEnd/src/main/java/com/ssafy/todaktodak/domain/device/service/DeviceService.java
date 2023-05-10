@@ -1,8 +1,14 @@
 package com.ssafy.todaktodak.domain.device.service;
 
+import com.ssafy.todaktodak.domain.baby.domain.Baby;
+import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
 import com.ssafy.todaktodak.domain.device.domain.Device;
+import com.ssafy.todaktodak.domain.device.dto.DeviceAlarmRequestDto;
+import com.ssafy.todaktodak.domain.device.dto.DeviceAlarmResponseDto;
 import com.ssafy.todaktodak.domain.device.dto.DeviceInfoResponseDto;
 import com.ssafy.todaktodak.domain.device.repository.DeviceRepository;
+import com.ssafy.todaktodak.domain.user.domain.User;
+import com.ssafy.todaktodak.domain.user.repository.UserRepository;
 import com.ssafy.todaktodak.global.error.CustomException;
 import com.ssafy.todaktodak.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +24,10 @@ import java.util.Optional;
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
+    private final BabyRepository babyRepository;
+
+    private final UserRepository userRepository;
+
 
 
     @Transactional
@@ -31,5 +41,31 @@ public class DeviceService {
 
         return DeviceInfoResponseDto.ofDevice(findDevice);
         //
+    }
+
+    @Transactional
+    public DeviceAlarmResponseDto deviceAlarm(DeviceAlarmRequestDto request){
+        Optional<Device> device = deviceRepository.findBySerialNumber(request.getSerialNumber());
+        if ( device.isEmpty()) {
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        Device findDevice = device.get();
+
+        Optional<Baby> baby = babyRepository.findById(findDevice.getBaby().getBabyId());
+        if ( baby.isEmpty()) {
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        Baby findBaby = baby.get();
+
+        Optional<User> user = userRepository.findUserByUserId(findBaby.getUser().getUserId());
+        if ( user.isEmpty()) {
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        User findUser = user.get();
+
+        return DeviceAlarmResponseDto.of(request.getMessage(), findUser.getFcmKey());
+
+
+
     }
 }
