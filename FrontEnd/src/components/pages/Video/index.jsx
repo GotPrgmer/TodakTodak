@@ -1,10 +1,12 @@
 // // class형
 import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import UserVideoComponent from "./UserVideoComponent";
 import BottomBar from "../../organisms/BottomBar";
 import TopBar from "../../organisms/TopBar";
+import { useRecoilValue } from "recoil";
+import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
@@ -33,9 +35,10 @@ class Video extends Component {
       publisher: undefined,
       subscribers: [],
       tokenList: [],
+      babyPK: undefined,
     };
     // console.log(this.state.subscribers);
-
+    this.code = new URL(document.location.toString()).searchParams.get("code");
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     // 카메라 전후 변경(필요없음)
@@ -74,6 +77,17 @@ class Video extends Component {
   //     myUserName: e.target.value,
   //   });
   // }
+
+  handleBabyInfo(code) {
+    axios
+      .get(
+        `https://todaktodak.kr:8080/api/login/oauth2/code/kakao?code=${code}`
+      )
+      .then((response) => {
+        let babyPk = response.data.babyId;
+        console.log(babyPk);
+      });
+  }
 
   handleMainVideoStream(stream) {
     if (this.state.mainStreamManager !== stream) {
@@ -266,6 +280,10 @@ class Video extends Component {
   //   }
   // }
 
+  // parentFunction = (data) => {
+  //   console.log(data);
+  // };
+
   render() {
     const mySessionId = this.state.mySessionId;
     // const myUserName = this.state.myUserName;
@@ -317,6 +335,7 @@ class Video extends Component {
                       value="JOIN"
                     />
                   </p>
+                  {/* <JoinButton /> */}
                 </form>
               </div>
             </div>
@@ -377,6 +396,7 @@ class Video extends Component {
         <BottomBar
           joinSession={this.joinSession}
           leaveSession={this.leaveSession}
+          handleBabyInfo={this.handleBabyInfo}
         />
       </>
     );
@@ -406,7 +426,7 @@ class Video extends Component {
   // Session 생성
   async createSession(sessionId) {
     const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions",
+      APPLICATION_SERVER_URL + "api/sessions" + "",
       { customSessionId: sessionId },
       {
         headers: {
@@ -428,6 +448,73 @@ class Video extends Component {
     );
     return response.data; // The token
   }
+
+  async transferCode(code) {
+    const response = await axios.get(
+      `https://todaktodak.kr:8080/api/login/oauth2/code/kakao?code=${code}`
+    );
+    return response.data;
+  }
+
+  async getCode() {
+    const Info = await this.transferCode(this.code);
+    return Info;
+  }
+  // async getInformation() {
+  //   const response = await axios.get(
+  //     `https://todaktodak.kr:8080/api/baby/info/${babyLists[0]}`,
+  //     {},
+  //     {
+  //       headers: {
+  //         // Authorization: `Bearer ${jwt_token}`,
+  //         "Content-Type": "application/json;charset=UTF-8",
+  //       },
+  //     }
+  //   );
+  //   return response.data;
+  // }
 }
+
+// const JoinButton = () => {
+//   // const [information, setInformation] = useState([]);
+//   // console.log(information);
+//   const babyLists = useRecoilValue(babyPK);
+//   console.log(babyLists[0]);
+// const jwt_token = useRecoilValue(jwtToken);
+// console.log(jwt_token);
+
+// useEffect(() => {
+//   async function loadData() {
+//     const response = await axios.get(
+//       `https://todaktodak.kr:8080/api/baby/info/${babyLists[0]}`,
+//       {
+//         headers: {
+//           Authorization: `Bearer ${jwt_token}`,
+//         },
+//       }
+//     );
+//     setInformation(response.data);
+//   }
+//   loadData();
+// }, []);
+
+//   const childrenFunction = (props) => {
+//     props.parentFunction(babyLists[0]);
+//   };
+
+//   return (
+//     <div>
+//       <p className="text-center">
+//         <input
+//           className="btn btn-lg btn-success"
+//           name="commit"
+//           type="submit"
+//           value="JOIN"
+//           childrenFunction={childrenFunction}
+//         />
+//       </p>
+//     </div>
+//   );
+// };
 
 export default Video;

@@ -36,6 +36,7 @@ function BottomBar(props) {
             component={Link}
             to="/video"
             // onClick={props.joinSession}
+            // onClick={props.handleBabyInfo}
           />
           <BottomNavigationAction
             label="울음기록"
