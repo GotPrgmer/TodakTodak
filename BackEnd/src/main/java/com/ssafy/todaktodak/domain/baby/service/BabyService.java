@@ -42,8 +42,13 @@ public class BabyService {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
         Baby findBaby = baby.get();
+        Integer year= findBaby.getBabyBirthYear();
+        Integer month = findBaby.getBabyBirthMonth();
+        Integer day = findBaby.getBabyBirthDay();
+        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
 
-        return BabyInfoResponseDto.ofBaby(findBaby);
+
+        return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
         //
     }
 
@@ -81,8 +86,8 @@ public class BabyService {
         // dday 계산
         Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
         log.info(String.valueOf(babyDDay));
-        findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,babyDDay,imageUrl);
-        return BabyInfoResponseDto.ofBaby(findBaby);
+        findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,imageUrl);
+        return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
     }
 
     public Optional<String> findConstellation(Integer month,Integer day){
