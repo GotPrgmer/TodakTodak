@@ -18,7 +18,7 @@ function Profile() {
   return (
     <div>
       <TopBar />
-      <div className="pt-16">
+      <div>
         <BabyProfile />
         {/* <Sensor/> */}
         <button onClick={navigateToLogin}>로그인 페이지</button>
