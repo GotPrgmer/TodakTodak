@@ -1,8 +1,5 @@
 package com.ssafy.todaktodak.domain.device.service;
 
-import com.ssafy.todaktodak.domain.baby.domain.Baby;
-import com.ssafy.todaktodak.domain.baby.dto.BabyInfoResponseDto;
-import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
 import com.ssafy.todaktodak.domain.device.domain.Device;
 import com.ssafy.todaktodak.domain.device.dto.DeviceInfoResponseDto;
 import com.ssafy.todaktodak.domain.device.repository.DeviceRepository;
