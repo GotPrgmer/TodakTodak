@@ -1,12 +1,11 @@
 package com.ssafy.todaktodak.domain.user.controller;
 
-import com.ssafy.todaktodak.domain.user.dto.UserInfoResponseDto;
-import com.ssafy.todaktodak.domain.user.dto.UserInfoUpdateRequestDto;
-import com.ssafy.todaktodak.domain.user.dto.UserInfoUpdateResponseDto;
+import com.ssafy.todaktodak.domain.user.dto.*;
 import com.ssafy.todaktodak.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -41,6 +40,16 @@ public class UserController {
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
         return userService.userInfoUpdate(principal.getUsername(),request,userImage);
+    }
+
+    @PatchMapping(value = "/user/fcmKey", consumes = {MediaType.APPLICATION_JSON_VALUE })
+    public UserFcmUpdateResponseDto userFcmEdit(Authentication authentication,
+                                              @RequestBody() UserFcmUpdateRequestDto request)
+            throws IOException {
+
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+
+        return userService.userFcmEdit(principal.getUsername(),request);
     }
 
 }
