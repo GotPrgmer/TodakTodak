@@ -39,12 +39,6 @@ oauth2:
         token-uri: https://kauth.kakao.com/oauth/token
         user-info-uri: https://kapi.kakao.com/v2/user/me
         user-name-attribute: id
-#server:
-#  ssl:
-#    key-store: classpath:keystore.p12
-#    key-store-type: PKCS12
-#    key-store-password: ${KEY_STORE_PASSWORD}
-#    key-alias: ${KEY_ALIAS}
-#  port: 8080
+
 OPENVIDU_URL: https://todaktodak.kr:8443/
 OPENVIDU_SECRET: noinjung
