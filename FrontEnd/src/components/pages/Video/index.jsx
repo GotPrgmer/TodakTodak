@@ -21,6 +21,8 @@ class Video extends Component {
   constructor(props) {
     super(props);
 
+    // this.babyId = props.babyData;
+    // console.log(this.props.babyData);
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
       // SessionId는 Camera Serial Number(로그인 후 시도)

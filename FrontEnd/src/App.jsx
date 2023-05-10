@@ -14,6 +14,7 @@ import { useRecoilValue } from "recoil";
 import { babyPK, jwtToken } from "./states/recoilHomeState";
 
 function App() {
+  const babyData = useRecoilValue(babyPK);
   // const [information, setInformation] = useState([]);
   // console.log(information);
   // const babyLists = useRecoilValue(babyPK);
@@ -42,7 +43,11 @@ function App() {
         <Routes>
           <Route path="/" element={<KakaoLogin />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/video" element={<Video />} />
+          <Route
+            path="/video"
+            element={<Video />}
+            render={(props) => <Video babyData={babyData} {...props} />}
+          />
           <Route path="/cry" element={<Cry />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/edit" element={<Edit />} />
