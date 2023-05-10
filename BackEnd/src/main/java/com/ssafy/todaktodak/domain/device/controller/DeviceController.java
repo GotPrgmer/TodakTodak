@@ -19,7 +19,7 @@ public class DeviceController {
 
 
     @GetMapping("/device/info/{babyId}")
-    public DeviceInfoResponseDto babyInfo(@PathVariable("babyId") Integer babyId){
+    public DeviceInfoResponseDto deviceInfo(@PathVariable("babyId") Integer babyId){
 
         return deviceService.deviceInfo(babyId);
     }
