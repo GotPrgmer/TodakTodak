@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
 
+    <!-- 기존 Code -->
     <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,6 +29,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <!-- AI model with teachable machine with tensorflow.js
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
     <title>React App</title>
   </head>
   <body>
@@ -43,13 +49,17 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
 
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("service-worker.js")
-        .then((reg) => console.log("Service worker registered.", reg));
-    }
-  </script>
+    <!-- 추가 Code -->
+    <!-- <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("sw-cached-site.js", function () {
+          navigator.serviceWorker.register("sw.js", {
+            scope: "/",
+          });
+        });
+      }
+      window.process = { env: { NODE_ENV: "production" } };
+    </script> -->
+  </body>
 </html>

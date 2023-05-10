@@ -72,43 +72,73 @@ self.addEventListener("message", (event) => {
 
 // Any other custom service worker logic can go here.
 
-const CACHE_NAME = "cache-v2";
+// // 추가 Code
+// self.addEventListener("install", function (e) {
+//   console.log("[Service Worker] Install");
+//   e.waitUntil(
+//     caches.open("danbi").then(function (cache) {
+//       return cache.addAll(["/", "/index.html", "/src/"]);
+//     })
+//   );
+// });
 
-const FILES_TO_CACHE = ["offline.html"];
+// self.addEventListener("fetch", function (e) {
+//   e.respondWith(
+//     caches.match(e.request).then(function (r) {
+//       console.log("[Service Worker] Fetching resource: " + e.request.url);
+//       return (
+//         r ||
+//         fetch(e.request).then(function (response) {
+//           return caches.open("danbi").then(function (cache) {
+//             console.log(
+//               "[Service Worker] Caching new resource: " + e.request.url
+//             );
+//             cache.put(e.request, response.clone());
+//             return response;
+//           });
+//         })
+//       );
+//     })
+//   );
+// });
 
-self.addEventListener("install", (evt) => {
-  evt.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("install");
-      return cache.addAll(FILES_TO_CACHE);
-    })
-  );
-});
+// const CACHE_NAME = "cache-v2";
 
-self.addEventListener("activate", (evt) => {
-  evt.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
-        keyList.map((key) => {
-          if (key !== CACHE_NAME) {
-            console.log("Removing old cache", key);
-            return caches.delete(key);
-          }
-        })
-      );
-    })
-  );
-});
+// const FILES_TO_CACHE = ["offline.html"];
 
-self.addEventListener("fetch", (evt) => {
-  if (evt.request.mode !== "navigate") {
-    return;
-  }
-  evt.respondWith(
-    fetch(evt.request).catch(() => {
-      return caches.open(CACHE_NAME).then((cache) => {
-        return cache.match("offline.html");
-      });
-    })
-  );
-});
+// self.addEventListener("install", (evt) => {
+//   evt.waitUntil(
+//     caches.open(CACHE_NAME).then((cache) => {
+//       console.log("install");
+//       return cache.addAll(FILES_TO_CACHE);
+//     })
+//   );
+// });
+
+// self.addEventListener("activate", (evt) => {
+//   evt.waitUntil(
+//     caches.keys().then((keyList) => {
+//       return Promise.all(
+//         keyList.map((key) => {
+//           if (key !== CACHE_NAME) {
+//             console.log("Removing old cache", key);
+//             return caches.delete(key);
+//           }
+//         })
+//       );
+//     })
+//   );
+// });
+
+// self.addEventListener("fetch", (evt) => {
+//   if (evt.request.mode !== "navigate") {
+//     return;
+//   }
+//   evt.respondWith(
+//     fetch(evt.request).catch(() => {
+//       return caches.open(CACHE_NAME).then((cache) => {
+//         return cache.match("offline.html");
+//       });
+//     })
+//   );
+// });

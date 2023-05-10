@@ -109,8 +109,12 @@ function Cry() {
           },
         },
         ticks: {
-          display: false
-        }
+          display: false,
+          max: 25
+        },
+        afterDataLimits: (scale) => {
+          scale.max = scale.max * 1.05;
+        },
       },
       x: {
         axis: "x",
@@ -168,7 +172,7 @@ function Cry() {
         data: values,
         datalabels: {
           anchor: "end",
-          align: "bottom",
+          align: "top",
           color: "black",
           formatter: function (value) {
             return value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

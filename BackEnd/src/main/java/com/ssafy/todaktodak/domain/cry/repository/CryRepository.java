@@ -1,5 +1,6 @@
 package com.ssafy.todaktodak.domain.cry.repository;
 
+import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.ssafy.todaktodak.domain.cry.domain.Cry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,5 @@ import java.util.List;
 
 public interface CryRepository extends JpaRepository<Cry,Integer> {
 
-    List<Cry> findAllByBabyBabyIdAndCryStartDateBetween(Integer babyId, LocalDateTime start, LocalDateTime end);
+    List<Cry> findAllByBabyAndCryStartDateBetween(Baby baby, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

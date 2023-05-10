@@ -7,6 +7,7 @@ import com.ssafy.todaktodak.domain.cry.dto.CryRecordingResponseDto;
 import com.ssafy.todaktodak.domain.cry.service.CryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -22,9 +23,9 @@ public class CryController {
         return cryService.cryRecording(cryRecordingRequestDto);
     }
 
-//    @GetMapping(value = "/cry/logging")
-//    public CryLoggingResponseDto cryLogging(@RequestBody CryLoggingRequestDto cryLoggingRequestDto){
-//        return cryService.cryLogging(cryLoggingRequestDto);
-//    }
+    @GetMapping(value = "/cry/logging")
+    public ResponseEntity<String> cryLogging(@RequestParam Integer babyId, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer day){
+        return cryService.cryLogging(babyId, year, month, day );
+    }
 
 }
