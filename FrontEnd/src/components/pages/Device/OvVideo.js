@@ -7,7 +7,7 @@ export default class OpenViduVideoComponent extends Component {
         this.videoRef = React.createRef();
     }
 
-    componentDidUpdate(props) {
+    componentDidUpdate(props) { // 
         if (props && !!this.videoRef) {
             this.props.streamManager.addVideoElement(this.videoRef.current);
         }
