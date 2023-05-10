@@ -14,6 +14,7 @@ const APPLICATION_SERVER_URL = "https://todaktodak.kr:8080/"; // spring 서버 �
 // ------------------------------------------------------------------------------------------------------
 
 // 클래스형
+
 class Device extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +28,9 @@ class Device extends Component {
       publisher: undefined,
       subscribers: [],
       tokenList: [],
+      model: undefined,
+      webcam: undefined,
+      maxPredictions: undefined,
       URL: "https://teachablemachine.withgoogle.com/models/_6gIxAahL/",
       modelURL:URL + "model.json",
       metadataURL:URL + "metadata.json"
@@ -35,6 +39,9 @@ class Device extends Component {
 
     this.joinSession = this.joinSession.bind(this); // 세션에 참여
     this.leaveSession = this.leaveSession.bind(this); // 세션 나가기
+    this.init = this.init.bind(this);
+    this.loop = this.loop.bind(this);
+    this.predict = this.predict.bind(this);
     // 카메라 전후 변경(필요없음)
     // this.switchCamera = this.switchCamera.bind(this);
     // SessionId 변경(필요없음)
@@ -93,6 +100,7 @@ class Device extends Component {
     }
   }
 
+  
   // Load the image model and setup the webcam
   async init() {
     const modelURL = this.state.modelURL;
@@ -102,15 +110,15 @@ class Device extends Component {
     // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
     // or files from your local hard drive
     // Note: the pose library adds "tmImage" object to your window (window.tmImage)
-    model = await tmImage.load(modelURL, metadataURL);
-    maxPredictions = model.getTotalClasses();
+    this.state.model = await tmImage.load(modelURL, metadataURL);
+    this.state.maxPredictions = model.getTotalClasses();
 
     // Convenience function to setup a webcam
     const flip = true; // whether to flip the webcam
     const size = 200;
-    webcam = new tmImage.Webcam(size, size, flip); // width, height, flip
-    await webcam.setup(); // request access to the webcam
-    await webcam.play();
+    this.state.webcam = new tmImage.Webcam(size, size, flip); // width, height, flip
+    await this.state.webcam.setup(); // request access to the webcam
+    await this.state.webcam.play();
     window.requestAnimationFrame(loop);
 
     // append elements to the DOM
@@ -121,18 +129,18 @@ class Device extends Component {
     // }
   }
   async loop() {
-      webcam.update(); // update the webcam frame
+      this.state.webcam.update(); // update the webcam frame
       await predict();
       window.requestAnimationFrame(loop);
   }
   // run the webcam image through the image model
   async predict() {
       // predict can take in an image, video or canvas html element
-      const prediction = await model.predict(webcam.canvas);
-      for (let i = 0; i < maxPredictions; i++) {
+      const prediction = await this.state.model.predict(this.state.webcam.canvas);
+      for (let i = 0; i < this.state.maxPredictions; i++) {
           const classPrediction =
               prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-          labelContainer.childNodes[i].innerHTML = classPrediction;
+          // labelContainer.childNodes[i].innerHTML = classPrediction;
           console.log(classPrediction);
       }
   }
