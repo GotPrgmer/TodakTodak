@@ -23,6 +23,7 @@ function KakaoLogin() {
 
       <h1>
         <a href={KAKAO_AUTH_URL}>Kakao Login</a>
+        <div> PWA Download 5트 </div>
       </h1>
     </>
   );
