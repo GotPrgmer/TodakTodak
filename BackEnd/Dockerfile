@@ -3,10 +3,10 @@ FROM adoptopenjdk/openjdk11 AS build
 
 WORKDIR /app
 
-# 앱 실행에 필요한 파일 복사
-COPY /home/ubuntu/todaktodak-6846e-firebase-adminsdk-v719d-f41e0aa4e9.json /app/src/main/resources/
+# Copy necessary files to resources
+COPY /path/to/todaktodak-6846e-firebase-adminsdk-v719d-f41e0aa4e9.json /app/src/main/resources/
 
-# 앱 소스 코드 복사 및 빌드
+# Copy app source code and build
 COPY . .
 RUN ./gradlew build
 
@@ -15,7 +15,9 @@ FROM adoptopenjdk/openjdk11
 
 WORKDIR /app
 
-# Build Stage에서 빌드한 JAR 파일 복사
-COPY --from=build /app/build/libs/app.jar .
+# Copy JAR file from Build Stage
+COPY --from=build /app/build/libs/*.jar app.jar
+
+EXPOSE 8080
 
 CMD ["java", "-jar", "app.jar"]
