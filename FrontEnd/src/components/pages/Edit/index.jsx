@@ -109,7 +109,7 @@ function Edit() {
         <div className="flex justify-center mt-3">
           <input
             className="block bg-transparent text-center text-2xl"
-            value={data.state.baby_nickname}
+            placeholder={data.state.baby_nickname}
             {...register("nickname", { required: true, maxLength: 10 })}
           />
         </div>
@@ -127,7 +127,7 @@ function Edit() {
 
           <input
             className="block bg-transparent text-center w-20"
-            value={data.state.baby_name}
+            placeholder={data.state.baby_name}
             {...register("name", { required: true, maxLength: 10 })}
           />
         </div>
