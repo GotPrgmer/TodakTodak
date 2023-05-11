@@ -37,8 +37,8 @@ function Login() {
         <div className="w-full text-center">
         {/* <img className="w-36 mx-auto" src={Babyone} alt="" />` */}
           <img src={Logo} alt="" className="w-5/6 mx-auto"/>
-          <p className="text-2xl">초보 부모를 위한</p>
-          <p className="text-2xl mt-1">영유아 토탈 케어 서비스</p>
+          <p className="text-2xl font-bamin font-thin text-yellow-900">초보 부모를 위한</p>
+          <p className="text-2xl mt-1 font-bamin font-thin text-yellow-900">영유아 토탈 케어 서비스</p>
           <div className="mt-5">
             <a href={KAKAO_AUTH_URL}><img src={KakaoBtn} alt="" className="mx-auto"/></a>
           </div>
