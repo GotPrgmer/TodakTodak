@@ -11,11 +11,13 @@ import com.ssafy.todaktodak.domain.user.domain.User;
 import com.ssafy.todaktodak.domain.user.repository.UserRepository;
 import com.ssafy.todaktodak.global.error.CustomException;
 import com.ssafy.todaktodak.global.error.ErrorCode;
+import com.ssafy.todaktodak.global.firebase.service.FirebaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
@@ -27,6 +29,8 @@ public class DeviceService {
     private final BabyRepository babyRepository;
 
     private final UserRepository userRepository;
+
+    private final FirebaseService firebaseService;
 
 
 
@@ -44,7 +48,7 @@ public class DeviceService {
     }
 
     @Transactional
-    public DeviceAlarmResponseDto deviceAlarm(DeviceAlarmRequestDto request){
+    public DeviceAlarmResponseDto deviceAlarm(DeviceAlarmRequestDto request) throws IOException {
         Optional<Device> device = deviceRepository.findBySerialNumber(request.getSerialNumber());
         if ( device.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
@@ -62,6 +66,8 @@ public class DeviceService {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
         User findUser = user.get();
+
+        firebaseService.sendMessageTo(findUser.getFcmKey(),request.getAlarmType(), request.getMessage());
 
         return DeviceAlarmResponseDto.of(request.getMessage(), findUser.getFcmKey());
 
