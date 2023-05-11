@@ -37,6 +37,14 @@ function Cry() {
 
   const dateSelect = (date) => {
     setDate(date);
+    setClickedDate(labels[4]);
+    setColors([
+      "rgba(240, 240, 240)",
+      "rgba(240, 240, 240)",
+      "rgba(240, 240, 240)",
+      "rgba(240, 240, 240)",
+      "rgba(255, 191, 135)",
+    ]);
   };
 
   useEffect(() => {
@@ -45,13 +53,15 @@ function Cry() {
 
   // useEffect 에 넣어야 할것들!!
   let labels = ["5/4(목)", "5/5(금)", "5/6(토)", "5/7(일)", "5/8(월)"];
-  let values = [10, 11, 12, 4, 5];
+  let values = [10, 0, 12, 4, 5];
   let cryLogs = {
     "5/4(목)": [],
     "5/5(금)": [],
     "5/6(토)": [
       ["1", "15:59", "16:00"],
       ["1", "16:22", "16:23"],
+      ["1", "16:23", "16:24"],
+      ["1", "16:24", "16:25"],
     ],
     "5/7(일)": [],
     "5/8(월)": [
@@ -67,6 +77,9 @@ function Cry() {
   // console.log(cryLogs[clickedDate])
 
   const [isClicked, setIsClicked] = useState(false);
+
+  // 더 보기 버튼 구현
+  const [isMoreBtn, setIsMoreBtn] = useState(true);
 
   // const [modalOpen, setModalOpen] = useState(false);
   // const showModal = () => {
@@ -144,6 +157,7 @@ function Cry() {
         setColorsHandler(element[0]["index"]);
         setClickedDate(labels[element[0]["index"]]);
         setIsClicked(false);
+        setIsMoreBtn(true);
       }
     },
   };
@@ -195,6 +209,7 @@ function Cry() {
 
   const btnClick = () => {
     setIsClicked(true);
+    setIsMoreBtn(false);
   };
 
   return (
@@ -212,7 +227,7 @@ function Cry() {
           <div className="mt-10 px-3">
             <div className="flex justify-between mb-3">
               <p className="text-xl font-semibold">울음기록 <span className="text-lg">{clickedDate}</span></p>
-              <button className="text-green-400 font-semibold" onClick={btnClick}>더 보기</button>
+              <button className={`${isMoreBtn && cryLogs[clickedDate].length >= 3 ? "" : "hidden"} text-green-400 font-semibold`} onClick={btnClick}>더 보기</button>
             </div>
             <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked}/>
           </div>

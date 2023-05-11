@@ -8,7 +8,7 @@ import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 function BabyProfile() {
   const [data, setData] = useState([]);
   const babyLists = useRecoilValue(babyPK);
-  console.log(babyLists);
+  // console.log(babyLists);
   const jwt_token = useRecoilValue(jwtToken);
 
   const navigate = useNavigate();
