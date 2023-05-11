@@ -13,8 +13,10 @@ import com.ssafy.todaktodak.global.auth.jwt.JwtProvider;
 import com.ssafy.todaktodak.global.auth.oauth.dto.KakaoAccessTokenDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.LoginResponseDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.SocialUserResponseDto;
+import com.ssafy.todaktodak.global.auth.oauth.dto.TokenResponseDto;
 import com.ssafy.todaktodak.global.error.CustomException;
 import com.ssafy.todaktodak.global.error.ErrorCode;
+import com.ssafy.todaktodak.global.redis.RedisUtil;
 import com.ssafy.todaktodak.global.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +28,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,7 +40,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KakaoService {
+public class OauthService {
 
     @Value("${oauth2.client.provider.kakao.token-uri}")
     private String GET_TOKEN_URI;
@@ -73,9 +78,11 @@ public class KakaoService {
 
     private final CookieUtil cookieUtil;
 
+    private final RedisUtil redisUtil;
 
 
-    public ResponseEntity<LoginResponseDto> verificationKakao(String code){
+
+    public ResponseEntity<LoginResponseDto> verification(String code){
         KakaoAccessTokenDto kakaoAccessTokenDto = getAccessTokenByCode(code);
 
         SocialUserResponseDto socialUserResponseDto = getUserInfoByAccessToken(kakaoAccessTokenDto.getAccessToken());
@@ -194,7 +201,63 @@ public class KakaoService {
 
         log.info(refreshToken);
 
-        return cookieUtil.HandlerMethod(refreshToken, LoginResponseDto.ofLoginInfo(findUser,babyIds, jwtToken));
+        return cookieUtil.setTokenCookie(refreshToken, LoginResponseDto.ofLoginInfo(findUser,babyIds, jwtToken));
     }
+
+    public ResponseEntity<?> tokenReissue(HttpServletRequest request) {
+        //refreshToken얻어오는 방법
+        Cookie[] cookies = request.getCookies();
+
+        String refreshTokenCookie = null;
+        if (cookies == null) {
+            throw new CustomException(ErrorCode.BAD_REQUEST);
+            }
+        for (Cookie cookie : cookies) {
+            if ("refreshToken".equals(cookie.getName())) {
+                refreshTokenCookie = cookie.getValue();
+                break;
+            }
+        }
+
+        if (refreshTokenCookie == null) {
+            throw new CustomException(ErrorCode.BAD_REQUEST);
+        }
+
+        if (!jwtProvider.validate(refreshTokenCookie)) {
+            throw new CustomException(ErrorCode.BAD_REQUEST);
+        }
+
+        String userId = jwtProvider.getId(refreshTokenCookie);
+        String refreshTokenInRedis = redisUtil.getToken(userId);
+
+        if (ObjectUtils.isEmpty(refreshTokenInRedis)) {
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_INVALID);
+        }
+
+        if (!refreshTokenInRedis.equals(refreshTokenCookie)) {
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_INVALID);
+        }
+        redisUtil.deleteData(userId);
+
+        Integer userIdNumber = Integer.parseInt(userId);
+
+        Optional<User> user = userRepository.findUserByUserId(userIdNumber);
+
+        if ( user.isEmpty()) {
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        User findUser = user.get();
+        //엑세스토큰 재발급
+        String newAccessToken = jwtProvider.createJwt(userId, findUser.getUserRole()).createAccessToken();
+        //리프레시토큰 재발급
+        String newRefreshToken = jwtProvider.createJwt(userId, findUser.getUserRole()).createRefreshToken();
+
+        redisUtil.dataExpirationsInput(userId, newRefreshToken, 7);
+        TokenResponseDto tokenRegenerateResponseDto = TokenResponseDto.ofAccessToken(
+                newAccessToken);
+
+        return cookieUtil.setTokenCookie(newRefreshToken, tokenRegenerateResponseDto);
+    }
+
 
 }
