@@ -449,17 +449,6 @@ class Video extends Component {
     return response.data; // The token
   }
 
-  async transferCode(code) {
-    const response = await axios.get(
-      `https://todaktodak.kr:8080/api/login/oauth2/code/kakao?code=${code}`
-    );
-    return response.data;
-  }
-
-  async getCode() {
-    const Info = await this.transferCode(this.code);
-    return Info;
-  }
   // async getInformation() {
   //   const response = await axios.get(
   //     `https://todaktodak.kr:8080/api/baby/info/${babyLists[0]}`,
@@ -474,47 +463,5 @@ class Video extends Component {
   //   return response.data;
   // }
 }
-
-// const JoinButton = () => {
-//   // const [information, setInformation] = useState([]);
-//   // console.log(information);
-//   const babyLists = useRecoilValue(babyPK);
-//   console.log(babyLists[0]);
-// const jwt_token = useRecoilValue(jwtToken);
-// console.log(jwt_token);
-
-// useEffect(() => {
-//   async function loadData() {
-//     const response = await axios.get(
-//       `https://todaktodak.kr:8080/api/baby/info/${babyLists[0]}`,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${jwt_token}`,
-//         },
-//       }
-//     );
-//     setInformation(response.data);
-//   }
-//   loadData();
-// }, []);
-
-//   const childrenFunction = (props) => {
-//     props.parentFunction(babyLists[0]);
-//   };
-
-//   return (
-//     <div>
-//       <p className="text-center">
-//         <input
-//           className="btn btn-lg btn-success"
-//           name="commit"
-//           type="submit"
-//           value="JOIN"
-//           childrenFunction={childrenFunction}
-//         />
-//       </p>
-//     </div>
-//   );
-// };
 
 export default Video;
