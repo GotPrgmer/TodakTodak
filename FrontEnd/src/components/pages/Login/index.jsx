@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 
-function KakaoLogin() {
+function Login() {
   const jwt_token = useRecoilValue(jwtToken);
   const babyLists = useRecoilValue(babyPK);
   const navigate = useNavigate();
@@ -26,19 +26,18 @@ function KakaoLogin() {
       console.log(babyLists[0]);
       navigateToHome();
     }
-  }, [])
+  }, []);
 
   return (
     <>
       <div className="w-screen h-screen font-new">
-
         <a href={KAKAO_AUTH_URL}>Kakao Login</a>
       </div>
       <h1 className="font-new">
-        <div> PWA Download 5트 </div>
+        <div> PWA Download 05.11 </div>
       </h1>
     </>
   );
 }
 
-export default KakaoLogin;
+export default Login;
