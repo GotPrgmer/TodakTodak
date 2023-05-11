@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 
 function KakaoLogin() {
+  const jwt_token = useRecoilValue(jwtToken);
+  const babyLists = useRecoilValue(babyPK);
   const navigate = useNavigate();
   const navigateToHome = () => {
     navigate("/profile");
@@ -17,12 +21,20 @@ function KakaoLogin() {
     window.location.href = KAKAO_AUTH_URL;
   };
 
+  useEffect(() => {
+    if (jwt_token) {
+      console.log(babyLists[0]);
+      navigateToHome();
+    }
+  }, [])
+
   return (
     <>
-      <button className="font-new" onClick={navigateToHome}>Home</button>
+      <div className="w-screen h-screen font-new">
 
-      <h1 className="font-new">
         <a href={KAKAO_AUTH_URL}>Kakao Login</a>
+      </div>
+      <h1 className="font-new">
         <div> PWA Download 5트 </div>
       </h1>
     </>
