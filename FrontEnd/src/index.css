@@ -21,6 +21,11 @@ code {
   src: url("./../assets/fonts/new.ttf");
 }
 
+@font-face {
+  font-family: "bamin";
+  src: url("./../assets/fonts/BAMIN.ttf");
+}
+
 /* openvidu css */
 html {
   position: relative;
