@@ -64,7 +64,7 @@ public class OpenViduService {
         Device getDevice = findDeviceWithUserAndBaby(babyId);
         Session session = openVidu.getActiveSession(sessionId);// OpenVidu 클래스의 인스턴스의 getActiveSession 메소드를 호출한다.
 		if (session == null) {    // 세션 ID가 존재하지 않는다면
-            throw new CustomException(ErrorCode.SESSION_ID_NOT_VALID); // 404 에러를 반환한다.
+            throw new CustomException(ErrorCode.SESSION_ID_INVALID); // 404 에러를 반환한다.
         }
         log.info(session.getSessionId());
 
