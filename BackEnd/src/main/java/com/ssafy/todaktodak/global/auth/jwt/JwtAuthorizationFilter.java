@@ -59,13 +59,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             response.getWriter().close();
         }
         catch (SecurityException | UnsupportedJwtException | MalformedJwtException  e) {
-            response.setStatus(ErrorCode.JWT_TOKEN_NOT_VALID.getStatus().value());
+            response.setStatus(ErrorCode.JWT_TOKEN_INVALID.getStatus().value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ErrorCode.JWT_TOKEN_NOT_VALID)));
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ErrorCode.JWT_TOKEN_INVALID)));
             response.getWriter().flush();
             response.getWriter().close();
         }
-        catch (IllegalArgumentException  e) {
+        catch (IllegalArgumentException | NullPointerException e) {
             response.setStatus(ErrorCode.BAD_REQUEST.getStatus().value());
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResponse(ErrorCode.BAD_REQUEST)));
