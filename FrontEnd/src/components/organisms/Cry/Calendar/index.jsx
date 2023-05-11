@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import Modal from "react-modal";
 import CalendarIcon from "../../../../assets/calendar.png";
 import moment from "moment/moment";
+import './calendar.css';
 
 const customStyles = {
   content: {
@@ -43,12 +44,12 @@ function ModalCalender(props) {
 
   return (
     <>
-      <div>
+      <div className="font-new">
         <div>
-          <button className="flex" onClick={openModal}>
+          <button className="float-left ml-3" onClick={openModal}>
             <img src={CalendarIcon} alt="" />
-            <p>{moment(pickDate).format("YYYY년 MM월 DD일") + '(' + week[moment(pickDate).day()] + ')'} </p>
           </button>
+          <p className="float-right">{moment(pickDate).format("YYYY년 MM월 DD일") + '(' + week[moment(pickDate).day()] + ')'} </p>
 
           <Modal
             ariaHideApp={false}
@@ -58,7 +59,17 @@ function ModalCalender(props) {
             contentLabel="Example Modal">   
 
             <div>
-              <Calendar onChange={onChange} value={value} calendarType="US" />
+              <Calendar
+                onChange={onChange}
+                value={value}
+                calendarType="US"
+                formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })}
+                tileClassName={({ date, view }) => {
+                  if (view === 'month' && date.getDay() === 6) {
+                    return 'react-calendar__tile--sat';
+                  }
+                }}
+              />
             </div>
             <div className="mt-5 left-20px font-mun flex justify-center">
           <button
@@ -67,14 +78,14 @@ function ModalCalender(props) {
                   setPickDate(value);
                   submitDate(value);
             }}
-            className="rounded hover:rounded-lg bg-blue-300 mr-3 pl-4 pr-4 pt-1 pb-1"
+            className="rounded hover:rounded-lg bg-blue-300 mr-3 pl-4 pr-4 pt-1 pb-1 font-new"
           >
             확인
           </button>
 
           <button
             onClick={closeModal}
-            className="rounded hover:rounded-lg bg-red-300 mr-3 pl-4 pr-4 pt-1 pb-1"
+            className="rounded hover:rounded-lg bg-red-300 mr-3 pl-4 pr-4 pt-1 pb-1 font-new"
           >
             취소
           </button>

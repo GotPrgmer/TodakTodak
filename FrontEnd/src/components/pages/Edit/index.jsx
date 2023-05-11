@@ -8,7 +8,7 @@ import { jwtToken } from "../../../states/recoilHomeState";
 function Edit() {
   const navigate = useNavigate();
   const navigateToProfile = () => {
-    navigate("/");
+    navigate("/profile");
   };
 
   const { register, handleSubmit, watch } = useForm();
@@ -84,7 +84,7 @@ function Edit() {
   const day = data.state.baby_birth_day === "" ? "" : data.state.baby_birth_day;
 
   return (
-    <div className="h-screen w-full text-center bg-cover bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')] flex items-center">
+    <div className="h-screen w-full text-center font-new bg-cover bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')] flex items-center">
       <form
         className=""
         onSubmit={handleSubmit(onSubmit)}
@@ -108,7 +108,7 @@ function Edit() {
 
         <div className="flex justify-center mt-3">
           <input
-            className="block bg-transparent text-center"
+            className="block bg-transparent text-center text-2xl"
             placeholder={data.state.baby_nickname}
             {...register("nickname", { required: true, maxLength: 10 })}
           />
@@ -127,7 +127,7 @@ function Edit() {
 
           <input
             className="block bg-transparent text-center w-20"
-            placeholder="이름"
+            placeholder={data.state.baby_name}
             {...register("name", { required: true, maxLength: 10 })}
           />
         </div>

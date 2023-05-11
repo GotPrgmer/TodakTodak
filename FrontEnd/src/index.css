@@ -16,6 +16,11 @@ code {
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "new";
+  src: url("./../assets/fonts/new.ttf");
+}
+
 /* openvidu css */
 html {
   position: relative;

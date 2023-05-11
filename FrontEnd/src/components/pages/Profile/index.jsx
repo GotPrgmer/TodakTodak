@@ -16,12 +16,11 @@ function Profile() {
   };
 
   return (
-    <div>
+    <div className="font-new">
       <TopBar />
-      <div className="pt-16">
+      <div className="h-screen">
         <BabyProfile />
         {/* <Sensor/> */}
-        <button onClick={navigateToLogin}>로그인 페이지</button>
         <SensorDataPage/>
         </div>
         <BottomBar />

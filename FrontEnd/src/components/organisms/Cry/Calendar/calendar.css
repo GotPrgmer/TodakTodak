@@ -1,0 +1,14 @@
+.react-calendar {
+    font-family: new;
+    font-size: 16px;
+  }
+  
+.react-calendar__tile--sat {
+    color: blue;
+  }
+
+.react-calendar__month-view__weekdays__weekday abbr {
+    font-size: 16px;
+    text-decoration: none;
+  }
+  
