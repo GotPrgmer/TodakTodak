@@ -8,6 +8,7 @@ import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 function BabyProfile() {
   const [data, setData] = useState([]);
   const babyLists = useRecoilValue(babyPK);
+  console.log(babyLists);
   const jwt_token = useRecoilValue(jwtToken);
 
   const navigate = useNavigate();
@@ -31,9 +32,9 @@ function BabyProfile() {
   }, []);
 
   return (
-    <div className="h-96 text-center bg-cover rounded-b-[30px] bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')]">
-      <div className="h-80 py-5">
-        <div className="flex justify-end mr-3">
+    <div className="h-3/5 text-center grid place-items-center bg-cover rounded-b-[30px] bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')]">
+      <div className="h-5/6 w-full">
+        <div className="flex justify-end mr-5">
           <button>
             <img
               className="w-7"
@@ -43,7 +44,7 @@ function BabyProfile() {
             />
           </button>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full h-1/2 mt-3">
           <img
             className="rounded-full w-44 h-44"
             src={data.baby_image_url}
@@ -51,9 +52,11 @@ function BabyProfile() {
           />
         </div>
         <div>
-          <p className="text-xl font-bold mt-3">{data.baby_nickname}</p>
+          <p className="text-2xl font-bold mt-5 font-mun">
+            {data.baby_nickname}
+          </p>
           <p className="font-semibold mt-1">
-            {data.baby_gender === "male" ? "남자" : "여자"} | {data.baby_id}
+            {data.baby_gender === "male" ? "남자" : "여자"} | {data.baby_name}
           </p>
         </div>
         <div className="flex justify-around mt-3">
@@ -67,7 +70,12 @@ function BabyProfile() {
             </p>
           </div>
           <div className="flex items-center">
-            <p className="text-xl">D+ {data.baby_dday}</p>
+            <p className="text-xl">
+              <span className="text-2xl">D</span> +{" "}
+              <span className="text-2xl">
+                {Number(data.baby_dday).toLocaleString()}
+              </span>
+            </p>
           </div>
         </div>
       </div>

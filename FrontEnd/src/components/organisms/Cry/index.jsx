@@ -11,22 +11,28 @@ function Crylist(props) {
     if (!props.isClicked) {
         logItem = logs.map((log, index) => 
             <div className={`${index <= 1 ? "" : "hidden"}`} key={log.toString()}>
-                <div className="flex justify-between mt-3">
-                    <img src={babyface} alt="" />
-                    <p>{log[0]} 분</p>
-                    <p>{log[1]}</p>
-                    <p>{log[2]}</p>
+                <div className="mt-3 flex justify-between">
+                    <div className="flex">
+                        <img src={babyface} alt="" />
+                        <p className="ml-3 text-xl my-auto">{log[0]} 분</p>
+                    </div>
+                    <div className="flex my-auto">
+                        <span>{log[1]} ~ {log[2]}</span>
+                    </div>
                 </div>
             </div>
         )
     } else {
         logItem = logs.map((log, index) => 
             <div key={index}>
-                <div className="flex justify-between mt-3">
-                    <img src={babyface} alt="" />
-                    <p>{log[0]} 분</p>
-                    <p>{log[1]}</p>
-                    <p>{log[2]}</p>
+                <div className="mt-3 flex justify-between">
+                    <div className="flex">
+                        <img src={babyface} alt="" />
+                        <p className="ml-3 text-xl my-auto">{log[0]} 분</p>
+                    </div>
+                    <div className="flex my-auto">
+                        <span>{log[1]} ~ {log[2]}</span>
+                    </div>
                 </div>
             </div>
         )

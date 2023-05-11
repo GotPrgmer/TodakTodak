@@ -3,10 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-
-    <!-- 기존 Code -->
-    <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -14,7 +10,6 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link href="/dist/output.css" rel="stylesheet" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -48,17 +43,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
-    <!-- 추가 Code -->
-    <!-- <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("sw-cached-site.js", function () {
-          navigator.serviceWorker.register("sw.js", {
-            scope: "/",
-          });
-        });
-      }
-      window.process = { env: { NODE_ENV: "production" } };
-    </script> -->
   </body>
 </html>
