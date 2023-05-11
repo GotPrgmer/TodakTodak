@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class DeviceController {
     }
 
     @PostMapping("/device/alarm")
-    public DeviceAlarmResponseDto deviceAlarm(@RequestBody DeviceAlarmRequestDto request){
+    public DeviceAlarmResponseDto deviceAlarm(@RequestBody DeviceAlarmRequestDto request) throws IOException {
         return deviceService.deviceAlarm(request);
     }
 
