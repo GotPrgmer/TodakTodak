@@ -49,3 +49,8 @@ server:
 
 OPENVIDU_URL: https://todaktodak.kr:8443/
 OPENVIDU_SECRET: noinjung
+fcm:
+  key:
+    path: ${FCM_KEY_LOCATION}
+    scope: https://www.googleapis.com/auth/cloud-platform
+    project-id: ${FCM_PROJECT_ID}

@@ -20,6 +20,9 @@ repositories {
 }
 
 dependencies {
+	//FCM
+	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '6.8.1'
+	implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 	//s3
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.387'
 
