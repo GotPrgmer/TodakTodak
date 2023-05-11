@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { babyPK, jwtToken } from "../../../states/recoilHomeState";
+import Logo from "../../../assets/Logo.png";
+import KakaoBtn from "../../../assets/kakaologin.png";
+import Babyone from "../../../assets/babyone.png"
 
 function KakaoLogin() {
   const jwt_token = useRecoilValue(jwtToken);
@@ -30,13 +33,20 @@ function KakaoLogin() {
 
   return (
     <>
-      <div className="w-screen h-screen font-new">
-
-        <a href={KAKAO_AUTH_URL}>Kakao Login</a>
+      <div className="w-screen h-screen font-new bg-contain grid place-items-center bg-[url('https://i.pinimg.com/236x/99/3a/d8/993ad857f55996def0822f3294758ef3.jpg')]">
+        <div className="w-full text-center">
+        {/* <img className="w-36 mx-auto" src={Babyone} alt="" />` */}
+          <img src={Logo} alt="" className="w-5/6 mx-auto"/>
+          <p className="text-2xl">초보 부모를 위한</p>
+          <p className="text-2xl mt-1">영유아 토탈 케어 서비스</p>
+          <div className="mt-5">
+            <a href={KAKAO_AUTH_URL}><img src={KakaoBtn} alt="" className="mx-auto"/></a>
+          </div>
+        </div>
+        <div className="fixed bottom-0 z-50 w-full flex justify-center">
+          <img className="w-2/5" src={Babyone} alt="" />
+        </div>
       </div>
-      <h1 className="font-new">
-        <div> PWA Download 5트 </div>
-      </h1>
     </>
   );
 }
