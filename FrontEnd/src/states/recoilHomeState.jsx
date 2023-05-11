@@ -6,12 +6,12 @@ const { persistAtom } = recoilPersist();
 const bottomBarAtom = atom({
   key: "bottomBarAtom",
   default: 0,
-  effects_UNSTABLE: [persistAtom],
 });
 
 const babyPK = atom({
   key: "babyPK",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 const jwtToken = atom({

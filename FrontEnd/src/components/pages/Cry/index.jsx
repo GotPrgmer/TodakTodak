@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import TopBar from "../../organisms/TopBar";
 import { Bar } from "react-chartjs-2";
 import BottomBar from "../../organisms/BottomBar";
@@ -13,7 +13,7 @@ import {
   Legend,
 } from "chart.js"; 
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import Crylist from './../../organisms/Cry/index';
+import Crylist from "./../../organisms/Cry/index";
 import ModalCalender from "../../organisms/Cry/Calendar";
 
 ChartJS.register(
@@ -27,39 +27,45 @@ ChartJS.register(
 );
 
 function Cry() {
-  let today = new Date(); 
-  const week = ['일', '월', '화', '수', '목', '금', '토'];
-  const [date, setDate] = useState([today.getFullYear(), today.getMonth() + 1, today.getDate()])
+  let today = new Date();
+  const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const [date, setDate] = useState([
+    today.getFullYear(),
+    today.getMonth() + 1,
+    today.getDate(),
+  ]);
 
   const dateSelect = (date) => {
     setDate(date);
   };
 
-  useEffect(() => { console.log(date)}, [date]);
+  useEffect(() => {
+    console.log(date);
+  }, [date]);
 
   // useEffect 에 넣어야 할것들!!
-  let labels = ['5/4(목)', '5/5(금)', '5/6(토)', '5/7(일)', '5/8(월)',];
+  let labels = ["5/4(목)", "5/5(금)", "5/6(토)", "5/7(일)", "5/8(월)"];
   let values = [10, 11, 12, 4, 5];
   let cryLogs = {
-    '5/4(목)': [],
-    '5/5(금)': [],
-    '5/6(토)': [
-      ['1', '15:59', '16:00'],
-      ['1', '16:22', '16:23']
+    "5/4(목)": [],
+    "5/5(금)": [],
+    "5/6(토)": [
+      ["1", "15:59", "16:00"],
+      ["1", "16:22", "16:23"],
     ],
-    '5/7(일)': [],
-    '5/8(월)': [
-      ['2', '12:32', '12:34'],
-      ['3', '13:46', '13:49'],
-      ['1', '15:59', '16:00'],
-      ['1', '16:22', '16:23'],
+    "5/7(일)": [],
+    "5/8(월)": [
+      ["2", "12:32", "12:34"],
+      ["3", "13:46", "13:49"],
+      ["1", "15:59", "16:00"],
+      ["1", "16:22", "16:23"],
     ],
   };
-  
-  const [clickedDate, setClickedDate] = useState(labels[4])
+
+  const [clickedDate, setClickedDate] = useState(labels[4]);
   // console.log(clickedDate)
   // console.log(cryLogs[clickedDate])
-  
+
   const [isClicked, setIsClicked] = useState(false);
 
   // const [modalOpen, setModalOpen] = useState(false);
@@ -69,7 +75,7 @@ function Cry() {
   // const closeModal = () => {
   //   setModalOpen(false)
   // }
-  
+
   // const [pickDate, setPickDate] = useState(new Date());
   // const changeDate = (selectedDate) => {
   //   setPickDate(selectedDate)
@@ -77,6 +83,7 @@ function Cry() {
   // }
 
   const options = {
+    maintainAspectRatio: false,
     indexAxis: "x",
     plugins: {
       tooltip: {
@@ -111,7 +118,7 @@ function Cry() {
         },
         ticks: {
           display: false,
-          max: 25
+          max: 25,
         },
         afterDataLimits: (scale) => {
           scale.max = scale.max * 1.05;
@@ -135,8 +142,8 @@ function Cry() {
     onClick: function (evt, element) {
       if (element.length > 0) {
         setColorsHandler(element[0]["index"]);
-        setClickedDate(labels[element[0]['index']])
-        setIsClicked(false)
+        setClickedDate(labels[element[0]["index"]]);
+        setIsClicked(false);
       }
     },
   };
@@ -146,7 +153,7 @@ function Cry() {
     "rgba(240, 240, 240)",
     "rgba(240, 240, 240)",
     "rgba(240, 240, 240)",
-    "rgba(54, 162, 235)",
+    "rgba(255, 191, 135)",
   ]);
 
   const setColorsHandler = (idx) => {
@@ -157,7 +164,7 @@ function Cry() {
       "rgba(240, 240, 240)",
       "rgba(240, 240, 240)",
     ];
-    newColors[idx] = "rgba(54, 162, 235)";
+    newColors[idx] = "rgba(255, 191, 135)";
     setColors(newColors);
   };
 
@@ -176,7 +183,10 @@ function Cry() {
           align: "top",
           color: "black",
           formatter: function (value) {
-            return value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return value
+              .toFixed(0)
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
           },
         },
       },
@@ -184,28 +194,31 @@ function Cry() {
   };
 
   const btnClick = () => {
-    setIsClicked(true)
+    setIsClicked(true);
   };
 
   return (
     <>
       <TopBar />
-      <div>
-        <ModalCalender dateSelect={dateSelect} />
-      </div>
-      
-      <div className="w-screen h-fit p-5">
-        <Bar options={options} data={data} height={320} />
-        <div>
-          <div className="flex justify-between mt-3">
-            <p>울음기록</p>
-            <p>{clickedDate}</p>
-            <button onClick={btnClick}>더 보기</button>
+      <div className="h-screen px-5">
+        <div className="w-full mt-5">
+          <ModalCalender dateSelect={dateSelect} />
+        </div>
+
+        <div className="h-screen font-new">
+          <div className="h-1/2">
+            <Bar options={options} data={data}/>
           </div>
-          <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked} />
+          <div className="mt-10 px-3">
+            <div className="flex justify-between mb-3">
+              <p className="text-xl font-semibold">울음기록 <span className="text-lg">{clickedDate}</span></p>
+              <button className="text-green-400 font-semibold" onClick={btnClick}>더 보기</button>
+            </div>
+            <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked}/>
+          </div>
         </div>
       </div>
-      
+
       <BottomBar />
     </>
   );
