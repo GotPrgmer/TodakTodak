@@ -43,7 +43,7 @@ function requestPermission() {
           // ...
         });
       onMessage(messaging, (payload) => {
-        console.log("메시지가 도착했습니다.", payload);
+        console.log("Message received.", payload);
       });
     } else {
       console.log("Do not get token");

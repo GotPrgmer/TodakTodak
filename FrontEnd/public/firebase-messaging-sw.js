@@ -48,6 +48,8 @@ importScripts("https://www.gstatic.com/firebasejs/8.0.0/firebase-messaging.js");
 const firebaseConfig = {
   apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM",
   authDomain: "todaktodak-6846e.firebaseapp.com",
+  // Test Code(databaseURL)
+  databaseURL: "https://todaktodak-6846e.firebaseio.com",
   projectId: "todaktodak-6846e",
   storageBucket: "todaktodak-6846e.appspot.com",
   messagingSenderId: "964401813700",
@@ -56,7 +58,10 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
+// Test Code
+const messaging = firebase.messaging(app);
+// 성공 Code
+// const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
   console.log(
