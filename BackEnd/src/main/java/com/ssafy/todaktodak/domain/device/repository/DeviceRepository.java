@@ -10,8 +10,12 @@ import java.util.Optional;
 @Repository
 public interface DeviceRepository extends JpaRepository<Device,Integer> {
 
-    Optional<Device> findByDeviceId(Integer DeviceId);
+    Optional<Device> findByDeviceId(Integer deviceId);
 
-    Optional<Device> findByBabyBabyId(Integer BabyId);
+    Optional<Device> findByBabyBabyId(Integer babyId);
+
+    Optional<Device> findBySessionId(String sessionId);
+
+    Optional<Device> findBySerialNumber(String SerialNumber);
 
 }

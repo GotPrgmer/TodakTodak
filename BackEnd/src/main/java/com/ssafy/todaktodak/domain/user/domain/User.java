@@ -1,6 +1,7 @@
 package com.ssafy.todaktodak.domain.user.domain;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
+import com.ssafy.todaktodak.domain.user.dto.UserFcmUpdateRequestDto;
 import com.ssafy.todaktodak.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.SocialUserResponseDto;
 import com.sun.istack.NotNull;
@@ -39,6 +40,9 @@ public class User {
     @Column(name = "user_nickname")
     private String userNickname;
 
+    @Column(name = "fcm_key")
+    private String fcmKey;
+
     @NotNull
     @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
@@ -75,5 +79,8 @@ public class User {
     public void updateUser(UserInfoUpdateRequestDto request, String userImageUrl) {
         this.userNickname = request.getUserNickname();
         this.userImageUrl = userImageUrl;
+    }
+    public void updateUserFcm(UserFcmUpdateRequestDto request) {
+        this.fcmKey = request.getFcmKey();
     }
 }

@@ -8,6 +8,7 @@ import { babyPK, jwtToken } from "../../../states/recoilHomeState";
 function BabyProfile() {
   const [data, setData] = useState([]);
   const babyLists = useRecoilValue(babyPK);
+  console.log(babyLists);
   const jwt_token = useRecoilValue(jwtToken);
 
   const navigate = useNavigate();
@@ -51,7 +52,9 @@ function BabyProfile() {
           />
         </div>
         <div>
-          <p className="text-2xl font-bold mt-5 font-mun">{data.baby_nickname}</p>
+          <p className="text-2xl font-bold mt-5 font-mun">
+            {data.baby_nickname}
+          </p>
           <p className="font-semibold mt-1">
             {data.baby_gender === "male" ? "남자" : "여자"} | {data.baby_name}
           </p>
@@ -67,7 +70,12 @@ function BabyProfile() {
             </p>
           </div>
           <div className="flex items-center">
-            <p className="text-xl"><span className="text-2xl">D</span> + <span className="text-2xl">{Number(data.baby_dday).toLocaleString()}</span></p>
+            <p className="text-xl">
+              <span className="text-2xl">D</span> +{" "}
+              <span className="text-2xl">
+                {Number(data.baby_dday).toLocaleString()}
+              </span>
+            </p>
           </div>
         </div>
       </div>

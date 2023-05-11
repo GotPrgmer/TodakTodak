@@ -6,7 +6,7 @@ import Logo from "../../../assets/Logo.png";
 import KakaoBtn from "../../../assets/kakaologin.png";
 import Babyone from "../../../assets/babyone.png"
 
-function KakaoLogin() {
+function Login() {
   const jwt_token = useRecoilValue(jwtToken);
   const babyLists = useRecoilValue(babyPK);
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function KakaoLogin() {
       console.log(babyLists[0]);
       navigateToHome();
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -51,4 +51,4 @@ function KakaoLogin() {
   );
 }
 
-export default KakaoLogin;
+export default Login;
