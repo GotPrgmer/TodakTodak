@@ -46,6 +46,6 @@ server:
     key-store-type: PKCS12
     key-store-password: ${KEY_STORE_PASSWORD}
     key-alias: ${KEY_ALIAS}
-#  port: 443
+
 OPENVIDU_URL: https://todaktodak.kr:8443/
 OPENVIDU_SECRET: noinjung

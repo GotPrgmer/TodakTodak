@@ -1,9 +1,7 @@
 package com.ssafy.todaktodak.domain.user.service;
 
 import com.ssafy.todaktodak.domain.user.domain.User;
-import com.ssafy.todaktodak.domain.user.dto.UserInfoResponseDto;
-import com.ssafy.todaktodak.domain.user.dto.UserInfoUpdateRequestDto;
-import com.ssafy.todaktodak.domain.user.dto.UserInfoUpdateResponseDto;
+import com.ssafy.todaktodak.domain.user.dto.*;
 import com.ssafy.todaktodak.domain.user.repository.UserRepository;
 import com.ssafy.todaktodak.global.error.CustomException;
 import com.ssafy.todaktodak.global.error.ErrorCode;
@@ -32,29 +30,13 @@ public class UserService {
 
     @Transactional
     public UserInfoResponseDto userInfo(String userId) {
-        Integer userIdToInteger = Integer.parseInt(userId);
-
-        Optional<User> user = userRepository.findUserByUserId(userIdToInteger);
-
-        if ( user.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
-        }
-            User findUser = user.get();
+        User findUser = findUserWithUserId(userId);
         return UserInfoResponseDto.of(findUser);
-
-
     }
 
     @Transactional
     public UserInfoUpdateResponseDto userInfoUpdate(String userId, UserInfoUpdateRequestDto request, MultipartFile file) throws IOException {
-        Integer userIdToInteger = Integer.parseInt(userId);
-
-        // 사용자 조회
-        Optional<User> user = userRepository.findUserByUserId(userIdToInteger);
-        if ( user.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
-        }
-        User findUser = user.get();
+        User findUser = findUserWithUserId(userId);
         String imageUrl = null;
 
         // 사용자 이미지가 있을 때
@@ -73,5 +55,24 @@ public class UserService {
 
         return UserInfoUpdateResponseDto.of(findUser);
 
+    }
+
+    @Transactional
+    public UserFcmUpdateResponseDto userFcmEdit(String userId, UserFcmUpdateRequestDto request) {
+        User findUser = findUserWithUserId(userId);
+        findUser.updateUserFcm(request);
+        String message = "수정이 완료되었습니다.";
+        return UserFcmUpdateResponseDto.ofFcm(request.getFcmKey());
+    }
+
+    public User findUserWithUserId(String userId){
+        Integer userIdToInteger = Integer.parseInt(userId);
+
+        // 사용자 조회
+        Optional<User> user = userRepository.findUserByUserId(userIdToInteger);
+        if ( user.isEmpty()) {
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        return user.get();
     }
 }

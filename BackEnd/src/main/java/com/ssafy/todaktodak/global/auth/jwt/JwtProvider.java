@@ -2,9 +2,8 @@ package com.ssafy.todaktodak.global.auth.jwt;
 
 import com.ssafy.todaktodak.domain.user.domain.Role;
 import com.ssafy.todaktodak.global.auth.oauth.service.CustomOAuth2User;
-import com.ssafy.todaktodak.global.error.CustomException;
-import com.ssafy.todaktodak.global.error.ErrorCode;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

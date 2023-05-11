@@ -3,61 +3,70 @@ import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
 import React, { Component } from "react";
 import UserVideoComponent from "./UserVideoComponent";
+import * as tf from "@tensorflow/tfjs";
+import * as tmImage from "@teachablemachine/image";
 // import BottomBar from "../../organisms/BottomBar";
 // import TopBar from "../../organisms/TopBar";
 
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
 
-const APPLICATION_SERVER_URL = "https://todaktodak.kr:8080/";
+const APPLICATION_SERVER_URL = "https://todaktodak.kr:8080/"; // spring 서버 주소
 // const APPLICATION_SERVER_URL = "https://demos.openvidu.io/";
 // ------------------------------------------------------------------------------------------------------
 
 // 클래스형
+
 class Device extends Component {
   constructor(props) {
     super(props);
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      // SessionId는 Camera Serial Number(로그인 후 시도)
-      // mySessionId: "SessionA",
-      // mySessionId: "todak000001",
-      mySessionId: "todak000001",
-      // UserName은 로그인 한 후 생성되는 pk 번호
-      // myUserName: "Participant" + Math.floor(Math.random() * 100),
-      myUserName: "000001",
-      session: undefined,
+      mySessionId: "todak000001", // SessionId는 기기에서 고정한다.
+      myUserName: "000001", // UserName은 기기에서 고정한다.
+      session: undefined, 
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
       tokenList: [],
+      model: undefined,
+      webcam: undefined,
+      maxPredictions: undefined,
+      url: "https://teachablemachine.withgoogle.com/models/_6gIxAahL/",
+      modelURL:undefined,
+      metadataURL:undefined
     };
     // console.log(this.state.subscribers);
 
-    this.joinSession = this.joinSession.bind(this);
-    this.leaveSession = this.leaveSession.bind(this);
+    this.joinSession = this.joinSession.bind(this); // 세션에 참여
+    this.leaveSession = this.leaveSession.bind(this); // 세션 나가기
+    this.init = this.init.bind(this);
+    this.loop = this.loop.bind(this);
+    this.predict = this.predict.bind(this);
     // 카메라 전후 변경(필요없음)
     // this.switchCamera = this.switchCamera.bind(this);
     // SessionId 변경(필요없음)
     // this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
     // UserName 변경(필요없음)
     // this.handleChangeUserName = this.handleChangeUserName.bind(this);
-    this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
+    this.handleMainVideoStream = this.handleMainVideoStream.bind(this); // 메인 비디오 스트림
     this.onbeforeunload = this.onbeforeunload.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount() { // 컴포넌트가 마운트 되었을 때
     window.addEventListener("beforeunload", this.onbeforeunload);
+    
   }
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+
   }
 
   // leaveSession 함수 - 2
   onbeforeunload(event) {
-    this.leaveSession();
+    this.leaveSession(); // 세션 나가기
   }
 
   // SessionId 변경
@@ -74,7 +83,7 @@ class Device extends Component {
   //   });
   // }
 
-  handleMainVideoStream(stream) {
+  handleMainVideoStream(stream) { // 메인 비디오 스트림
     if (this.state.mainStreamManager !== stream) {
       this.setState({
         mainStreamManager: stream,
@@ -82,7 +91,7 @@ class Device extends Component {
     }
   }
 
-  deleteSubscriber(streamManager) {
+  deleteSubscriber(streamManager) { // 세션에 참여한 사람들의 스트림을 subscribers에서 삭제
     let subscribers = this.state.subscribers;
     let index = subscribers.indexOf(streamManager, 0);
     if (index > -1) {
@@ -93,8 +102,58 @@ class Device extends Component {
     }
   }
 
+  
+  // Load the image model and setup the webcam
+  async init() {
+    const modelURL = this.state.url + "model.json";
+    const metadataURL = this.state.url + "metadata.json";
+    this.state.model = modelURL;
+    this.state.metadataURL = metadataURL;
+    // load the model and metadata
+    // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+    // or files from your local hard drive
+    // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+    this.state.model = await tmImage.load(modelURL, metadataURL);
+    // console.log("model")
+    // console.log(this.state.model)
+    this.state.maxPredictions = this.state.model.getTotalClasses();
+    // console.log("prediction")
+    // console.log("prediction" + this.state.maxPredictions)
+
+    // Convenience function to setup a webcam
+    const flip = true; // whether to flip the webcam
+    const size = 200;
+    this.state.webcam = new tmImage.Webcam(size, size, flip); // width, height, flip
+    await this.state.webcam.setup(); // request access to the webcam
+    await this.state.webcam.play();
+    window.requestAnimationFrame(this.loop);
+
+    // append elements to the DOM
+    // document.getElementById("webcam-container").appendChild(webcam.canvas);
+    // labelContainer = document.getElementById("label-container");
+    // for (let i = 0; i < maxPredictions; i++) { // and class labels
+    //     labelContainer.appendChild(document.createElement("div"));
+    // }
+  }
+  async loop() {
+      this.state.webcam.update(); // update the webcam frame
+      await this.predict();
+      console.log("i'm loop");
+      window.requestAnimationFrame(this.loop);
+  }
+  // run the webcam image through the image model
+  async predict() {
+      // predict can take in an image, video or canvas html element
+      const prediction = await this.state.model.predict(this.state.webcam.canvas);
+      for (let i = 0; i < this.state.maxPredictions; i++) {
+          const classPrediction =
+              prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+          // labelContainer.childNodes[i].innerHTML = classPrediction;
+          console.log(classPrediction);
+      }
+  }
   // joinSession
-  joinSession() {
+  joinSession() { // 세션에 참여
     // --- 1) Get an OpenVidu object ---
 
     this.OV = new OpenVidu();
@@ -103,10 +162,10 @@ class Device extends Component {
 
     this.setState(
       {
-        session: this.OV.initSession(),
+        session: this.OV.initSession(), // Initialize a session
       },
       () => {
-        var mySession = this.state.session;
+        var mySession = this.state.session; // 세션 생성
 
         // --- 3) Specify the actions when events take place in the session ---
 
@@ -114,26 +173,31 @@ class Device extends Component {
         mySession.on("streamCreated", (event) => {
           // Subscribe to the Stream to receive it. Second parameter is undefined
           // so OpenVidu doesn't create an HTML video by its own
-          var subscriber = mySession.subscribe(event.stream, undefined);
-          var subscribers = this.state.subscribers;
-          subscribers.push(subscriber);
+          var subscriber = mySession.subscribe(event.stream, undefined); // 세션에 참여한 사람들의 스트림을 받아옴
+          var subscribers = this.state.subscribers; // 세션에 참여한 사람들
+          subscribers.push(subscriber); // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           // console.log("subscribers", subscribers);
 
           // Update the state with the new subscribers
           this.setState({
-            subscribers: subscribers,
+            subscribers: subscribers, // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           });
         });
 
+        // tmImage
+        console.log("init");
+        this.init();
+
+
         // On every Stream destroyed...
-        mySession.on("streamDestroyed", (event) => {
+        mySession.on("streamDestroyed", (event) => { // 세션에 참여한 사람이 나갔을 때
           // Remove the stream from 'subscribers' array
-          this.deleteSubscriber(event.stream.streamManager);
+          this.deleteSubscriber(event.stream.streamManager); // 세션에 참여한 사람들의 스트림을 subscribers에서 삭제
         });
 
         // On every asynchronous exception...
-        mySession.on("exception", (exception) => {
-          console.warn(exception);
+        mySession.on("exception", (exception) => {  // 세션의 예외처리
+          console.warn(exception);  // 예외처리
         });
 
         // --- 4) Connect to the session with a valid user token ---
@@ -146,13 +210,13 @@ class Device extends Component {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
-            .connect(token, { clientData: this.state.myUserName })
-            .then(async () => {
+            .connect(token, { clientData: this.state.myUserName }) // 세션에 참여한 사람을 세션에 연결
+            .then(async () => { // then은 token을 받아오고 세션에 연결이 되면 실행
               // --- 5) Get your own camera stream ---
 
               // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
               // element: we will manage it on our own) and with the desired properties
-              let publisher = await this.OV.initPublisherAsync(undefined, {
+              let publisher = await this.OV.initPublisherAsync(undefined, { 
                 audioSource: undefined, // The source of audio. If undefined default microphone
                 videoSource: undefined, // The source of video. If undefined default webcam
                 publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
@@ -165,12 +229,12 @@ class Device extends Component {
 
               // --- 6) Publish your stream ---
 
-              mySession.publish(publisher);
+              mySession.publish(publisher); // 세션에 참여한 사람의 스트림을 세션에 발행
 
               // Obtain the current video device in use
-              var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter(
-                (device) => device.kind === "videoinput"
+              var devices = await this.OV.getDevices(); // 현재 사용중인 비디오 장치를 가져옴
+              var videoDevices = devices.filter( // 현재 사용중인 비디오 장치를 필터링
+                (device) => device.kind === "videoinput" // 비디오 장치만 필터링
               );
               var currentVideoDeviceId = publisher.stream
                 .getMediaStream()
@@ -201,14 +265,14 @@ class Device extends Component {
 
   // leaveSession 함수 - 1
   // 방을 나가는 함수
-  // todaktodak 서비스에서는 필요없음
+  // todaktodak 서비스에서는 필요없음 -> 기기에서는 필요없음
   leaveSession() {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
 
     const mySession = this.state.session;
 
     if (mySession) {
-      mySession.disconnect();
+      mySession.disconnect(); // 세션을 끊음
     }
 
     // Empty all properties...
@@ -217,7 +281,7 @@ class Device extends Component {
       session: undefined,
       subscribers: [],
       // mySessionId: "SessionA",
-      mySessionId: "4545",
+      mySessionId: "todak000001",
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: "000001",
       mainStreamManager: undefined,
@@ -225,45 +289,7 @@ class Device extends Component {
     });
   }
 
-  // 카메라 전후 변경 기능
-  // todak Service에서 필요없음
-  async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
-
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice[0],
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -271,7 +297,8 @@ class Device extends Component {
 
     return (
       <>
-        {/* <TopBar /> */}
+      
+      {/* <TopBar /> */}
         <div className="container">
           {this.state.session === undefined ? (
             <div id="join">
