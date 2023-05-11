@@ -27,7 +27,7 @@ function requestPermission() {
 
       getToken(messaging, {
         vapidKey:
-          "BJDkRufFUee-pV7LadIZN6VJ05FlsXyIZvWpwx93Liqle0ThtBhT7pICyodK7GFeER3K5UBToayJK22knAFwK2M",
+          "BF3U9375dYGSwWvW4-7mhysfyOYnsFf5nbWEOw3vH5_KWQ2MOhSXszPGZlXSFhbDP_rUn7OYpyfW2NsamrEmVpQ",
       })
         .then((currentToken) => {
           if (currentToken) {
