@@ -39,9 +39,9 @@ public class BabyService {
 
     @Transactional
     public BabyInfoResponseDto babyInfo(Integer babyId,String userId){
-        Integer userIdToNumber = Integer.parseInt(userId);
+        Integer userIdToInteger = Integer.parseInt(userId);
         //babyId로 아기 조회
-        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
+        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
@@ -52,7 +52,7 @@ public class BabyService {
         log.info(year.toString());
         log.info(month.toString());
         log.info(day.toString());
-        String babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
 
 
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
@@ -62,8 +62,9 @@ public class BabyService {
     @Transactional
     public BabyInfoResponseDto babyInfoUpdate(Integer babyId, MultipartFile file, BabyUpdateRequestDto babyUpdateRequestDto, String userId) throws IOException {
         //babyId로 아기 조회
-        Integer userIdToNumber = Integer.parseInt(userId);
-        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
+        Integer userIdToInteger = Integer.parseInt(userId);
+        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
+        System.out.println(baby.get());
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
@@ -90,7 +91,7 @@ public class BabyService {
         String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
         log.info(babyZodiac);
         // dday 계산
-        String babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
+        Integer babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         log.info(String.valueOf(babyDDay));
         findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,imageUrl);
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
@@ -125,7 +126,7 @@ public class BabyService {
 
     }
 
-    public Optional<String> findDDay(Integer year,Integer month, Integer day){
+    public Optional<Integer> findDDay(Integer year,Integer month, Integer day){
         if (year == null || month == null || day == null){
             return Optional.empty();
         }
@@ -151,9 +152,10 @@ public class BabyService {
             return Optional.empty();
         }
 
-        return Optional.of(String.valueOf(dDay));
+        return Optional.of(dDay);
 
     }
 
 
 }
+
