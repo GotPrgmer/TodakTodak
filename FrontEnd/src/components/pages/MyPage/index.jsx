@@ -9,16 +9,16 @@ function MyPage() {
   return (
     <>
       <TopBar />
-      <div className="font-new h-screen bg-gray-100 overflow-hidden">
-        <div className="h-1/5 pt-5 text-lg">
-          <p className="text-lg mb-5 mx-5 text-slate-500">로그인</p>
-          <div className="bg-white w-full py-2">
-            <div className="my-2 px-5 flex justify-between">
+      <div className="font-new h-[85vh] bg-gray-100 overflow-hidden">
+        <div className="h-[20vh] pt-[2vh] text-lg">
+          <p className="text-lg mx-[2vh] text-slate-500">로그인</p>
+          <div className="bg-white w-full">
+            <div className="my-[1vh] px-[2vh] pt-[1vh] flex justify-between">
               <p>kakao</p>
-              <div><button className="text-cyan-600">로그아웃</button></div>
+              <div><button className="text-cyan-600 px-[2vh]">로그아웃</button></div>
             </div>
-            <hr className="mx-5"/>
-            <div className="my-2 px-5 flex justify-between">
+            <hr className="mx-[2vh]"/>
+            <div className="my-[2vh] px-[2vh] pb-[1vh] flex justify-between">
               <p>자동로그인</p>
               <div className="h-full align-middle my-auto">
                 <label className="flex items-center relative w-max cursor-pointer select-none">
@@ -31,8 +31,47 @@ function MyPage() {
             </div>
           </div>
         </div>
+        <div className="h-[20vh] pt-[2vh] text-lg">
+          <p className="text-lg mx-[2vh] text-slate-500">푸시 알림</p>
+          <div className="bg-white w-full">
+            <div className="my-[1vh] px-[2vh] pt-[1vh] flex justify-between">
+              <p>알림 설정</p>
+              <div className="w-3 h-full align-middle my-auto"><img src={NextArrow} alt="" /></div>
+            </div>
+            <hr className="mx-[2vh]"/>
+            <div className="my-[2vh] px-[2vh] pb-[1vh] flex justify-between">
+              <p>알림함</p>
+              <div className="w-3 h-full align-middle my-auto"><img src={NextArrow} alt="" /></div>
+            </div>
+          </div>
+        </div>
+        <div className="h-[20vh] pt-[2vh] text-lg">
+          <p className="text-lg mx-[2vh] text-slate-500">앱 정보</p>
+          <div className="bg-white w-full">
+            <div className="my-[1vh] px-[2vh] pt-[1vh] flex justify-between">
+              <p>현재버전</p>
+            </div>
+            <hr className="mx-[2vh]"/>
+            <div className="my-[2vh] px-[2vh] pb-[1vh] flex justify-between">
+              <p>오픈소스 라이선스</p>
+              <div className="w-3 h-full align-middle my-auto"><img src={NextArrow} alt="" /></div>
+            </div>
+          </div>
+        </div>
+        <div className="h-[20vh] pt-[2vh] text-lg">
+          <p className="text-lg mx-[2vh] text-slate-500">회사 정보</p>
+          <div className="bg-white w-full">
+            <div className="my-[1vh] px-[2vh] pt-[1vh] flex justify-between">
+              <p>회사소개 영상</p>
+            </div>
+            <hr className="mx-[2vh]"/>
+            <div className="my-[2vh] px-[2vh] pb-[1vh] flex justify-between">
+              <p>팀원 소개</p>
+            </div>
+          </div>
+        </div>
 
-        <div className="h-1/5 text-lg mt-5">
+        {/* <div className="h-[20vh] text-lg mt-5">
           <p className="text-lg mb-5 mx-5 text-slate-500">푸시 알림</p>
           <div className="bg-white w-full py-2">
             <div className="my-2 px-5 flex justify-between">
@@ -47,7 +86,7 @@ function MyPage() {
           </div>
         </div>
 
-        <div className="h-1/5 text-lg">
+        <div className="h-[20vh] text-lg">
           <p className="text-lg mb-5 mx-5 text-slate-500">앱 정보</p>
           <div className="bg-white w-full py-2">
             <div className="my-2 px-5">
@@ -61,7 +100,7 @@ function MyPage() {
           </div>
         </div>
 
-        <div className="h-1/5 text-lg">
+        <div className="h-[20vh] text-lg">
           <p className="text-lg mb-5 mx-5 text-slate-500">회사 정보</p>
           <div className="bg-white w-full py-2">
             <div className="my-2 px-5">
@@ -72,7 +111,7 @@ function MyPage() {
               <p>팀원 소개</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
       </div>
       <BottomBar />

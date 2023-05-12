@@ -16,6 +16,11 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import Crylist from "./../../organisms/Cry/index";
 import ModalCalender from "../../organisms/Cry/Calendar";
 
+import { useRecoilValue } from "recoil";
+import { jwtToken } from "../../../states/recoilHomeState";
+import axios from "axios";
+import { ExpirationPlugin } from 'workbox-expiration';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -47,32 +52,46 @@ function Cry() {
     ]);
   };
 
+  const jwt_token = useRecoilValue(jwtToken);
+  // const jwt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY4Mzg5MDQ2NywiZXhwIjoxNjgzOTAxMjY3fQ.1PN7GWYyDyeqBqlVJA0EyZQu4gfKyZwXNsBb4_LO2Do'
+  
+  const [labels, setLabels] = useState([]);
+  const [values, setValues] = useState([]);
+  const [clickedDate, setClickedDate] = useState(`${date[0]}-${date[1] >= 10 ? date[1] : '0' + date[1]}-${date[2] >= 10 ? date[2] : '0' + date[2]}`);
+  const [cryLogs, setCryLogs] = useState({});
+
   useEffect(() => {
-    console.log(date);
+    async function loadData() {
+      const response = await axios.get(
+        `https://todaktodak.kr:8080/api/cry/logging?babyId=2&year=${date[0]}&month=${date[1]}&day=${date[2]}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt_token}`,
+          },
+        }
+      );
+      let array = response.data['cry_log']
+      setValues(array.map(function (element) {
+        return element.cryCounts
+      }));
+
+      setLabels(array.map(function (element) {
+        return element.date
+      }));
+
+      // console.log(array)
+
+      let logs = {}
+      for (let i in array) {
+        // console.log(array[i])
+        logs[array[i].date] = array[i].log
+      }
+      // console.log(logs)
+      setCryLogs(logs)
+    }
+    loadData();
   }, [date]);
-
-  // useEffect 에 넣어야 할것들!!
-  let labels = ["5/4(목)", "5/5(금)", "5/6(토)", "5/7(일)", "5/8(월)"];
-  let values = [10, 0, 12, 4, 5];
-  let cryLogs = {
-    "5/4(목)": [],
-    "5/5(금)": [],
-    "5/6(토)": [
-      ["1", "15:59", "16:00"],
-      ["1", "16:22", "16:23"],
-      ["1", "16:23", "16:24"],
-      ["1", "16:24", "16:25"],
-    ],
-    "5/7(일)": [],
-    "5/8(월)": [
-      ["2", "12:32", "12:34"],
-      ["3", "13:46", "13:49"],
-      ["1", "15:59", "16:00"],
-      ["1", "16:22", "16:23"],
-    ],
-  };
-
-  const [clickedDate, setClickedDate] = useState(labels[4]);
+  
   // console.log(clickedDate)
   // console.log(cryLogs[clickedDate])
 
@@ -170,6 +189,10 @@ function Cry() {
     "rgba(255, 191, 135)",
   ]);
 
+  const label = labels.map(function (element) {
+    return element.substring(5,7) +'/' + element.substring(8,10) + ' (' + week[new Date(element).getDay()] + ')'
+  })
+
   const setColorsHandler = (idx) => {
     const newColors = [
       "rgba(240, 240, 240)",
@@ -183,7 +206,7 @@ function Cry() {
   };
 
   const data = {
-    labels,
+    labels: label,
     datasets: [
       {
         axis: "x",
@@ -215,19 +238,22 @@ function Cry() {
   return (
     <>
       <TopBar />
-      <div className="h-screen px-5">
-        <div className="w-full mt-5">
+      <div className={`${isMoreBtn ? "h-[85vh]" : "h-screen"}  px-5`}>
+        <div className="w-full pt-5">
           <ModalCalender dateSelect={dateSelect} />
         </div>
 
-        <div className="h-screen font-new">
-          <div className="h-1/2">
+        <div className="font-new">
+          <div className="h-[45vh]">
             <Bar options={options} data={data}/>
           </div>
           <div className="mt-10 px-3">
             <div className="flex justify-between mb-3">
-              <p className="text-xl font-semibold">울음기록 <span className="text-lg">{clickedDate}</span></p>
-              <button className={`${isMoreBtn && cryLogs[clickedDate].length >= 3 ? "" : "hidden"} text-green-400 font-semibold`} onClick={btnClick}>더 보기</button>
+              <p className="text-xl font-semibold">울음기록 <span className="text-lg">{clickedDate.substring(5,7) +'/' + clickedDate.substring(8,10) + ' (' + week[new Date(clickedDate).getDay()] + ')'}</span></p>
+              <button className={`${isMoreBtn
+                && cryLogs[clickedDate]
+                && cryLogs[clickedDate].length >= 3
+                ? "" : "hidden"} text-green-400 font-semibold`} onClick={btnClick}>더 보기</button>
             </div>
             <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked}/>
           </div>

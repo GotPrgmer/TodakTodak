@@ -8,8 +8,11 @@ import BabyProfile from "../../organisms/Profile";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SensorDataPage from "../../organisms/Sensor/index";
+import { useRecoilValue } from "recoil";
+import { deviceDataAtom } from "../../../states/recoilHomeState";
 
 function Profile() {
+  const deviceData = useRecoilValue(deviceDataAtom);
   const navigate = useNavigate();
   const navigateToLogin = () => {
     navigate("/");
@@ -18,10 +21,10 @@ function Profile() {
   return (
     <div className="font-new">
       <TopBar />
-      <div className="h-screen pb-16">
+      <div className="h-[85vh]">
         <BabyProfile />
         {/* <Sensor/> */}
-        <SensorDataPage/>
+        <SensorDataPage />
       </div>
       <BottomBar />
     </div>
