@@ -159,8 +159,8 @@ class Device extends Component {
           console.log(classPrediction);
       }
 
-      let rolling_flag = this.state.rolling_flag;
-      let time_interval_flag = this.state.time_interval_flag;
+      var rolling_flag = this.state.rolling_flag;
+      var time_interval_flag = this.state.time_interval_flag;
 
       const rolling = {
         serialNumber: "todak2",
@@ -168,7 +168,7 @@ class Device extends Component {
         message: "아기가 뒤집기를 했습니다. 확인해주세요.",
       };
       
-      let cur = prediction[0].probability.toFixed(2);
+      var cur = prediction[0].probability.toFixed(2);
 
       // 아기가 뒤집한 경우가 지속될 때
       if(cur > 0.9 && rolling_flag == false){
