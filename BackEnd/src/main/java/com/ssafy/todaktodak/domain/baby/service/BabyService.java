@@ -22,7 +22,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Optional;
 
-import static com.ssafy.todaktodak.global.error.ErrorCode.BIRTH_DATE_NOT_VALID;
+import static com.ssafy.todaktodak.global.error.ErrorCode.BIRTH_DATE_INVALID;
 
 @Slf4j
 @Service
@@ -52,7 +52,7 @@ public class BabyService {
         log.info(year.toString());
         log.info(month.toString());
         log.info(day.toString());
-        String babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
 
 
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
@@ -91,7 +91,7 @@ public class BabyService {
         String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
         log.info(babyZodiac);
         // dday 계산
-        String babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
+        Integer babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         log.info(String.valueOf(babyDDay));
         findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,imageUrl);
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
@@ -134,14 +134,28 @@ public class BabyService {
         Calendar birthDay = Calendar.getInstance();
         birthDay.set(year, month, day);
 
-        long birthDayToMills = birthDay.getTimeInMillis();
+
+        // 아기 생일 날짜로 밀리타임 계산
         long dayFromMill = 1000 * 60 * 60 * 24;
-        long now = System.currentTimeMillis();
+        LocalDateTime birtDayDateTime = LocalDateTime.of(year,month,day,0,0);
+        Instant birthInstant = birtDayDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        long birthEpochMilli = birthInstant.toEpochMilli();
 
+        // 현재 날짜로 밀리타임계산
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Instant currentInstant = currentDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        long currentEpochMilli = currentInstant.toEpochMilli();
 
-        return Optional.of(Math.toIntExact((now - birthDayToMills) / dayFromMill));
+        Integer dDay = Math.toIntExact((currentEpochMilli - birthEpochMilli) / dayFromMill);
+        log.info(String.valueOf(dDay));
+        if (dDay <0){
+            return Optional.empty();
+        }
+
+        return Optional.of(dDay);
 
     }
 
 
 }
+
