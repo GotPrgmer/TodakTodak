@@ -16,8 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -69,13 +71,16 @@ public class CryService {
         Integer babyIdToInteger = babyId;
 
         LocalDateTime endDateTime = LocalDateTime.of(year, month, day, 23, 59, 59);
-        LocalDateTime startDateTime = endDateTime.minusDays(6)
+        LocalDateTime startDateTime = endDateTime.minusDays(4)
                 .withHour(0)
                 .withMinute(0)
                 .withSecond(0);
 
         Optional<Baby> baby = babyRepository.findById(babyIdToInteger);
 
+//        log.info(endDateTime.minusDays(0)
+//                .toString());
+//        log.info(startDateTime.toString());
 
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
@@ -111,7 +116,7 @@ public class CryService {
 //            temp.put("date", cry.getCryStartDate().toString().substring(0, 11));
         }
 //        log.info(temp.toString());
-        ArrayList logs = new ArrayList<>();
+        ArrayList<Map<String, Object>> logs = new ArrayList<Map<String, Object>>();
 
         temp.forEach((k,v) -> {
             Map<String, Object> cryLog = new HashMap<>();
@@ -123,6 +128,41 @@ public class CryService {
             logs.add(cryLog);
         }) ;
 //        log.info(logs.toString());
+
+
+        for(int i = 0; i <=4; i++){
+            String tempDate = endDateTime.minusDays(i).toString().substring(0,10);
+//            log.info("tempdate: " + tempDate);
+            Boolean flag = false;
+            for(Map<String, Object> e : logs){
+//                log.info(e.get("date").toString());
+                if (Objects.equals(e.get("date").toString(), tempDate)){
+//                    log.info("이 날은 있군" + e.get("date").toString());
+                    flag = true;
+                }
+            }
+            if (!flag){
+//                log.info("없는날이다" + tempDate);
+                List<String> list = Collections.emptyList();
+                Map<String, Object> cryLog = new HashMap<>();
+                cryLog.put("date", tempDate);
+                cryLog.put("log", list);
+                cryLog.put("cryCounts", 0 );
+                logs.add(cryLog);
+            }
+        }
+
+        Collections.sort(logs, new Comparator<Map<String, Object>>() {
+//
+            public int compare(Map<String, Object> log1, Map<String, Object> log2) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");;
+                LocalDate date1 = LocalDate.parse((String)log1.get("date"), formatter);
+                LocalDate date2 = LocalDate.parse((String)log2.get("date"), formatter);
+                return date1.compareTo(date2);
+            }
+        });
+//        log.info(logs.toString());
+
 
         Map<String, ArrayList> res = new HashMap<>();
         res.put("cry_log", logs);
