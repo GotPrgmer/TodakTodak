@@ -24,12 +24,13 @@ class DeviceComponent extends Component {
     this.babyId = props.babyId[0].toString();
     this.jwtToken = props.jwtToken;
     this.deviceData = props.deviceData;
+
     // console.log(this.babyId);
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
       // mySessionId: "todak000001",
-      mySessionId: this.deviceData.serial_number, // SessionId는 기기에서 고정한다.
+      mySessionId: this.deviceData.session_id, // SessionId는 기기에서 고정한다.
       myUserName: "todak" + this.babyId, // UserName은 기기에서 고정한다.
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
@@ -43,7 +44,6 @@ class DeviceComponent extends Component {
       modelURL: undefined,
       metadataURL: undefined,
     };
-    console.log(this.state.myUserName);
 
     this.joinSession = this.joinSession.bind(this); // 세션에 참여
     this.leaveSession = this.leaveSession.bind(this); // 세션 나가기
@@ -183,7 +183,7 @@ class DeviceComponent extends Component {
           var subscriber = mySession.subscribe(event.stream, undefined); // 세션에 참여한 사람들의 스트림을 받아옴
           var subscribers = this.state.subscribers; // 세션에 참여한 사람들
           subscribers.push(subscriber); // 세션에 참여한 사람들의 스트림을 subscribers에 저장
-          // console.log("subscribers", subscribers);
+          console.log("subscribers", subscribers);
 
           // Update the state with the new subscribers
           this.setState({
@@ -212,9 +212,6 @@ class DeviceComponent extends Component {
 
         // Get a token from the OpenVidu deployment
         this.getToken().then((token) => {
-          let tokenList = this.state.tokenList;
-          tokenList.push(token);
-          // console.log(tokenList);
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -225,6 +222,7 @@ class DeviceComponent extends Component {
 
               // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
               // element: we will manage it on our own) and with the desired properties
+              console.log("0");
               let publisher = await this.OV.initPublisherAsync(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
                 videoSource: undefined, // The source of video. If undefined default webcam
@@ -237,15 +235,16 @@ class DeviceComponent extends Component {
               });
 
               // --- 6) Publish your stream ---
-
+              console.log("1");
               mySession.publish(publisher); // 세션에 참여한 사람의 스트림을 세션에 발행
-
+              console.log("2");
               // Obtain the current video device in use
               var devices = await this.OV.getDevices(); // 현재 사용중인 비디오 장치를 가져옴
               var videoDevices = devices.filter(
                 // 현재 사용중인 비디오 장치를 필터링
                 (device) => device.kind === "videoinput" // 비디오 장치만 필터링
               );
+              console.log("3");
               var currentVideoDeviceId = publisher.stream
                 .getMediaStream()
                 .getVideoTracks()[0]
@@ -291,7 +290,7 @@ class DeviceComponent extends Component {
       session: undefined,
       subscribers: [],
       // mySessionId: "SessionA",
-      mySessionId: this.deviceData.serial_number,
+      mySessionId: this.deviceData.session_id,
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: "todak" + this.babyId,
       mainStreamManager: undefined,
@@ -435,26 +434,56 @@ class DeviceComponent extends Component {
 
   // Session 생성
   async createSession(sessionId) {
+    // // Before
+    // const response = await axios.post(
+    // After
     const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions",
+      // After
+      APPLICATION_SERVER_URL + "api/iot/sessions",
+      // // Before
+      // APPLICATION_SERVER_URL + "api/sessions",
       { customSessionId: sessionId },
       {
         headers: {
+          // After
+          Authorization: `Bearer ${this.jwtToken}`,
           "Content-Type": "application/json;charset=UTF-8",
         },
       }
     );
+    console.log(this.jwtToken);
     return response.data; // The sessionId
   }
 
   // Session 입장에 필요한 Token
   async createToken(sessionId) {
-    const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+    // // Before
+    // const response = await axios.post(
+    // After
+    const response = await axios.patch(
+      // // Before
+      // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+      // After
+      APPLICATION_SERVER_URL +
+        "api/sessions/" +
+        sessionId +
+        "/connections/" +
+        this.babyId,
       {},
       {
-        headers: { "Content-Type": "application/json;charset=UTF-8" },
+        headers: {
+          // After
+          Authorization: `Bearer ${this.jwtToken}`,
+          "Content-Type": "application/json;charset=UTF-8",
+        },
       }
+    );
+    console.log(
+      APPLICATION_SERVER_URL +
+        "api/sessions/" +
+        sessionId +
+        "/connections/" +
+        this.babyId
     );
     return response.data; // The token
   }

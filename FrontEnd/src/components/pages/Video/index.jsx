@@ -12,6 +12,7 @@ function Video() {
   const babyId = useRecoilValue(babyPK);
   const jwt_token = useRecoilValue(jwtToken);
   const [deviceData, setDeviceData] = useRecoilState(deviceDataAtom);
+  // console.log(deviceData);
   const serialNumber = deviceData.serial_number;
 
   useEffect(() => {
