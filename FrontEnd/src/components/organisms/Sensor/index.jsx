@@ -40,15 +40,15 @@ function SensorDataPage() {
     })
 
     return (
-      <div className='w-full flex text-2xl mt-10'>
-        <div className='w-1/2 grid place-items-center'>
+      <div className='w-full flex text-2xl h-[25vh]'>
+        <div className='w-1/2 h-[20vh] grid place-items-center'>
           <img src={temp} alt="" />
           <div className='grid place-items-center z-1 absolute mt-24'>
             <p className='font-bold'>{ values.C } <span className='text-xl'>°C</span></p>
             <p className='text-lg'>Temperature</p>
           </div>
         </div>
-        <div className='w-1/2 grid place-items-center'>
+        <div className='w-1/2 h-[20vh] grid place-items-center'>
           <img src={humid} alt="" />
           <div className='grid place-items-center z-1 absolute mt-24'>
             <p className='font-bold'>{ values.H } <span className='text-xl'>%</span></p>

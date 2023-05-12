@@ -5,10 +5,10 @@ import Logo from "../../../assets/Logo.png";
 function TopBar() {
   return (
     <>
-      <Box className="sticky inset-0 z-10 h-max max-w-full rounded-none lg:px-8 lg:py-4">
+      <Box className="sticky z-10 h-[8vh] lg:px-8 lg:py-4 bg-[#FFDEDE] ">
         <AppBar position="sticky">
           <Toolbar className="bg-[#FFDEDE] flex justify-center">
-              <img className="h-[4rem]" src={Logo} alt="" />
+              <img className="h-[8vh]" src={Logo} alt="" />
           </Toolbar>
         </AppBar>
       </Box>
