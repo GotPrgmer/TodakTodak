@@ -182,6 +182,7 @@ class Device extends Component {
         this.state.rolling_count = 0;
       }
       
+      
       if(rolling_flag == true && this.state.time_interval_flag == false) {
         fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
           headers: {
