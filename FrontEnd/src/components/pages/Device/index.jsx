@@ -27,7 +27,7 @@ function Device() {
       setDeviceData(response.data);
     }
     loadData();
-  }, []);
+  }, [babyId, jwt_token]);
 
   return (
     <>

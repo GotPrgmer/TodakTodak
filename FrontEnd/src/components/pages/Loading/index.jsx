@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { babyPK, jwtToken } from "../../../states/recoilHomeState";
+import Load from "../../../assets/loading.gif";
 
 function Loading() {
   const navigate = useNavigate();
@@ -44,7 +45,9 @@ function Loading() {
 
   return (
     <>
-      <div>LoadingPage</div>
+      <div className="w-screen h-screen font-new bg-contain grid place-items-center bg-[#FED000]">
+        <img className="w-screen" src={Load} alt="" />
+      </div>
     </>
   );
 }

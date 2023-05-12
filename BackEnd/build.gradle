@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+	//redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	//FCM
 	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '6.8.1'
 	implementation 'com.squareup.okhttp3:okhttp:3.10.0'
