@@ -51,14 +51,14 @@ public class OpenViduController {
 	 * This method creates a new Session in OpenVidu Server. The session
 	 */
 	private final OpenViduService openViduService;
-//	@PostMapping(value = "/api/sessions", consumes = {"application/json;charset=UTF-8"})
-//	public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
-//			throws OpenViduJavaClientException, OpenViduHttpException {
-//		SessionProperties properties = SessionProperties.fromJson(params).build(); // SessionProperties 클래스의 인스턴스를 생성한다.
-//		Session session = openvidu.createSession(properties);	// OpenVidu 클래스의 인스턴스의 createSession 메소드를 호출한다.
-//
-//		return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK); // 세션 ID를 반환한다.
-//	}
+	@PostMapping(value = "/api/iot/sessions", consumes = {"application/json;charset=UTF-8"})
+	public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
+			throws OpenViduJavaClientException, OpenViduHttpException {
+		SessionProperties properties = SessionProperties.fromJson(params).build(); // SessionProperties 클래스의 인스턴스를 생성한다.
+		Session session = openvidu.createSession(properties);	// OpenVidu 클래스의 인스턴스의 createSession 메소드를 호출한다.
+
+		return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK); // 세션 ID를 반환한다.
+	}
 //
 //	/**
 //	 * @param sessionId The Session in which to create the Connection
@@ -82,17 +82,17 @@ public class OpenViduController {
 //}
 
 
-	@PatchMapping(value = "/api/sessions/{babyId}", consumes = {"application/json;charset=UTF-8"})
-	public OpenViduCreateSessionResponseDto createSession(Authentication authentication, @PathVariable("babyId") Integer babyId,
-														  @RequestBody(required = false) Map<String, Object> params)
-			throws OpenViduJavaClientException, OpenViduHttpException {
-
-		UserDetails principal = (UserDetails) authentication.getPrincipal();
-		//authentication객체 가져올때는 아기id랑 사용자 id랑 일치되는것만 가져오는 로직 추가해야함
-		return openViduService.createSession(babyId,params,this.openvidu,principal.getUsername());
-//		return openViduService.createSession(babyId,params,this.openvidu); // 토큰을 반환한다.
-// 세션 ID를 반환한다.
-	}
+//	@PatchMapping(value = "/api/sessions/{babyId}", consumes = {"application/json;charset=UTF-8"})
+//	public OpenViduCreateSessionResponseDto createSession(Authentication authentication, @PathVariable("babyId") Integer babyId,
+//														  @RequestBody(required = false) Map<String, Object> params)
+//			throws OpenViduJavaClientException, OpenViduHttpException {
+//
+//		UserDetails principal = (UserDetails) authentication.getPrincipal();
+//		//authentication객체 가져올때는 아기id랑 사용자 id랑 일치되는것만 가져오는 로직 추가해야함
+//		return openViduService.createSession(babyId,params,this.openvidu,principal.getUsername());
+////		return openViduService.createSession(babyId,params,this.openvidu); // 토큰을 반환한다.
+//// 세션 ID를 반환한다.
+//	}
 
 	/**
 	 * @param sessionId The Session in which to create the Connection

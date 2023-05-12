@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/api/device/alarm/*",
                         "/api/device/alarm/**",
+                        "/api/iot/sessions/*",
+                        "/api/iot/sessions/**",
 //                        "/api/sessions/*",
 //                        "/api/sessions/**",
                         "/api/cry/record/*",
@@ -60,6 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/api/device/alarm/*",
                         "/api/device/alarm/**",
+                        "/api/iot/sessions/*",
+                        "/api/iot/sessions/**",
 //                        "/api/sessions/*",
 //                        "/api/sessions/**",
                         "/api/cry/record/*",
