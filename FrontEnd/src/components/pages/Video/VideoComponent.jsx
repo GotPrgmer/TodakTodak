@@ -27,7 +27,7 @@ class Video extends Component {
     this.state = {
       // SessionId는 Camera Serial Number(로그인 후 시도)
       // mySessionId: "todak000001",
-      mySessionId: this.deviceData.serial_number,
+      mySessionId: this.deviceData.session_id,
       // UserName은 로그인 한 후 생성되는 pk 번호
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: this.babyId,
@@ -38,7 +38,7 @@ class Video extends Component {
       tokenList: [],
       babyPK: undefined,
     };
-    console.log(this.state.myUserName);
+    // console.log(this.state.myUserName);
 
     this.code = new URL(document.location.toString()).searchParams.get("code");
     this.joinSession = this.joinSession.bind(this);
@@ -234,7 +234,7 @@ class Video extends Component {
       session: undefined,
       subscribers: [],
       // mySessionId: "SessionA",
-      mySessionId: this.deviceData.serial_number,
+      mySessionId: this.deviceData.session_id,
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: this.babyId,
       mainStreamManager: undefined,
@@ -419,21 +419,30 @@ class Video extends Component {
    * Visit https://docs.openvidu.io/en/stable/application-server to learn
    * more about the integration of OpenVidu in your application server.
    */
-
   async getToken() {
-    const sessionId = await this.createSession(this.state.mySessionId);
+    // const sessionId = await this.createSession(this.state.mySessionId);
+    const sessionId = this.state.mySessionId;
+    console.log(sessionId);
     return await this.createToken(sessionId);
   }
 
-  // Session 생성
+  // // Session 생성
   async createSession(sessionId) {
+    // // Before
+    // const response = await axios.post(
+    // After
+    console.log(sessionId);
     const response = await axios.post(
-      // APPLICATION_SERVER_URL + "api/sessions/" + this.babyId,
-      APPLICATION_SERVER_URL + "api/sessions",
+      // After
+      APPLICATION_SERVER_URL + "api/iot/sessions",
+      // // Before
+      // APPLICATION_SERVER_URL + "api/sessions",
+
       { customSessionId: sessionId },
       {
         headers: {
-          // Authorization: `Bearer ${this.jwtToken}`,
+          // After
+          Authorization: `Bearer ${this.jwtToken}`,
           "Content-Type": "application/json;charset=UTF-8",
         },
       }
@@ -443,21 +452,28 @@ class Video extends Component {
 
   // Session 입장에 필요한 Token
   async createToken(sessionId) {
-    const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
-      // APPLICATION_SERVER_URL +
-      //   "api/sessions/" +
-      //   sessionId +
-      //   "/connections" +
-      //   this.babyId,
+    // // Before
+    // const response = await axios.post(
+    // After
+    const response = await axios.patch(
+      // // Before
+      // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+      // After
+      APPLICATION_SERVER_URL +
+        "api/sessions/" +
+        sessionId +
+        "/connections/" +
+        this.babyId,
       {},
       {
         headers: {
-          // Authorization: `Bearer ${this.jwtToken}`,
+          // After
+          Authorization: `Bearer ${this.jwtToken}`,
           "Content-Type": "application/json;charset=UTF-8",
         },
       }
     );
+    console.log(response.data);
     return response.data; // The token
   }
 }
