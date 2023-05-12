@@ -35,9 +35,9 @@ public class BabyService {
 
     @Transactional
     public BabyInfoResponseDto babyInfo(Integer babyId,String userId){
-        Integer userIdToNumber = Integer.parseInt(userId);
+        Integer userIdToInteger = Integer.parseInt(userId);
         //babyId로 아기 조회
-        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
+        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
@@ -55,8 +55,8 @@ public class BabyService {
     @Transactional
     public BabyInfoResponseDto babyInfoUpdate(Integer babyId, MultipartFile file, BabyUpdateRequestDto babyUpdateRequestDto, String userId) throws IOException {
         //babyId로 아기 조회
-        Integer userIdToNumber = Integer.parseInt(userId);
-        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
+        Integer userIdToInteger = Integer.parseInt(userId);
+        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
         System.out.println(baby.get());
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);

@@ -30,10 +30,10 @@ public class OpenViduService {
 
 
     @Transactional
-    public OpenViduCreateSessionResponseDto createSession(Integer babyId, Map<String, Object> params,OpenVidu openVidu) throws OpenViduJavaClientException, OpenViduHttpException {
+    public OpenViduCreateSessionResponseDto createSession(Integer babyId, Map<String, Object> params,OpenVidu openVidu,String userId) throws OpenViduJavaClientException, OpenViduHttpException {
 //        Optional<Baby> findBaby = babyRepository.findByBabyIdAndUserUserId(babyId);
-
-        Device getDevice = findDeviceWithUserAndBaby(babyId);
+        Integer userIdToInteger = Integer.parseInt(userId);
+        Device getDevice = findDeviceWithUserAndBaby(babyId,userIdToInteger);
         log.info(getDevice.getSessionId());
 
         if(getDevice.getSessionId()==null){
@@ -58,10 +58,11 @@ public class OpenViduService {
     }
 
     @Transactional
-    public OpenViduCreateConnectionResponseDto createConnect(Integer babyId,Map<String, Object> params, OpenVidu openVidu,String sessionId) throws OpenViduJavaClientException, OpenViduHttpException {
+    public OpenViduCreateConnectionResponseDto createConnection(Integer babyId,Map<String, Object> params, OpenVidu openVidu,String sessionId,String userId) throws OpenViduJavaClientException, OpenViduHttpException {
         // 아기 id와 세션id는 일치한다고 가정
+        Integer userIdToInteger = Integer.parseInt(userId);
 
-        Device getDevice = findDeviceWithUserAndBaby(babyId);
+        Device getDevice = findDeviceWithUserAndBaby(babyId,userIdToInteger);
         Session session = openVidu.getActiveSession(sessionId);// OpenVidu 클래스의 인스턴스의 getActiveSession 메소드를 호출한다.
 		if (session == null) {    // 세션 ID가 존재하지 않는다면
             throw new CustomException(ErrorCode.SESSION_ID_INVALID); // 404 에러를 반환한다.
@@ -87,8 +88,9 @@ public class OpenViduService {
         return OpenViduCreateConnectionResponseDto.ofConnection(session.getConnection(getDevice.getConnectionId()));
     }
 
-    public Device findDeviceWithUserAndBaby(Integer babyId){
-        Optional<Baby> findBaby = babyRepository.findById(babyId);
+    public Device findDeviceWithUserAndBaby(Integer babyId,Integer userId ){
+        Optional<Baby> findBaby = babyRepository.findByBabyIdAndUserUserId(babyId,userId);
+//        Optional<Baby> findBaby = babyRepository.findById(babyId);
         if (findBaby.isEmpty()){
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
