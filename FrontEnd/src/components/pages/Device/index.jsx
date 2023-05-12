@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // // class형
 import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
