@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // // class형
 import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
@@ -37,8 +38,11 @@ class Device extends Component {
       modelURL:undefined,
       metadataURL:undefined,
       time: 0,
-      current: 0,
-      previous: 0,
+      cur: 0,
+      prev: 0,
+      rolling_flag: false,
+      time_interval_flag: false,
+      rolling_count: 0,
     };
     // console.log(this.state.subscribers);
 
@@ -155,34 +159,88 @@ class Device extends Component {
           console.log(classPrediction);
       }
 
-      cur = prediction[0].probability.toFixed(2);
+      rolling_flag = this.state.rolling_flag;
+      time_interval_flag = this.state.time_interval_flag;
 
-      
+      count = this.state.rolling_count;
+
       const rolling = {
         serialNumber: "todak2",
         alarmType: "rolling",
         message: "아기가 뒤집기를 했습니다. 확인해주세요.",
       };
+      
+      cur = prediction[0].probability.toFixed(2);
 
-      // 아기가 뒤집어졌을 때
-      if(prediction[0].probability.toFixed(2) > 0.9) {
-        fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
-              headers: {
-                "Content-Type": "application/json",
-              },
-              method: "POST",
-              // mode: "cors",
-              body: JSON.stringify(rolling),
-            })
-            .then((response) => {
-              console.log("뒤집기 알람 요청 성공!!!!!", response);
-              return response.json;
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-            });
+      // 아기가 뒤집한 경우가 지속될 때
+      if(cur > 0.9 && rolling_flag == false){
+        this.state.rolling_count += 1;
+        if(this.state.rolling_count >= 5){
+          this.state.rolling_flag = true;
+          this.state.rolling_count = 0;
+        }
+      }
+      else if(cur < 0.9 && rolling_flag == false){
+        this.state.rolling_count = 0;
       }
       
+      if(rolling_flag == true && this.state.time_interval_flag == false) {
+        fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          // mode: "cors",
+          body: JSON.stringify(rolling),
+        })
+        .then((response) => {
+          console.log("뒤집기 알람 요청 성공!!!!!", response);
+          return response.json;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+        
+        this.state.time_interval_flag  = true;
+      }
+      
+
+      const rolling_continue = {
+        serialNumber: "todak2",
+        alarmType: "rolling",
+        message: "아기가 계속 뒤집혀 있습니다. 확인해주세요.",
+      };
+
+      if(rolling_flag == true){
+        if(time_interval_flag == true){
+          setTimeout(() => {
+              if(cur > 0.9){
+                fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  method: "POST",
+                  // mode: "cors",
+                  body: JSON.stringify(rolling_continue),
+                })
+                .then((response) => {
+                  console.log("뒤집기 알람 요청 성공!!!!!", response);
+                  this.state.time_interval_flag = true;
+                  return response.json;
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
+              }
+              else{
+                this.state.rolling_flag = false;
+              }
+            }, 10000);
+            this.state.time_interval_flag = false;
+          }
+        }
+      }
+
   }
   // joinSession
   joinSession() { // 세션에 참여
