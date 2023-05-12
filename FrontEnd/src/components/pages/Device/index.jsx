@@ -159,10 +159,8 @@ class Device extends Component {
           console.log(classPrediction);
       }
 
-      rolling_flag = this.state.rolling_flag;
-      time_interval_flag = this.state.time_interval_flag;
-
-      count = this.state.rolling_count;
+      var rolling_flag = this.state.rolling_flag;
+      var time_interval_flag = this.state.time_interval_flag;
 
       const rolling = {
         serialNumber: "todak2",
@@ -170,7 +168,7 @@ class Device extends Component {
         message: "아기가 뒤집기를 했습니다. 확인해주세요.",
       };
       
-      cur = prediction[0].probability.toFixed(2);
+      var cur = prediction[0].probability.toFixed(2);
 
       // 아기가 뒤집한 경우가 지속될 때
       if(cur > 0.9 && rolling_flag == false){
@@ -183,6 +181,7 @@ class Device extends Component {
       else if(cur < 0.9 && rolling_flag == false){
         this.state.rolling_count = 0;
       }
+      
       
       if(rolling_flag == true && this.state.time_interval_flag == false) {
         fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
@@ -235,12 +234,10 @@ class Device extends Component {
               else{
                 this.state.rolling_flag = false;
               }
-            }, 10000);
-            this.state.time_interval_flag = false;
-          }
+          }, 10000);
+          this.state.time_interval_flag = false;
         }
       }
-
   }
   // joinSession
   joinSession() { // 세션에 참여
