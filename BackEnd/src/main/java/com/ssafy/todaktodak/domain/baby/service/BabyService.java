@@ -9,12 +9,16 @@ import com.ssafy.todaktodak.global.error.ErrorCode;
 import com.ssafy.todaktodak.global.storage.S3Client;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -45,7 +49,10 @@ public class BabyService {
         Integer year= findBaby.getBabyBirthYear();
         Integer month = findBaby.getBabyBirthMonth();
         Integer day = findBaby.getBabyBirthDay();
-        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        log.info(year.toString());
+        log.info(month.toString());
+        log.info(day.toString());
+        String babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
 
 
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
@@ -78,13 +85,13 @@ public class BabyService {
         Integer day = babyUpdateRequestDto.getBabyBirthDay();
 
         // 별자리 찾기
-        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
         log.info(babyConstellation);
         // 띠 찾기
-        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
         log.info(babyZodiac);
         // dday 계산
-        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        String babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         log.info(String.valueOf(babyDDay));
         findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,imageUrl);
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);

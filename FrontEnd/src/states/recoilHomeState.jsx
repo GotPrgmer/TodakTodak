@@ -20,4 +20,10 @@ const jwtToken = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export { bottomBarAtom, babyPK, jwtToken };
+const deviceDataAtom = atom({
+  key: "deviceDataAtom",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export { bottomBarAtom, babyPK, jwtToken, deviceDataAtom };
