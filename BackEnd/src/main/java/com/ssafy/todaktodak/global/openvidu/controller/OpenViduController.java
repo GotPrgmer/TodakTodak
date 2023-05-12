@@ -1,12 +1,15 @@
 package com.ssafy.todaktodak.global.openvidu.controller;
 
 import com.ssafy.todaktodak.global.openvidu.dto.OpenViduCreateConnectionResponseDto;
-import com.ssafy.todaktodak.global.openvidu.dto.OpenViduCreateSessionResponseDto;
+import com.ssafy.todaktodak.global.openvidu.dto.OpenViduIotConnectSessionResponseDto;
+import com.ssafy.todaktodak.global.openvidu.dto.OpenViduIotRequestDto;
 import com.ssafy.todaktodak.global.openvidu.service.OpenViduService;
-import io.openvidu.java.client.*;
+import io.openvidu.java.client.OpenVidu;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,13 +54,12 @@ public class OpenViduController {
 	 * This method creates a new Session in OpenVidu Server. The session
 	 */
 	private final OpenViduService openViduService;
-	@PostMapping(value = "/api/iot/sessions", consumes = {"application/json;charset=UTF-8"})
-	public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
+	@PostMapping(value = "/api/iot/sessions", consumes = {MediaType.APPLICATION_JSON_VALUE})
+	public OpenViduIotConnectSessionResponseDto iotOpenViduConnection(@RequestBody OpenViduIotRequestDto params)
 			throws OpenViduJavaClientException, OpenViduHttpException {
-		SessionProperties properties = SessionProperties.fromJson(params).build(); // SessionProperties 클래스의 인스턴스를 생성한다.
-		Session session = openvidu.createSession(properties);	// OpenVidu 클래스의 인스턴스의 createSession 메소드를 호출한다.
 
-		return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK); // 세션 ID를 반환한다.
+		return openViduService.iotOpenViduConnection(params.getParamsSessions(), params.getParamsConnections(),this.openvidu);
+//		return new ResponseEntity<>(connection.getToken(), HttpStatus.OK); // 세션 ID를 반환한다.
 	}
 //
 //	/**
