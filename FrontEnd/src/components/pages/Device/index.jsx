@@ -151,6 +151,36 @@ class Device extends Component {
           // labelContainer.childNodes[i].innerHTML = classPrediction;
           console.log(classPrediction);
       }
+      
+      const rolling = {
+        serialNumber: "todak2",
+        alarmType: "rolling",
+        message: "아기가 뒤집기를 했습니다. 확인해주세요.",
+      };
+
+      // 아기가 뒤집어졌을 때
+      if(prediction[0].probability.toFixed(2) > 0.9) {
+        fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              method: "POST",
+              // mode: "cors",
+              body: JSON.stringify(rolling),
+            })
+              .then((response) => {
+                console.log("뒤집기 알람 요청 성공!!!!!", response);
+                return response.json;
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          }
+        }
+      }
+      
+      classPrediction = prediction[0].className;
+      
   }
   // joinSession
   joinSession() { // 세션에 참여
