@@ -27,13 +27,13 @@ public class BabyInfoResponseDto {
 
     private Integer babyBirthDay;
 
-    private String babyDDay;
+    private Integer babyDDay;
 
     private String babyZodiak;
 
     private String babyConstellation;
 
-    public static BabyInfoResponseDto ofBaby(Baby baby,String DDay){
+    public static BabyInfoResponseDto ofBaby(Baby baby,Integer DDay){
 
         return BabyInfoResponseDto.builder()
                 .babyId(baby.getBabyId())
