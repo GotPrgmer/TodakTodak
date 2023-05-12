@@ -18,12 +18,12 @@ function Profile() {
   return (
     <div className="font-new">
       <TopBar />
-      <div className="h-screen">
+      <div className="h-screen pb-16">
         <BabyProfile />
         {/* <Sensor/> */}
         <SensorDataPage/>
-        </div>
-        <BottomBar />
+      </div>
+      <BottomBar />
     </div>
   );
 }
