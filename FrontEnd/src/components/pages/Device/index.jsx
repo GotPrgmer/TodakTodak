@@ -176,7 +176,6 @@ class Device extends Component {
               console.error("Error:", error);
             });
       }
-      
   }
   // joinSession
   joinSession() { // 세션에 참여
