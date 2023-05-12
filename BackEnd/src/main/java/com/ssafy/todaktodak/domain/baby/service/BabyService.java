@@ -9,16 +9,20 @@ import com.ssafy.todaktodak.global.error.ErrorCode;
 import com.ssafy.todaktodak.global.storage.S3Client;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Optional;
 
-import static com.ssafy.todaktodak.global.error.ErrorCode.BIRTH_DATE_NOT_VALID;
+import static com.ssafy.todaktodak.global.error.ErrorCode.BIRTH_DATE_INVALID;
 
 @Slf4j
 @Service
@@ -45,7 +49,10 @@ public class BabyService {
         Integer year= findBaby.getBabyBirthYear();
         Integer month = findBaby.getBabyBirthMonth();
         Integer day = findBaby.getBabyBirthDay();
-        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        log.info(year.toString());
+        log.info(month.toString());
+        log.info(day.toString());
+        String babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
 
 
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
@@ -57,7 +64,6 @@ public class BabyService {
         //babyId로 아기 조회
         Integer userIdToNumber = Integer.parseInt(userId);
         Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToNumber);
-        System.out.println(baby.get());
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
@@ -78,13 +84,13 @@ public class BabyService {
         Integer day = babyUpdateRequestDto.getBabyBirthDay();
 
         // 별자리 찾기
-        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
         log.info(babyConstellation);
         // 띠 찾기
-        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
         log.info(babyZodiac);
         // dday 계산
-        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_NOT_VALID));;
+        String babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         log.info(String.valueOf(babyDDay));
         findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,imageUrl);
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
@@ -119,7 +125,7 @@ public class BabyService {
 
     }
 
-    public Optional<Integer> findDDay(Integer year,Integer month, Integer day){
+    public Optional<String> findDDay(Integer year,Integer month, Integer day){
         if (year == null || month == null || day == null){
             return Optional.empty();
         }
@@ -127,12 +133,25 @@ public class BabyService {
         Calendar birthDay = Calendar.getInstance();
         birthDay.set(year, month, day);
 
-        long birthDayToMills = birthDay.getTimeInMillis();
+
+        // 아기 생일 날짜로 밀리타임 계산
         long dayFromMill = 1000 * 60 * 60 * 24;
-        long now = System.currentTimeMillis();
+        LocalDateTime birtDayDateTime = LocalDateTime.of(year,month,day,0,0);
+        Instant birthInstant = birtDayDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        long birthEpochMilli = birthInstant.toEpochMilli();
 
+        // 현재 날짜로 밀리타임계산
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Instant currentInstant = currentDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        long currentEpochMilli = currentInstant.toEpochMilli();
 
-        return Optional.of(Math.toIntExact((now - birthDayToMills) / dayFromMill));
+        Integer dDay = Math.toIntExact((currentEpochMilli - birthEpochMilli) / dayFromMill);
+        log.info(String.valueOf(dDay));
+        if (dDay <0){
+            return Optional.empty();
+        }
+
+        return Optional.of(String.valueOf(dDay));
 
     }
 
