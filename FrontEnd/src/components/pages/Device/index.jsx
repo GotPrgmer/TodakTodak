@@ -168,19 +168,14 @@ class Device extends Component {
               // mode: "cors",
               body: JSON.stringify(rolling),
             })
-              .then((response) => {
-                console.log("뒤집기 알람 요청 성공!!!!!", response);
-                return response.json;
-              })
-              .catch((error) => {
-                console.error("Error:", error);
-              });
-          }
-        }
+            .then((response) => {
+              console.log("뒤집기 알람 요청 성공!!!!!", response);
+              return response.json;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
       }
-      
-      classPrediction = prediction[0].className;
-      
   }
   // joinSession
   joinSession() { // 세션에 참여
