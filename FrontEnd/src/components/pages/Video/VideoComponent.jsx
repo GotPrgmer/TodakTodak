@@ -157,6 +157,7 @@ class Video extends Component {
 
         // Get a token from the OpenVidu deployment
         this.getToken().then((token) => {
+          console.log(token);
           let tokenList = this.state.tokenList;
           tokenList.push(token);
           // console.log(tokenList);
@@ -422,7 +423,6 @@ class Video extends Component {
   async getToken() {
     // const sessionId = await this.createSession(this.state.mySessionId);
     const sessionId = this.state.mySessionId;
-    console.log(sessionId);
     return await this.createToken(sessionId);
   }
 
