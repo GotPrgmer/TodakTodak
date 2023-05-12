@@ -11,8 +11,8 @@ import * as tmImage from "@teachablemachine/image";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
 
-// const APPLICATION_SERVER_URL = "https://todaktodak.kr:8080/"; // spring 서버 주소
-const APPLICATION_SERVER_URL = "https://demos.openvidu.io/";
+const APPLICATION_SERVER_URL = "https://todaktodak.kr:8080/"; // spring 서버 주소
+// const APPLICATION_SERVER_URL = "https://demos.openvidu.io/";
 // ------------------------------------------------------------------------------------------------------
 
 // 클래스형
