@@ -235,12 +235,10 @@ class Device extends Component {
               else{
                 this.state.rolling_flag = false;
               }
-            }, 10000);
-            this.state.time_interval_flag = false;
-          }
+          }, 10000);
+          this.state.time_interval_flag = false;
         }
       }
-
   }
   // joinSession
   joinSession() { // 세션에 참여
