@@ -35,7 +35,10 @@ class Device extends Component {
       maxPredictions: undefined,
       url: "https://teachablemachine.withgoogle.com/models/_6gIxAahL/",
       modelURL:undefined,
-      metadataURL:undefined
+      metadataURL:undefined,
+      time: 0,
+      current: 0,
+      previous: 0,
     };
     // console.log(this.state.subscribers);
 
@@ -151,6 +154,9 @@ class Device extends Component {
           // labelContainer.childNodes[i].innerHTML = classPrediction;
           console.log(classPrediction);
       }
+
+      cur = prediction[0].probability.toFixed(2);
+
       
       const rolling = {
         serialNumber: "todak2",
@@ -176,6 +182,7 @@ class Device extends Component {
               console.error("Error:", error);
             });
       }
+      
   }
   // joinSession
   joinSession() { // 세션에 참여
