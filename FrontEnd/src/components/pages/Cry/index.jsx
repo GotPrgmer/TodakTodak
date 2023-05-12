@@ -215,13 +215,13 @@ function Cry() {
   return (
     <>
       <TopBar />
-      <div className="h-screen px-5">
-        <div className="w-full mt-5">
+      <div className={`${isMoreBtn ? "h-[85vh]" : "h-screen"}  px-5`}>
+        <div className="w-full pt-5">
           <ModalCalender dateSelect={dateSelect} />
         </div>
 
-        <div className="h-screen font-new">
-          <div className="h-1/2">
+        <div className="font-new">
+          <div className="h-[45vh]">
             <Bar options={options} data={data}/>
           </div>
           <div className="mt-10 px-3">

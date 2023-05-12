@@ -18,7 +18,7 @@ function Profile() {
   return (
     <div className="font-new">
       <TopBar />
-      <div className="h-screen pb-16">
+      <div className="h-[85vh]">
         <BabyProfile />
         {/* <Sensor/> */}
         <SensorDataPage/>

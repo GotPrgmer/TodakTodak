@@ -31,7 +31,7 @@ function BabyProfile() {
   }, []);
 
   return (
-    <div className="h-3/5 text-center grid place-items-center bg-cover rounded-b-[30px] bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')]">
+    <div className="h-[60vh] text-center grid place-items-center bg-cover rounded-b-[30px] bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')]">
       <div className="h-5/6 w-full">
         <div className="flex justify-end mr-5">
           <button>
