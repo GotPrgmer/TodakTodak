@@ -1,15 +1,19 @@
 package com.ssafy.todaktodak.domain.baby.service;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
+import com.ssafy.todaktodak.domain.baby.dto.BabyAddRequestDto;
 import com.ssafy.todaktodak.domain.baby.dto.BabyInfoResponseDto;
 import com.ssafy.todaktodak.domain.baby.dto.BabyUpdateRequestDto;
 import com.ssafy.todaktodak.domain.baby.repository.BabyRepository;
+import com.ssafy.todaktodak.domain.device.domain.Device;
+import com.ssafy.todaktodak.domain.device.repository.DeviceRepository;
+import com.ssafy.todaktodak.domain.user.domain.User;
+import com.ssafy.todaktodak.domain.user.repository.UserRepository;
 import com.ssafy.todaktodak.global.error.CustomException;
 import com.ssafy.todaktodak.global.error.ErrorCode;
 import com.ssafy.todaktodak.global.storage.S3Client;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +35,13 @@ public class BabyService {
 
     private final BabyRepository babyRepository;
 
+    private final UserRepository userRepository;
+
+    private final DeviceRepository deviceRepository;
     private final S3Client s3Client;
 
-
+    @Value("${s3-baby-default-image}")
+    private String S3_BABY_IMAGE;
     @Value("${s3-default-image}")
     private String DEFAULT_IMAGE_S3;
 
@@ -95,6 +103,43 @@ public class BabyService {
         log.info(String.valueOf(babyDDay));
         findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,imageUrl);
         return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
+    }
+
+    @Transactional
+    public BabyInfoResponseDto babyAdd(MultipartFile file, BabyAddRequestDto babyAddRequestDto, String userId) throws IOException {
+        //사용자 조회
+        Integer userIdToInteger = Integer.parseInt(userId);
+        Optional<User> user = userRepository.findById(userIdToInteger);
+        if ( user.isEmpty()) {
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        User findUser = user.get();
+        String imageUrl = null;
+        if (file != null && !file.isEmpty()) {
+            imageUrl = s3Client.uploadFile(file);
+        } else {
+            imageUrl = S3_BABY_IMAGE;
+        }
+
+
+        Integer year = babyAddRequestDto.getBabyBirthYear();
+        Integer month = babyAddRequestDto.getBabyBirthMonth();
+        Integer day = babyAddRequestDto.getBabyBirthDay();
+
+        // 별자리 찾기
+        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        log.info(babyConstellation);
+        // 띠 찾기
+        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        log.info(babyZodiac);
+        // dday 계산
+        Integer babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
+        log.info(String.valueOf(babyDDay));
+        Baby newBaby = Baby.newBabyAdd(findUser,babyAddRequestDto,babyConstellation,babyZodiac,imageUrl);
+        babyRepository.save(newBaby);
+        Device newDevice =  Device.newDeviceCreate(newBaby);
+        deviceRepository.save(newDevice);
+        return BabyInfoResponseDto.ofBaby(newBaby,babyDDay);
     }
 
     public Optional<String> findConstellation(Integer month,Integer day){

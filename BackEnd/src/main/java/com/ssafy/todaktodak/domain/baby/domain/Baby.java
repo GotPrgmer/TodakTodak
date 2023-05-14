@@ -1,6 +1,7 @@
 package com.ssafy.todaktodak.domain.baby.domain;
 
 
+import com.ssafy.todaktodak.domain.baby.dto.BabyAddRequestDto;
 import com.ssafy.todaktodak.domain.baby.dto.BabyUpdateRequestDto;
 import com.ssafy.todaktodak.domain.cry.domain.Cry;
 import com.ssafy.todaktodak.domain.device.domain.Device;
@@ -91,6 +92,7 @@ public class Baby {
 
 
 
+
     public static Baby newBabyCreate(User user, String babyImage){
         return Baby.builder()
                 .user(user)
@@ -103,6 +105,21 @@ public class Baby {
                 .babyBirthMonth(DateTime.now().getMonthOfYear())
                 .babyBirthDay(DateTime.now().getDayOfMonth())
                 .babyZodiak("-")
+                .build();
+    }
+
+    public static Baby newBabyAdd(User user, BabyAddRequestDto babyAddRequestDto,String babyConstellation,String babyZodiak, String babyImage){
+        return Baby.builder()
+                .user(user)
+                .babyName(babyAddRequestDto.getBabyName())
+                .babyNickname(babyAddRequestDto.getBabyNickname())
+                .babyImageUrl(babyImage)
+                .babyGender(Gender.ofString(babyAddRequestDto.getBabyGender()))
+                .babyConstellation(babyConstellation)
+                .babyBirthYear(babyAddRequestDto.getBabyBirthYear())
+                .babyBirthMonth(babyAddRequestDto.getBabyBirthMonth())
+                .babyBirthDay(babyAddRequestDto.getBabyBirthDay())
+                .babyZodiak(babyZodiak)
                 .build();
     }
 
