@@ -1,5 +1,6 @@
 package com.ssafy.todaktodak.domain.baby.controller;
 
+import com.ssafy.todaktodak.domain.baby.dto.BabyAddRequestDto;
 import com.ssafy.todaktodak.domain.baby.dto.BabyInfoResponseDto;
 import com.ssafy.todaktodak.domain.baby.dto.BabyUpdateRequestDto;
 import com.ssafy.todaktodak.domain.baby.service.BabyService;
@@ -40,6 +41,17 @@ public class BabyController {
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
         return babyService.babyInfoUpdate(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
+    }
+
+    @PostMapping(value = "/baby/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    public BabyInfoResponseDto babyAdd(Authentication authentication,
+                                              @RequestPart(value = "babyImage",required = false) MultipartFile babyImage,
+                                              @RequestPart(value="request") BabyAddRequestDto babyAddRequestDto)
+            throws IOException {
+
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+
+        return babyService.babyAdd(babyImage,babyAddRequestDto,principal.getUsername());
     }
 
 
