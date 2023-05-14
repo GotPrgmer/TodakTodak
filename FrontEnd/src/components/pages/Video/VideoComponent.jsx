@@ -473,7 +473,6 @@ class Video extends Component {
         },
       }
     );
-    console.log(response.data);
     return response.data; // The token
   }
 }

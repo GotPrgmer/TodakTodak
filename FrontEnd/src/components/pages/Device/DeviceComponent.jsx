@@ -478,13 +478,6 @@ class DeviceComponent extends Component {
         },
       }
     );
-    console.log(
-      APPLICATION_SERVER_URL +
-        "api/sessions/" +
-        sessionId +
-        "/connections/" +
-        this.babyId
-    );
     return response.data; // The token
   }
 }
