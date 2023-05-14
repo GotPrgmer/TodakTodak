@@ -6,6 +6,7 @@ import com.ssafy.todaktodak.domain.device.domain.Device;
 import com.ssafy.todaktodak.domain.device.dto.DeviceAlarmRequestDto;
 import com.ssafy.todaktodak.domain.device.dto.DeviceAlarmResponseDto;
 import com.ssafy.todaktodak.domain.device.dto.DeviceInfoResponseDto;
+import com.ssafy.todaktodak.domain.device.dto.DeviceInfoUpdateRequestDto;
 import com.ssafy.todaktodak.domain.device.repository.DeviceRepository;
 import com.ssafy.todaktodak.domain.user.domain.User;
 import com.ssafy.todaktodak.domain.user.repository.UserRepository;
@@ -74,4 +75,19 @@ public class DeviceService {
 
 
     }
+
+    @Transactional
+    public DeviceInfoResponseDto deviceInfoUpdate(Integer babyId, DeviceInfoUpdateRequestDto deviceInfoUpdateRequestDto){
+        //babyId로 아기 조회
+        Optional<Device> device = deviceRepository.findByBabyBabyId(babyId);
+        if ( device.isEmpty()) {
+            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+        }
+        Device findDevice = device.get();
+        findDevice.updateSessionId(deviceInfoUpdateRequestDto.getSessionId());
+
+        return DeviceInfoResponseDto.ofDevice(findDevice);
+        //
+    }
+
 }
