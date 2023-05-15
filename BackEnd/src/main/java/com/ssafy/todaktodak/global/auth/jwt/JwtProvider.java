@@ -55,8 +55,6 @@ public class JwtProvider {
         String authority = (String) claims.get(AUTHORITIES_KEY);
         Role inputAuthority = null;
         SimpleGrantedAuthority simpleAuthority = new SimpleGrantedAuthority(authority);
-        log.info(simpleAuthority.toString());
-        log.info(simpleAuthority.getAuthority());
         if (simpleAuthority.getAuthority().equals("ROLE_USER")) {
             inputAuthority = Role.USER;
         } else {

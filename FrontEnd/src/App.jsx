@@ -10,7 +10,107 @@ import Loading from "./components/pages/Loading";
 import Device from "./components/pages/Device";
 import Login from "./components/pages/Login";
 
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { useRecoilValue } from "recoil";
+import { useEffect } from "react";
+import { jwtToken } from "./states/recoilHomeState";
+
 function App() {
+  const firebaseConfig = {
+    apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM",
+    authDomain: "todaktodak-6846e.firebaseapp.com",
+    projectId: "todaktodak-6846e",
+    storageBucket: "todaktodak-6846e.appspot.com",
+    messagingSenderId: "964401813700",
+    appId: "1:964401813700:web:ea0d9e4fc146ea76531191",
+    measurementId: "G-P2DYY794B6",
+  };
+
+  function requestPermission() {
+    console.log("Requesting permission...");
+    if (jwt_token) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          console.log("Notification permission granted.");
+
+          // Initialize Firebase
+          const app = initializeApp(firebaseConfig);
+
+          // Initialize Firebase Cloud Messaging and get a reference to the service
+          const messaging = getMessaging(app);
+
+          getToken(messaging, {
+            vapidKey:
+              "BF3U9375dYGSwWvW4-7mhysfyOYnsFf5nbWEOw3vH5_KWQ2MOhSXszPGZlXSFhbDP_rUn7OYpyfW2NsamrEmVpQ",
+          })
+            .then((currentToken) => {
+              if (currentToken) {
+                console.log(typeof JSON.stringify(currentToken));
+                console.log("currentToken: ", currentToken);
+                fetch(`https://todaktodak.kr:8080/api/user/fcmKey`, {
+                  method: "PATCH",
+                  body: JSON.stringify({ fcmKey: currentToken }),
+                  headers: {
+                    Authorization: `Bearer ${jwt_token}`,
+                    "Content-Type": "application/json;charset=UTF-8",
+                  },
+                })
+                  .then((response) => {
+                    if (!response.ok) {
+                      throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                  })
+                  .then((data) => {
+                    console.log(data);
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                  });
+              } else {
+                console.log(
+                  "No registration token available. Request permission to generate one."
+                );
+              }
+            })
+            .catch((err) => {
+              console.log("An error occurred while retrieving token. ", err);
+              // ...
+            });
+          onMessage(messaging, (payload) => {
+            console.log("Message received.", payload);
+            // alert(payload.notification.title + payload.notification.body);
+            // console.log("Message received.", payload);
+            // const title = payload.notification.title;
+            // const options = {
+            //   body: payload.notification.boby,
+            // };
+            // const notification = new Notification(title, options);
+            // console.log("notification", notification);
+
+            // const title = payload.notification.title;
+            // const options = {
+            //   body: payload.notification.body,
+            // };
+            // console.log(self.registration.showNotification(title, options));
+            // return self.registration.showNotification(title, options);
+          });
+        } else {
+          console.log("Do not get token");
+        }
+      });
+    }
+  }
+
+  const jwt_token = useRecoilValue(jwtToken);
+
+  console.log(jwt_token);
+
+  useEffect(() => {
+    requestPermission();
+  }, [jwt_token]);
+
   return (
     <>
       <BrowserRouter>

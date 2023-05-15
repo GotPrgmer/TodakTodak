@@ -67,7 +67,7 @@ public class User {
 
 
 
-    public static User kakaoSignupMember( SocialUserResponseDto socialUserResponseDto) {
+    public static User kakaoSignupUser(SocialUserResponseDto socialUserResponseDto) {
         return User.builder()
                 .userEmail(socialUserResponseDto.getEmail())
                 .userNickname(socialUserResponseDto.getName())

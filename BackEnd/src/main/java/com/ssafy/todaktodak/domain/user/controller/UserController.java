@@ -33,7 +33,6 @@ public class UserController {
                                                     @RequestPart(value = "userImage",required = false) MultipartFile userImage,
                                                     @RequestPart(value="request") UserInfoUpdateRequestDto request)
             throws IOException {
-        log.info(request.getUserNickname());
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
