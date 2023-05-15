@@ -91,9 +91,9 @@ function App() {
 
   console.log(jwt_token);
 
-  // useEffect(() => {
-  //   requestPermission();
-  // }, [jwt_token]);
+  useEffect(() => {
+    requestPermission();
+  }, [jwt_token]);
 
   return (
     <>
