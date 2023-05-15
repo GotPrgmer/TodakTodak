@@ -1,6 +1,5 @@
 package com.ssafy.todaktodak.domain.device.repository;
 
-import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.ssafy.todaktodak.domain.device.domain.Device;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

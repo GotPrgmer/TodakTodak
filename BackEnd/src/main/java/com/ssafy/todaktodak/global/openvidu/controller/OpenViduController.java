@@ -10,7 +10,6 @@ import io.openvidu.java.client.OpenViduJavaClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", maxAge=3600)
+//@CrossOrigin(origins = "http://localhost:3000", maxAge=3600)
 public class OpenViduController {
 
 	@Value("${OPENVIDU_URL}")

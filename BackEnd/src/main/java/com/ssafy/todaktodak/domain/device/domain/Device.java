@@ -3,7 +3,6 @@ package com.ssafy.todaktodak.domain.device.domain;
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.sun.istack.NotNull;
 import io.openvidu.java.client.Connection;
-import io.openvidu.java.client.Session;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

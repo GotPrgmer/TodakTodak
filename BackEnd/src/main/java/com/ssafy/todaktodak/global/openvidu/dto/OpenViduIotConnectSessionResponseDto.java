@@ -1,6 +1,5 @@
 package com.ssafy.todaktodak.global.openvidu.dto;
 
-import com.ssafy.todaktodak.domain.device.domain.Device;
 import io.openvidu.java.client.Connection;
 import lombok.Builder;
 import lombok.Getter;
