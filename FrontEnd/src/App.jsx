@@ -46,10 +46,11 @@ function App() {
           })
             .then((currentToken) => {
               if (currentToken) {
+                console.log(typeof JSON.stringify(currentToken));
                 console.log("currentToken: ", currentToken);
                 fetch(`https://todaktodak.kr:8080/api/user/fcmKey`, {
                   method: "PATCH",
-                  body: { fcmKey: currentToken },
+                  body: JSON.stringify({ fcmKey: currentToken }),
                   headers: {
                     Authorization: `Bearer ${jwt_token}`,
                     "Content-Type": "application/json;charset=UTF-8",
