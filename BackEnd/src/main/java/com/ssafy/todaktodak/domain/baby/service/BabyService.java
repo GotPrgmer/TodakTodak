@@ -72,7 +72,6 @@ public class BabyService {
         //babyId로 아기 조회
         Integer userIdToInteger = Integer.parseInt(userId);
         Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
-        System.out.println(baby.get());
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }

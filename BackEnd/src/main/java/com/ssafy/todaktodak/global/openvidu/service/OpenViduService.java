@@ -62,27 +62,27 @@ public class OpenViduService {
     public OpenViduIotConnectSessionResponseDto iotOpenViduConnection(Map<String, Object> paramsSessions, Map<String, Object> paramsConnections, OpenVidu openVidu) throws OpenViduJavaClientException, OpenViduHttpException {
         Session currentSession = null;
         currentSession = openVidu.getActiveSession(paramsSessions.get("customSessionId").toString());// OpenVidu 클래스의 인스턴스의 getActiveSession 메소드를 호출한다.
-        System.out.println(currentSession);
-        if (currentSession != null) {    // If session ID exists
+        if (currentSession != null) {
             List<Connection> connections = currentSession.getActiveConnections();
-            if (!connections.isEmpty()) { // If there are active connections
+            if (!connections.isEmpty()) {
                 for (Connection connection : currentSession.getActiveConnections()) {
-                    currentSession.forceDisconnect(connection); // Force disconnect each connection
+                    if (connection != null && connection.getStatus().equals("connected")) {
+                        currentSession.forceDisconnect(connection);
+                    }
                 }
             }
         }
 
         // Always create a new session
-        SessionProperties sessionsProperties = SessionProperties.fromJson(paramsSessions).build(); // SessionProperties 클래스의 인스턴스를 생성한다.
-        Session session = openVidu.createSession(sessionsProperties);    // OpenVidu 클래스의 인스턴스의 createSession 메소드를 호출한다.
-        ConnectionProperties connectionProperties = ConnectionProperties.fromJson(paramsConnections).build(); // ConnectionProperties 클래스의 인스턴스를 생성한다.
-        Connection connection = session.createConnection(connectionProperties); // Session 클래스의 인스턴스의 createConnection 메소드를 호출한다.
+        SessionProperties sessionsProperties = SessionProperties.fromJson(paramsSessions).build();
+        Session session = openVidu.createSession(sessionsProperties);
+        ConnectionProperties connectionProperties = ConnectionProperties.fromJson(paramsConnections).build();
+        Connection connection = session.createConnection(connectionProperties);
         return OpenViduIotConnectSessionResponseDto.ofConnection(connection);
 //    @Transactional
 //    public OpenViduIotConnectSessionResponseDto iotOpenViduConnection(Map<String, Object> paramsSessions,Map<String,Object> paramsConnections,OpenVidu openVidu) throws OpenViduJavaClientException, OpenViduHttpException {
 //        Session currentSession = null;
 //        currentSession = openVidu.getActiveSession(paramsSessions.get("customSessionId").toString());// OpenVidu 클래스의 인스턴스의 getActiveSession 메소드를 호출한다.
-//        System.out.println(currentSession);
 //        if (currentSession==null) {    // 세션 ID가 존재하지 않는다면
 //            SessionProperties sessionsProperties = SessionProperties.fromJson(paramsSessions).build(); // SessionProperties 클래스의 인스턴스를 생성한다.
 //            Session session = openVidu.createSession(sessionsProperties);    // OpenVidu 클래스의 인스턴스의 createSession 메소드를 호출한다.
