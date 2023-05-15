@@ -63,16 +63,6 @@ const app = firebase.initializeApp(firebaseConfig);
 // 성공 Code
 const messaging = firebase.messaging();
 
-messaging.onMessage(messaging, (payload) => {
-  console.log("Message received.", payload);
-  alert(payload.notification.title + "/n" + payload.notification.body);
-  // self.registration.showNotification(payload.notification.title, {
-  //   body: payload.notification.body,
-  // icon: "알림 아이콘 경로",
-  // 그 외의 옵션들...
-  // });
-});
-
 // messaging.onBackgroundMessage(function (payload) {
 //   console.log(
 //     "[firebase-messaging-sw.js] Received background message ",
