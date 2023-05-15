@@ -11,6 +11,7 @@ import {
 function Device() {
   const babyId = useRecoilValue(babyPK);
   const jwt_token = useRecoilValue(jwtToken);
+  // console.log(jwt_token);
   const [deviceData, setDeviceData] = useRecoilState(deviceDataAtom);
   const serialNumber = deviceData.serial_number;
 
