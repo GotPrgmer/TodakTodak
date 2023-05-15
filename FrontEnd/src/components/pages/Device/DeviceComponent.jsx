@@ -37,7 +37,7 @@ class DeviceComponent extends Component {
       model: undefined,
       webcam: undefined,
       maxPredictions: undefined,
-      url: "https://teachablemachine.withgoogle.com/models/_6gIxAahL/",
+      url: "https://teachablemachine.withgoogle.com/models/aQ8m5azCG/",
       modelURL: undefined,
       metadataURL: undefined,
       paramsSessions: {
