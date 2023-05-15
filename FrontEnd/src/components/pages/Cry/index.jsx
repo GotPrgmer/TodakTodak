@@ -52,8 +52,8 @@ function Cry() {
     ]);
   };
 
-  // const jwt_token = useRecoilValue(jwtToken);
-  const jwt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY4Mzk0NDYzMCwiZXhwIjoxNjgzOTU1NDMwfQ.q96DBOpshNwgQIGO1NXG-HSXxCxneVQQrrrwC9zRet0'
+  const jwt_token = useRecoilValue(jwtToken);
+  // const jwt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY4Mzk0NDYzMCwiZXhwIjoxNjgzOTU1NDMwfQ.q96DBOpshNwgQIGO1NXG-HSXxCxneVQQrrrwC9zRet0'
   
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState([]);
