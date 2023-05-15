@@ -45,7 +45,7 @@ class DeviceComponent extends Component {
         recordingMode: "MANUAL",
         defaultOutputMode: "COMPOSED",
         defaultRecordingLayout: "BEST_FIT",
-        customSessionId: this.deviceData.session_id,
+        customSessionId: "todaktodak1002",
         // customSessionId: "todak",
       },
       paramsConnections: {},
