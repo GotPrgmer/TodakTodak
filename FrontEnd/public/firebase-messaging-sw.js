@@ -63,6 +63,10 @@ const app = firebase.initializeApp(firebaseConfig);
 // 성공 Code
 const messaging = firebase.messaging();
 
+messaging.onMessage(messaging, (payload) => {
+  console.log("Message received.", payload);
+});
+
 // messaging.onBackgroundMessage(function (payload) {
 //   console.log(
 //     "[firebase-messaging-sw.js] Received background message ",
