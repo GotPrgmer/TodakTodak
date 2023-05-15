@@ -1,6 +1,6 @@
 package com.ssafy.todaktodak.global.firebase.service;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.ssafy.todaktodak.global.firebase.dto.FcmMessageDto;
@@ -45,7 +45,6 @@ public class FirebaseService {
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {
         String API_URL = "https://fcm.googleapis.com/v1/projects/"+ FcmProjectId +"/messages:send";
         String message = makeMessage(targetToken, title, body);
-        log.info(API_URL);
 
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");

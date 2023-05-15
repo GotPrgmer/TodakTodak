@@ -63,9 +63,6 @@ public class CryService {
 
     public ResponseEntity<String> cryLogging(Integer babyId, Integer year, Integer month, Integer day){
 
-//        Integer year = cryLoggingRequestDto.getYear();
-//        Integer month = cryLoggingRequestDto.getMonth();
-//        Integer day = cryLoggingRequestDto.getDay();
 
 
         Integer babyIdToInteger = babyId;
@@ -78,23 +75,18 @@ public class CryService {
 
         Optional<Baby> baby = babyRepository.findById(babyIdToInteger);
 
-//        log.info(endDateTime.minusDays(0)
-//                .toString());
-//        log.info(startDateTime.toString());
 
         if ( baby.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }
 
         Baby findBaby = baby.get();
-        List<Cry> cryLogList = cryRepository.findAllByBabyAndCryStartDateBetween(baby.get(), startDateTime, endDateTime);
+        List<Cry> cryLogList = cryRepository.findAllByBabyAndCryStartDateBetween(findBaby, startDateTime, endDateTime);
         //cryLogList를 날짜별로 리스트를 만들어서 해당 리스트에 add를 해서 마지막에 dto에 넣어주는 방식으로 하면될듯
         Map<String, Object> temp = new HashMap<>();
         for (Cry cry : cryLogList){
             String tempDate = cry.getCryCreatedDate().toString().substring(0,10); //날짜
             LinkedHashSet hs = new LinkedHashSet();
-//            log.info(tempDate);
-//            log.info(cry.getCryCreatedDate().toString());
             for (Cry c : cryLogList){  //순회를 돌면서
                 if (c.getCryCreatedDate().toString().substring(0, 10).equals(tempDate)){ //날짜가 같다면
                     hs.add(Arrays.asList(
@@ -102,20 +94,14 @@ public class CryService {
                     ));   // hashset에 담아보자
                 }
             }
-//            log.info(hs.toString());
             Iterator<Object> iter = hs.iterator();
             ArrayList arr = new ArrayList();
             while(iter.hasNext()){
-//                log.info("lists in set");
-//                log.info(iter.next().toString());
                 arr.add(iter.next());
             }
 
             temp.put(cry.getCryStartDate().toString().substring(0,10), arr);
-//            log.info(Integer.toString(hs.size()));
-//            temp.put("date", cry.getCryStartDate().toString().substring(0, 11));
         }
-//        log.info(temp.toString());
         ArrayList<Map<String, Object>> logs = new ArrayList<Map<String, Object>>();
 
         temp.forEach((k,v) -> {
@@ -124,25 +110,19 @@ public class CryService {
             cryLog.put("date", k);
             cryLog.put("log", v);
             cryLog.put("cryCounts", cryList.size() );
-//            log.info(cryLog.toString());
             logs.add(cryLog);
         }) ;
-//        log.info(logs.toString());
 
 
         for(int i = 0; i <=4; i++){
             String tempDate = endDateTime.minusDays(i).toString().substring(0,10);
-//            log.info("tempdate: " + tempDate);
             Boolean flag = false;
             for(Map<String, Object> e : logs){
-//                log.info(e.get("date").toString());
                 if (Objects.equals(e.get("date").toString(), tempDate)){
-//                    log.info("이 날은 있군" + e.get("date").toString());
                     flag = true;
                 }
             }
             if (!flag){
-//                log.info("없는날이다" + tempDate);
                 List<String> list = Collections.emptyList();
                 Map<String, Object> cryLog = new HashMap<>();
                 cryLog.put("date", tempDate);
@@ -161,7 +141,6 @@ public class CryService {
                 return date1.compareTo(date2);
             }
         });
-//        log.info(logs.toString());
 
 
         Map<String, ArrayList> res = new HashMap<>();
@@ -169,7 +148,6 @@ public class CryService {
 
         Gson gson = new Gson();
         String json = gson.toJson(res);
-//        log.info(json);
         return new ResponseEntity<String>(
                 json, HttpStatus.OK);
     }

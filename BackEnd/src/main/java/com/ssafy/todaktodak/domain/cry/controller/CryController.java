@@ -17,7 +17,6 @@ public class CryController {
 
     @PostMapping(value = "/cry/record")
     public CryRecordingResponseDto cryRecording(@RequestBody CryRecordingRequestDto cryRecordingRequestDto){
-        log.info(cryRecordingRequestDto.getBabyId().toString());
         return cryService.cryRecording(cryRecordingRequestDto);
     }
 

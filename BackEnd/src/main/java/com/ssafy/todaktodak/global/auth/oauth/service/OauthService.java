@@ -115,12 +115,10 @@ public class OauthService {
 
         ResponseEntity<String> accessTokenResponse = restTemplate.postForEntity(url, kakaoTokenRequest, String.class);
 
-        log.info(accessTokenResponse.toString());
         KakaoAccessTokenDto kakaoAccessTokenDto = null;
 
         try {
             kakaoAccessTokenDto = objectMapper.readValue(accessTokenResponse.getBody(), KakaoAccessTokenDto.class);
-            log.info(kakaoAccessTokenDto.toString());
         } catch (JsonProcessingException e) {
             //글로벌로 예외처리 하기
             throw new CustomException(ErrorCode.JSON_DATA_INVALID);
@@ -165,7 +163,7 @@ public class OauthService {
 
         if (duplicateUser == null) {
             // 회원가입
-            User newUser = User.kakaoSignupMember(socialUserResponseDto);
+            User newUser = User.kakaoSignupUser(socialUserResponseDto);
             userRepository.save(newUser);
             // 아기 초기 세팅 추가
             Baby newBaby = Baby.newBabyCreate(newUser,S3_BABY_IMAGE);
@@ -190,8 +188,6 @@ public class OauthService {
         String jwtToken = jwtProvider.createJwt(findUser.getUserId().toString(), findUser.getUserRole()).createAccessToken();
         String refreshToken = jwtProvider.createJwt(findUser.getUserId().toString(), findUser.getUserRole()).createRefreshToken();
 
-//            String memberId = jwtProvider.getId(jwtToken);
-        //        redisUtil.dataExpirationsInput(memberId, refreshToken, 7);
 
         List<Baby> babies = babyRepository.findBabiesByUserUserId(findUser.getUserId());
         List<Integer> babyIds = babies.stream()
@@ -199,7 +195,6 @@ public class OauthService {
                 .collect(Collectors.toList());
 
 
-        log.info(refreshToken);
 
         return cookieUtil.setTokenCookie(refreshToken, LoginResponseDto.ofLoginInfo(findUser,babyIds, jwtToken));
     }
