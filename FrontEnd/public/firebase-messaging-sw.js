@@ -65,6 +65,11 @@ const messaging = firebase.messaging();
 
 messaging.onMessage(messaging, (payload) => {
   console.log("Message received.", payload);
+  self.registration.showNotification(payload.notification.title, {
+    body: payload.notification.body,
+    // icon: "알림 아이콘 경로",
+    // 그 외의 옵션들...
+  });
 });
 
 // messaging.onBackgroundMessage(function (payload) {
