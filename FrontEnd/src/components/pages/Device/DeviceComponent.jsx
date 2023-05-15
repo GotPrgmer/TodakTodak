@@ -21,11 +21,11 @@ class DeviceComponent extends Component {
     this.babyId = props.babyId[0].toString();
     this.jwtToken = props.jwtToken;
     this.deviceData = props.deviceData;
-    console.log(this.deviceData);
+    // console.log(this.deviceData);
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      // mySessionId: "todak1008",
+      // mySessionId: "todak",
       mySessionId: this.deviceData.session_id, // SessionId는 기기에서 고정한다.
       myUserName: "todak" + this.babyId,
       // UserName은 기기에서 고정한다.
@@ -46,10 +46,11 @@ class DeviceComponent extends Component {
         defaultOutputMode: "COMPOSED",
         defaultRecordingLayout: "BEST_FIT",
         customSessionId: this.deviceData.session_id,
+        // customSessionId: "todak",
       },
       paramsConnections: {},
     };
-    // console.log(this.state.mySessionId);
+    // console.log(this.state.paramsSessions.customSessionId);
 
     this.joinSession = this.joinSession.bind(this); // 세션에 참여
     this.leaveSession = this.leaveSession.bind(this); // 세션 나가기
@@ -298,12 +299,20 @@ class DeviceComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      // mySessionId: "SessionA",
+      // mySessionId: "todak",
       mySessionId: this.deviceData.session_id,
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: "todak" + this.babyId,
       mainStreamManager: undefined,
       publisher: undefined,
+      paramsSessions: {
+        mediaMode: "ROUTED",
+        recordingMode: "MANUAL",
+        defaultOutputMode: "COMPOSED",
+        defaultRecordingLayout: "BEST_FIT",
+        customSessionId: this.deviceData.session_id,
+        // customSessionId: "todak",
+      },
     });
   }
 
@@ -441,6 +450,7 @@ class DeviceComponent extends Component {
       this.state.paramsSessions,
       this.state.paramsConnections
     );
+    // console.log(this.state.paramsSessions);
     // console.log(connectionToken.data.connection_token);
     return connectionToken;
   }
@@ -450,6 +460,7 @@ class DeviceComponent extends Component {
     // // Before
     // const response = await axios.post(
     // After
+    console.log(paramsSessions, paramsConnections);
     const response = await axios
       .post(
         // After
@@ -469,14 +480,15 @@ class DeviceComponent extends Component {
         }
       )
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         return res;
       })
       .catch((e) => {
         console.log(e);
         return e;
       });
-    console.log(response.data);
+    // console.log(response.data);
+    console.log(paramsSessions, paramsConnections);
     return response; // The sessionId
   }
 
