@@ -29,7 +29,6 @@ import java.util.Map;
  */
 @RestController
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:3000", maxAge=3600)
 public class OpenViduController {
 
 	@Value("${OPENVIDU_URL}")
