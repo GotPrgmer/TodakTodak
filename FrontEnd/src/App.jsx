@@ -80,8 +80,15 @@ function App() {
             });
           onMessage(messaging, (payload) => {
             console.log("Message received.", payload);
-            alert(payload.notification.title + payload.notification.body);
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            // alert(payload.notification.title + payload.notification.body);
+            // console.log("Message received.", payload);
+            const title = payload.notification.title;
+            const options = {
+              body: payload.notification.boby,
+            };
+            const notification = new Notification(title, options);
+            console.log("notification", notification);
+
             // const title = payload.notification.title;
             // const options = {
             //   body: payload.notification.body,
