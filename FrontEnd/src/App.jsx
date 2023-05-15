@@ -80,6 +80,14 @@ function App() {
             });
           onMessage(messaging, (payload) => {
             console.log("Message received.", payload);
+            alert(payload.notification.title + payload.notification.body);
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            // const title = payload.notification.title;
+            // const options = {
+            //   body: payload.notification.body,
+            // };
+            // console.log(self.registration.showNotification(title, options));
+            // return self.registration.showNotification(title, options);
           });
         } else {
           console.log("Do not get token");
