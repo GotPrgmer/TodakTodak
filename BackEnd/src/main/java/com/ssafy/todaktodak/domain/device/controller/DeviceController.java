@@ -3,6 +3,7 @@ package com.ssafy.todaktodak.domain.device.controller;
 import com.ssafy.todaktodak.domain.device.dto.DeviceAlarmRequestDto;
 import com.ssafy.todaktodak.domain.device.dto.DeviceAlarmResponseDto;
 import com.ssafy.todaktodak.domain.device.dto.DeviceInfoResponseDto;
+import com.ssafy.todaktodak.domain.device.dto.DeviceInfoUpdateRequestDto;
 import com.ssafy.todaktodak.domain.device.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,12 @@ public class DeviceController {
     public DeviceInfoResponseDto deviceInfo(@PathVariable("babyId") Integer babyId){
 
         return deviceService.deviceInfo(babyId);
+    }
+
+    @PatchMapping("/device/info/update/{babyId}")
+    public DeviceInfoResponseDto deviceInfoUpdate(@PathVariable("babyId") Integer babyId,@RequestBody DeviceInfoUpdateRequestDto deviceInfoUpdateRequestDto){
+
+        return deviceService.deviceInfoUpdate(babyId,deviceInfoUpdateRequestDto);
     }
 
     @PostMapping("/device/alarm")

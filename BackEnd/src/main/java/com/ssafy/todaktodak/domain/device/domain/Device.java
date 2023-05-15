@@ -60,8 +60,8 @@ public class Device {
                 .build();
     }
 
-    public void updateSessionId(Session session) {
-        this.sessionId = session.getSessionId();
+    public void updateSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public void updateCreateId(Connection connection){
