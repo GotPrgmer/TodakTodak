@@ -13,8 +13,8 @@ public interface DeviceRepository extends JpaRepository<Device,Integer> {
 
     Optional<Device> findByBabyBabyId(Integer babyId);
 
-    Optional<Device> findBySessionId(String sessionId);
+    Optional<Device> findByDeviceSessionId(String sessionId);
 
-    Optional<Device> findBySerialNumber(String SerialNumber);
+    Optional<Device> findByDeviceSerialNumber(String SerialNumber);
 
 }

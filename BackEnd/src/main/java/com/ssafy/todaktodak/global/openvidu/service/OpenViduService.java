@@ -66,21 +66,21 @@ public class OpenViduService {
         }
 
 
-        if (getDevice.getConnectionId() == null) {
+        if (getDevice.getDeviceConnectionId() == null) {
             //커넥션ID가 없을 경우
             ConnectionProperties properties = ConnectionProperties.fromJson(params).build(); // ConnectionProperties 클래스의 인스턴스를 생성한다.
             Connection connection = session.createConnection(properties); // Session 클래스의 인스턴스의 createConnection 메소드를 호출한다.
-            getDevice.updateCreateId(connection);
+            getDevice.updateConnectionId(connection);
         } else {
-            Connection currentConnection = session.getConnection(getDevice.getConnectionId());
+            Connection currentConnection = session.getConnection(getDevice.getDeviceConnectionId());
             if (currentConnection == null || !currentConnection.getStatus().equals("CONNECTED")) {
                 ConnectionProperties properties = ConnectionProperties.fromJson(params).build(); // ConnectionProperties 클래스의 인스턴스를 생성한다.
                 Connection connection = session.createConnection(properties); // Session 클래스의 인스턴스의 createConnection 메소드를 호출한다.
-                getDevice.updateCreateId(connection);
+                getDevice.updateConnectionId(connection);
             }
         }
 
-        return OpenViduCreateConnectionResponseDto.ofConnection(session.getConnection(getDevice.getConnectionId()));
+        return OpenViduCreateConnectionResponseDto.ofConnection(session.getConnection(getDevice.getDeviceConnectionId()));
     }
 
     public Device findDeviceWithUserAndBaby(Integer babyId, Integer userId) {

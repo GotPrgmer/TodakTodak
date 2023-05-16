@@ -33,38 +33,38 @@ public class Device {
     private Baby baby;
 
     @NotNull
-    @Column(name = "serial_number")
-    private String serialNumber;
+    @Column(name = "device_serial_number")
+    private String deviceSerialNumber;
 
-    @Column(name = "session_id")
-    private String sessionId;
+    @Column(name = "device_session_id")
+    private String deviceSessionId;
 
-    @Column(name = "connection_id")
-    private String connectionId;
+    @Column(name = "device_connection_id")
+    private String deviceConnectionId;
 
 
     @Column(name = "device_created_date", updatable = false)
     @CreatedDate
-    private LocalDateTime userCreatedDate;
+    private LocalDateTime deviceCreatedDate;
 
 
     @Column(name = "device_updated_date")
     @LastModifiedDate
-    private LocalDateTime userUpdatedDate;
+    private LocalDateTime deviceUpdatedDate;
 
     public static Device newDeviceCreate(Baby baby){
         return Device.builder()
                 .baby(baby)
-                .serialNumber("todak"+baby.getBabyId())
+                .deviceSerialNumber("todak"+baby.getBabyId())
                 .build();
     }
 
     public void updateSessionId(String sessionId) {
-        this.sessionId = sessionId;
+        this.deviceSessionId = sessionId;
     }
 
-    public void updateCreateId(Connection connection){
-        this.connectionId = connection.getConnectionId();
+    public void updateConnectionId(Connection connection){
+        this.deviceConnectionId = connection.getConnectionId();
     }
 
 
