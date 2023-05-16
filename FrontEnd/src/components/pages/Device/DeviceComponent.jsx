@@ -160,7 +160,7 @@ class DeviceComponent extends Component {
     //   console.log(classPrediction);
     // }
 
-    cur = prediction[1].probability.toFixed(2);
+    const cur = prediction[1].probability.toFixed(2);
 
     const rolling = {
       serialNumber: "todak8",
@@ -168,14 +168,15 @@ class DeviceComponent extends Component {
       message: "아기가 뒤집기를 했습니다. 확인해주세요.",
     };
 
+    // 스로틀링 이벤트 처리
     if (cur > 0.9) {
       const currentTime = new Date().getTime();
 
       if (
-        this.state.lastAlarmTime ||
+        !this.state.lastAlarmTime ||
         currentTime - this.state.lastAlarmTime >= this.state.throttleTime
       ) {
-        fetch(`https://todakaiot.com:8080/api/device/alarm`, {
+        fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -190,7 +191,7 @@ class DeviceComponent extends Component {
             console.error("Error:", error);
           });
 
-        lastAlarmTime = currentTime;
+        this.state.lastAlarmTime = currentTime;
       }
     }
   }
@@ -226,22 +227,14 @@ class DeviceComponent extends Component {
           subscribers.push(subscriber); // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           console.log("subscribers", subscribers);
 
-          // tmImage
-          console.log("init");
-          this.init();
           // Update the state with the new subscribers
           this.setState({
             subscribers: subscribers, // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           });
         });
-
-        mySession.on("signal:chat", (event) => {
-          console.log("chat");
-          console.log(event.data);
-          this.setState({
-            chat: this.state.chat + "\n" + event.data,
-          });
-        });
+        // tmImage
+        console.log("init");
+        this.init();
 
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {

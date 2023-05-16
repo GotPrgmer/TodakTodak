@@ -10,6 +10,7 @@ import com.ssafy.todaktodak.global.firebase.dto.FcmMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
@@ -47,10 +48,10 @@ public class FirebaseService {
 
 
 
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
+    public void sendMessageTo(String targetToken, String title, String bodyContext) throws IOException {
         String API_URL = "https://fcm.googleapis.com/v1/projects/"+ FcmProjectId +"/messages:send";
         String link = "https://todaktodak.kr/video";
-        String message = makeMessage(targetToken, title, body,link);
+        String message = makeMessage(targetToken, title, bodyContext,link);
 
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -69,7 +70,8 @@ public class FirebaseService {
     }
 
     // 파라미터를 FCM이 요구하는 body 형태로 만들어준다.
-    private String makeMessage(String targetToken, String title, String body,String link) throws JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String Context,String link) throws JsonProcessingException {
+        String nowTime = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
         Map<String, Object> message = new HashMap<>();
         message.put("validate_only", false);
 
@@ -86,7 +88,10 @@ public class FirebaseService {
         webpush.put("notification", notification);
 
         notification.put("title", title);
-        notification.put("body", body);
+
+        String bodyContext = Context + "," + nowTime;
+        notification.put("body", bodyContext);
+
 
         Map<String, Object> fcmOptions = new HashMap<>();
         webpush.put("fcm_options", fcmOptions);

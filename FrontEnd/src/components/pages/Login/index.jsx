@@ -8,7 +8,7 @@ import Babyone from "../../../assets/babyone.png";
 
 function Login() {
   const jwt_token = useRecoilValue(jwtToken);
-  console.log(jwt_token);
+  // console.log(jwt_token);
   const babyLists = useRecoilValue(babyPK);
   const navigate = useNavigate();
   const navigateToHome = () => {
@@ -27,7 +27,6 @@ function Login() {
 
   useEffect(() => {
     if (jwt_token) {
-      console.log(babyLists[0]);
       navigateToHome();
     }
   }, []);

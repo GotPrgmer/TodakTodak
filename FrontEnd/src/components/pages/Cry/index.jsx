@@ -11,15 +11,15 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js"; 
+} from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Crylist from "./../../organisms/Cry/index";
 import ModalCalender from "../../organisms/Cry/Calendar";
 
 import { useRecoilValue } from "recoil";
-import { jwtToken } from "../../../states/recoilHomeState";
+import { jwtToken, babyPK } from "../../../states/recoilHomeState";
 import axios from "axios";
-import { ExpirationPlugin } from 'workbox-expiration';
+import { ExpirationPlugin } from "workbox-expiration";
 
 ChartJS.register(
   CategoryScale,
@@ -53,41 +53,54 @@ function Cry() {
   };
 
   const jwt_token = useRecoilValue(jwtToken);
+  const baby_pk = useRecoilValue(babyPK);
   // const jwt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY4NDEzNzM4NywiZXhwIjoxNjg0MTQ4MTg3fQ.82lyOvCWw8wY8WeOvHrIHDw8bbJwj5MTstDEzRzGUUE'
-  
+
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState([]);
-  const [clickedDate, setClickedDate] = useState(`${labels.length >= 1 ? labels[4] : `${date[0]}-${date[1] >= 10 ? date[1] : '0' + date[1]}-${date[2] >= 10 ? date[2] : '0' + date[2]}` }`);
+  const [clickedDate, setClickedDate] = useState(
+    `${
+      labels.length >= 1
+        ? labels[4]
+        : `${date[0]}-${date[1] >= 10 ? date[1] : "0" + date[1]}-${
+            date[2] >= 10 ? date[2] : "0" + date[2]
+          }`
+    }`
+  );
   const [cryLogs, setCryLogs] = useState({});
 
   useEffect(() => {
     async function loadData() {
       const response = await axios.get(
-        `https://todaktodak.kr:8080/api/cry/logging?babyId=2&year=${date[0]}&month=${date[1]}&day=${date[2]}`,
+        `https://todaktodak.kr:8080/api/cry/logging?babyId=${baby_pk}&year=${date[0]}&month=${date[1]}&day=${date[2]}`,
         {
           headers: {
             Authorization: `Bearer ${jwt_token}`,
           },
         }
       );
-      let array = response.data['cry_log']
-      setValues(array.map(function (element) {
-        return element.cryCounts
-      }));
+      let array = response.data["cry_log"];
+      setValues(
+        array.map(function (element) {
+          return element.cryCounts;
+        })
+      );
 
-      setLabels(array.map(function (element) {
-        return element.date
-      }));
+      setLabels(
+        array.map(function (element) {
+          return element.date;
+        })
+      );
 
       // console.log(array)
 
-      let logs = {}
+      let logs = {};
       for (let i in array) {
         // console.log(array[i])
-        logs[array[i].date] = array[i].log
+        logs[array[i].date] = array[i].log;
       }
       // console.log(logs)
-      setCryLogs(logs)
+      setCryLogs(logs);
     }
     loadData();
     // setClickedDate(labels[4])
@@ -95,11 +108,11 @@ function Cry() {
 
   useEffect(() => {
     if (labels.length >= 1) {
-      setClickedDate(labels[4])
+      setClickedDate(labels[4]);
     }
-    console.log(clickedDate)
+    console.log(clickedDate);
   }, [labels]);
-  
+
   // console.log(clickedDate)
   // console.log(cryLogs[clickedDate])
 
@@ -198,8 +211,15 @@ function Cry() {
   ]);
 
   const label = labels.map(function (element) {
-    return element.substring(5,7) +'/' + element.substring(8,10) + ' (' + week[new Date(element).getDay()] + ')'
-  })
+    return (
+      element.substring(5, 7) +
+      "/" +
+      element.substring(8, 10) +
+      " (" +
+      week[new Date(element).getDay()] +
+      ")"
+    );
+  });
 
   const setColorsHandler = (idx) => {
     const newColors = [
@@ -253,17 +273,35 @@ function Cry() {
 
         <div className="font-new">
           <div className="h-[45vh]">
-            <Bar options={options} data={data}/>
+            <Bar options={options} data={data} />
           </div>
           <div className="mt-10 px-3">
             <div className="flex justify-between mb-3">
-              <p className="text-xl font-semibold">울음기록 <span className="text-lg">{clickedDate.substring(5,7) +'/' + clickedDate.substring(8,10) + ' (' + week[new Date(clickedDate).getDay()] + ')'}</span></p>
-              <button className={`${isMoreBtn
-                && cryLogs[clickedDate]
-                && cryLogs[clickedDate].length >= 3
-                ? "" : "hidden"} text-green-400 font-semibold`} onClick={btnClick}>더 보기</button>
+              <p className="text-xl font-semibold">
+                울음기록{" "}
+                <span className="text-lg">
+                  {clickedDate.substring(5, 7) +
+                    "/" +
+                    clickedDate.substring(8, 10) +
+                    " (" +
+                    week[new Date(clickedDate).getDay()] +
+                    ")"}
+                </span>
+              </p>
+              <button
+                className={`${
+                  isMoreBtn &&
+                  cryLogs[clickedDate] &&
+                  cryLogs[clickedDate].length >= 3
+                    ? ""
+                    : "hidden"
+                } text-green-400 font-semibold`}
+                onClick={btnClick}
+              >
+                더 보기
+              </button>
             </div>
-            <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked}/>
+            <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked} />
           </div>
         </div>
       </div>
