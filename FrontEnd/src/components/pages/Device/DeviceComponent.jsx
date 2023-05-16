@@ -168,9 +168,10 @@ class DeviceComponent extends Component {
       message: "아기가 뒤집기를 했습니다. 확인해주세요.",
     };
 
+    // 스로틀링 이벤트 처리
     if(cur > 0.9){
       const currentTime = new Date().getTime();
-
+      
       if(!this.state.lastAlarmTime || currentTime - this.state.lastAlarmTime >= this.state.throttleTime){
         fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
           headers: {
