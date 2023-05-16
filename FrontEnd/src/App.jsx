@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Profile from "./components/pages/Profile";
 import Video from "./components/pages/Video";
 import Cry from "./components/pages/Cry";
@@ -12,41 +12,17 @@ import Login from "./components/pages/Login";
 
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { jwtToken } from "./states/recoilHomeState";
-import {
-  alarmBodyAtom,
-  alarmDataAtom,
-  alarmLinkAtom,
-  alarmTitleAtom,
-} from "./states/recoilAlarmState";
+import { alarmDataAtom, isReadAlarmAtom } from "./states/recoilAlarmState";
 
 function App() {
-  // Alarm 상태관리
-  // let alarmDataList = [];
-  // console.log(alarmDataList);
-  // const [alarmTitle, setAlarmTitle] = useRecoilState(alarmTitleAtom);
-  // console.log(alarmTitle);
-  // const [alarmBody, setAlarmBody] = useRecoilState(alarmBodyAtom);
-  // console.log(alarmBody);
+  // Alarm Read 관리
+  const [isReadAlarm, setIsReadAlarm] = useRecoilState(isReadAlarmAtom);
+
+  // Alarm Data 관리
   const [alarmData, setAlarmData] = useRecoilState(alarmDataAtom);
-
-  console.log(alarmData);
-
-  const alarmDataHandler = (context, alarmRecoil) => {
-    const alarmDataList = [...alarmRecoil];
-    if (alarmDataList.length <= 10) {
-      alarmDataList.unshift(context);
-    } else {
-      alarmDataList.pop();
-      alarmDataList.unshift(context);
-    }
-    console.log(alarmDataList);
-    return alarmDataList;
-  };
-
-  // console.log(alarmDataList);
+  // console.log(alarmData);
 
   const firebaseConfig = {
     apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM",
@@ -109,9 +85,12 @@ function App() {
               // ...
             });
           onMessage(messaging, (payload) => {
+            console.log(payload);
             const message = {
+              id: payload.messageId,
               title: payload.notification.title,
               body: payload.notification.body,
+              isRead: false,
             };
             setAlarmData((prevAlarmData) => {
               const alarmDataList = [...prevAlarmData];
@@ -122,6 +101,7 @@ function App() {
               console.log(alarmDataList);
               return alarmDataList;
             });
+            setIsReadAlarm(false);
             console.log(alarmData);
           });
         } else {
