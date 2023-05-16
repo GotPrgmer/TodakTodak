@@ -8,31 +8,22 @@ const modalStateAtom = atom({
   default: false,
 });
 
-const alarmTitleAtom = atom({
-  key: "alarmTitleAtom",
-  default: "",
-});
-
-const alarmBodyAtom = atom({
-  key: "alarmBodyAtom",
-  default: "",
-});
-
-const alarmLinkAtom = atom({
-  key: "alarmLinkAtom",
-  default: "",
-});
-
 const alarmDataAtom = atom({
   key: "alarmDataAtom",
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
 
-export {
-  modalStateAtom,
-  alarmTitleAtom,
-  alarmBodyAtom,
-  alarmLinkAtom,
-  alarmDataAtom,
-};
+const isReadAlarmAtom = atom({
+  key: "isReadAlarmAtom",
+  default: true,
+  effects_UNSTABLE: [persistAtom],
+});
+
+const isReadEachAlarmAtom = atom({
+  key: "isReadEachAlarmAtom",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export { modalStateAtom, alarmDataAtom, isReadAlarmAtom, isReadEachAlarmAtom };

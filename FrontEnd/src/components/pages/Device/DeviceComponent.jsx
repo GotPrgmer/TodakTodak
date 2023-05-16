@@ -1,4 +1,5 @@
-// // class형
+/* eslint-disable no-undef */
+// class형
 import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
 import React, { Component } from "react";
@@ -167,10 +168,13 @@ class DeviceComponent extends Component {
       message: "아기가 뒤집기를 했습니다. 확인해주세요.",
     };
 
-    if(cur > 0.9){
+    if (cur > 0.9) {
       const currentTime = new Date().getTime();
 
-      if(this.state.lastAlarmTime || currentTime - this.state.lastAlarmTime >= this.state.throttleTime){
+      if (
+        this.state.lastAlarmTime ||
+        currentTime - this.state.lastAlarmTime >= this.state.throttleTime
+      ) {
         fetch(`https://todakaiot.com:8080/api/device/alarm`, {
           headers: {
             "Content-Type": "application/json",
@@ -178,13 +182,13 @@ class DeviceComponent extends Component {
           method: "POST",
           body: JSON.stringify(rolling),
         })
-        .then((response) => {
-          console.log("뒤집기 알람 요청 성공!!!", response);
-          // return response.json();
-        })
-        .catch((error)  => {
-          console.error("Error:", error);
-        });
+          .then((response) => {
+            console.log("뒤집기 알람 요청 성공!!!", response);
+            // return response.json();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
 
         lastAlarmTime = currentTime;
       }
@@ -194,7 +198,6 @@ class DeviceComponent extends Component {
   async stopWebcam() {
     await this.state.webcam.stop();
   }
-
 
   // joinSession
   joinSession() {
@@ -222,7 +225,7 @@ class DeviceComponent extends Component {
           var subscribers = this.state.subscribers; // 세션에 참여한 사람들
           subscribers.push(subscriber); // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           console.log("subscribers", subscribers);
-          
+
           // tmImage
           console.log("init");
           this.init();
@@ -239,7 +242,6 @@ class DeviceComponent extends Component {
             chat: this.state.chat + "\n" + event.data,
           });
         });
-
 
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
