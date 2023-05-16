@@ -18,6 +18,10 @@ function Profile() {
     navigate("/");
   };
 
+  // useEffect(() => {
+  //   console.log(alarmData);
+  // });
+
   return (
     <div className="font-new">
       <TopBar />

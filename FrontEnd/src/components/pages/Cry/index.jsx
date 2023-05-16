@@ -53,11 +53,11 @@ function Cry() {
   };
 
   const jwt_token = useRecoilValue(jwtToken);
-  // const jwt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY4Mzk0NDYzMCwiZXhwIjoxNjgzOTU1NDMwfQ.q96DBOpshNwgQIGO1NXG-HSXxCxneVQQrrrwC9zRet0'
+  // const jwt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY4NDEzNzM4NywiZXhwIjoxNjg0MTQ4MTg3fQ.82lyOvCWw8wY8WeOvHrIHDw8bbJwj5MTstDEzRzGUUE'
   
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState([]);
-  const [clickedDate, setClickedDate] = useState(`${date[0]}-${date[1] >= 10 ? date[1] : '0' + date[1]}-${date[2] >= 10 ? date[2] : '0' + date[2]}`);
+  const [clickedDate, setClickedDate] = useState(`${labels.length >= 1 ? labels[4] : `${date[0]}-${date[1] >= 10 ? date[1] : '0' + date[1]}-${date[2] >= 10 ? date[2] : '0' + date[2]}` }`);
   const [cryLogs, setCryLogs] = useState({});
 
   useEffect(() => {
@@ -90,11 +90,15 @@ function Cry() {
       setCryLogs(logs)
     }
     loadData();
+    // setClickedDate(labels[4])
   }, [date]);
 
   useEffect(() => {
-    setClickedDate(labels[4])
-  }, [cryLogs]);
+    if (labels.length >= 1) {
+      setClickedDate(labels[4])
+    }
+    console.log(clickedDate)
+  }, [labels]);
   
   // console.log(clickedDate)
   // console.log(cryLogs[clickedDate])

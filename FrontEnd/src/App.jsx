@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./firebase";
+import { useRecoilState } from "recoil";
 import Profile from "./components/pages/Profile";
 import Video from "./components/pages/Video";
 import Cry from "./components/pages/Cry";
@@ -15,8 +15,39 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { jwtToken } from "./states/recoilHomeState";
+import {
+  alarmBodyAtom,
+  alarmDataAtom,
+  alarmLinkAtom,
+  alarmTitleAtom,
+} from "./states/recoilAlarmState";
 
 function App() {
+  // Alarm 상태관리
+  // let alarmDataList = [];
+  // console.log(alarmDataList);
+  // const [alarmTitle, setAlarmTitle] = useRecoilState(alarmTitleAtom);
+  // console.log(alarmTitle);
+  // const [alarmBody, setAlarmBody] = useRecoilState(alarmBodyAtom);
+  // console.log(alarmBody);
+  const [alarmData, setAlarmData] = useRecoilState(alarmDataAtom);
+
+  console.log(alarmData);
+
+  const alarmDataHandler = (context, alarmRecoil) => {
+    const alarmDataList = [...alarmRecoil];
+    if (alarmDataList.length <= 10) {
+      alarmDataList.unshift(context);
+    } else {
+      alarmDataList.pop();
+      alarmDataList.unshift(context);
+    }
+    console.log(alarmDataList);
+    return alarmDataList;
+  };
+
+  // console.log(alarmDataList);
+
   const firebaseConfig = {
     apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM",
     authDomain: "todaktodak-6846e.firebaseapp.com",
@@ -46,7 +77,6 @@ function App() {
           })
             .then((currentToken) => {
               if (currentToken) {
-                console.log(typeof JSON.stringify(currentToken));
                 console.log("currentToken: ", currentToken);
                 fetch(`https://todaktodak.kr:8080/api/user/fcmKey`, {
                   method: "PATCH",
@@ -63,7 +93,7 @@ function App() {
                     return response.json();
                   })
                   .then((data) => {
-                    console.log(data);
+                    // console.log(data);
                   })
                   .catch((error) => {
                     console.error("Error:", error);
@@ -79,22 +109,20 @@ function App() {
               // ...
             });
           onMessage(messaging, (payload) => {
-            console.log("Message received.", payload);
-            // alert(payload.notification.title + payload.notification.body);
-            // console.log("Message received.", payload);
-            const title = payload.notification.title;
-            const options = {
-              body: payload.notification.boby,
+            const message = {
+              title: payload.notification.title,
+              body: payload.notification.body,
             };
-            const notification = new Notification(title, options);
-            console.log("notification", notification);
-
-            // const title = payload.notification.title;
-            // const options = {
-            //   body: payload.notification.body,
-            // };
-            // console.log(self.registration.showNotification(title, options));
-            // return self.registration.showNotification(title, options);
+            setAlarmData((prevAlarmData) => {
+              const alarmDataList = [...prevAlarmData];
+              if (alarmDataList.length >= 10) {
+                alarmDataList.pop();
+              }
+              alarmDataList.unshift(message);
+              console.log(alarmDataList);
+              return alarmDataList;
+            });
+            console.log(alarmData);
           });
         } else {
           console.log("Do not get token");
@@ -104,8 +132,7 @@ function App() {
   }
 
   const jwt_token = useRecoilValue(jwtToken);
-
-  console.log(jwt_token);
+  // console.log(jwt_token);
 
   useEffect(() => {
     requestPermission();
@@ -113,18 +140,20 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/video" element={<Video />} />
-          <Route path="/cry" element={<Cry />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/api/login/oauth2/code/kakao" element={<Loading />} />
-          <Route path="/device" element={<Device />} />
-        </Routes>
-      </BrowserRouter>
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/video" element={<Video />} />
+            <Route path="/cry" element={<Cry />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/api/login/oauth2/code/kakao" element={<Loading />} />
+            <Route path="/device" element={<Device />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </>
   );
 }
