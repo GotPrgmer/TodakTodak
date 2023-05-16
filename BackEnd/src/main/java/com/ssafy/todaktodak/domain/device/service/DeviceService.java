@@ -50,7 +50,7 @@ public class DeviceService {
 
     @Transactional
     public DeviceAlarmResponseDto deviceAlarm(DeviceAlarmRequestDto request) throws IOException {
-        Optional<Device> device = deviceRepository.findBySerialNumber(request.getSerialNumber());
+        Optional<Device> device = deviceRepository.findByDeviceSerialNumber(request.getSerialNumber());
         if ( device.isEmpty()) {
             throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
         }

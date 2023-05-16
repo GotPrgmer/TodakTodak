@@ -17,9 +17,9 @@ public class DeviceInfoResponseDto {
     public static DeviceInfoResponseDto ofDevice(Device device) {
 
         return DeviceInfoResponseDto.builder()
-                .serialNumber(device.getSerialNumber())
-                .connectionId(device.getConnectionId())
-                .sessionId(device.getSessionId())
+                .serialNumber(device.getDeviceSerialNumber())
+                .connectionId(device.getDeviceConnectionId())
+                .sessionId(device.getDeviceSessionId())
                 .build();
 
     }
