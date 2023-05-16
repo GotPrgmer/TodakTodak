@@ -171,7 +171,7 @@ class DeviceComponent extends Component {
     if(cur > 0.9){
       const currentTime = new Date().getTime();
 
-      if(this.state.lastAlarmTime || currentTime - this.state.lastAlarmTime >= this.state.throttleTime){
+      if(!this.state.lastAlarmTime || currentTime - this.state.lastAlarmTime >= this.state.throttleTime){
         fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
           headers: {
             "Content-Type": "application/json",
