@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./firebase";
+import { useRecoilState } from "recoil";
 import Profile from "./components/pages/Profile";
 import Video from "./components/pages/Video";
 import Cry from "./components/pages/Cry";
@@ -15,8 +15,22 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { jwtToken } from "./states/recoilHomeState";
+import {
+  alarmBodyAtom,
+  alarmLinkAtom,
+  alarmTitleAtom,
+} from "./states/recoilAlarmState";
 
 function App() {
+  // Alarm 상태관리
+  // let alarmDataList = [];
+  // console.log(alarmDataList);
+  const [alarmTitle, setAlarmTitle] = useRecoilState(alarmTitleAtom);
+  console.log(alarmTitle);
+  const [alarmBody, setAlarmBody] = useRecoilState(alarmBodyAtom);
+  console.log(alarmBody);
+  const [alarmLink, setAlarmLink] = useRecoilState(alarmLinkAtom);
+
   const firebaseConfig = {
     apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM",
     authDomain: "todaktodak-6846e.firebaseapp.com",
@@ -46,7 +60,6 @@ function App() {
           })
             .then((currentToken) => {
               if (currentToken) {
-                console.log(typeof JSON.stringify(currentToken));
                 console.log("currentToken: ", currentToken);
                 fetch(`https://todaktodak.kr:8080/api/user/fcmKey`, {
                   method: "PATCH",
@@ -80,13 +93,15 @@ function App() {
             });
           onMessage(messaging, (payload) => {
             console.log("Message received.", payload);
-            // alert(payload.notification.title + payload.notification.body);
-            // console.log("Message received.", payload);
-            // const title = payload.notification.title;
-            // const options = {
-            //   body: payload.notification.boby,
-            // };
-            // const notification = new Notification(title, options);
+            setAlarmTitle(payload.notification.title);
+            setAlarmBody(payload.notification.body);
+            // setAlarmLink(payload.fcmOptions.link);
+
+            const title = payload.notification.title;
+            const options = {
+              body: payload.notification.boby,
+            };
+            return new Notification(title, options);
             // console.log("notification", notification);
 
             // const title = payload.notification.title;
@@ -104,8 +119,7 @@ function App() {
   }
 
   const jwt_token = useRecoilValue(jwtToken);
-
-  console.log(jwt_token);
+  // console.log(jwt_token);
 
   useEffect(() => {
     requestPermission();
@@ -113,18 +127,20 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/video" element={<Video />} />
-          <Route path="/cry" element={<Cry />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/api/login/oauth2/code/kakao" element={<Loading />} />
-          <Route path="/device" element={<Device />} />
-        </Routes>
-      </BrowserRouter>
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/video" element={<Video />} />
+            <Route path="/cry" element={<Cry />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/api/login/oauth2/code/kakao" element={<Loading />} />
+            <Route path="/device" element={<Device />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </>
   );
 }
