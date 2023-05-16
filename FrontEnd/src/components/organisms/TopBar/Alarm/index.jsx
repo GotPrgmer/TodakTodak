@@ -1,59 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Modal from "react-modal";
 import {
   alarmDataAtom,
   modalStateAtom,
+  isReadAlarmAtom,
 } from "../../../../states/recoilAlarmState";
+import ReadAlarm from "../../../../assets/ReadAlarm.png";
+import unReadAlarm from "../../../../assets/unReadAlarm.png";
 
 function Alarm() {
-  const alarmData = useRecoilValue(alarmDataAtom);
-  const [IsOpen, setIsOpen] = useRecoilState(modalStateAtom);
-
-  // Modal을 Open하는 함수
-  const openModal = () => {
-    setIsOpen(true);
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      height: "80%",
+      width: "85%",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
   };
 
-  // Modal을 Close하는 함수
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  const [alarmData, setAlarmData] = useRecoilState(alarmDataAtom);
+  const [isReadAlarm, setIsReadAlarm] = useRecoilState(isReadAlarmAtom);
+  const IsOpen = useRecoilValue(modalStateAtom);
+
+  let readCount = 0;
+  for (let i = 0; i < alarmData.length; i++) {
+    if (alarmData[i].isRead === true) {
+      readCount++;
+    }
+  }
+
+  if (readCount === alarmData.length) {
+    setIsReadAlarm(true);
+  }
 
   return (
     <>
-      <div>
+      <div className="h-[8vh]">
         <Modal
           ariaHideApp={false}
           isOpen={IsOpen}
-          onRequestClose={closeModal}
+          style={customStyles}
           contentLabel="Example Modal"
         >
           {alarmData.map((alarm, idx) => {
             return (
-              <>
-                <div>{alarm.title}</div>
-                <div>{alarm.body}</div>
-              </>
+              <div
+                className="grid items-center justify-center text-center bg-white rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700 font-mun"
+                key={idx}
+              >
+                {alarm.isRead === false ? (
+                  <a
+                    onClick={() => {
+                      const updatedAlarm = { ...alarm, isRead: true };
+                      const updatedAlarmData = alarmData.map((a) =>
+                        a.id === alarm.id ? updatedAlarm : a
+                      );
+                      setAlarmData(updatedAlarmData);
+                    }}
+                    href="/video"
+                    className="pt-5 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                  >
+                    <img src={unReadAlarm} alt="" className="w-10 h-10" />
+                    <h1>{alarm.title}</h1>
+                    <h5 className="text-xs">{alarm.body}</h5>
+                  </a>
+                ) : (
+                  <a
+                    href="/video"
+                    className="pt-5 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                  >
+                    <img src={ReadAlarm} alt="" className="w-10 h-10" />
+                    <h1>{alarm.title}</h1>
+                    <h5 className="text-xs">{alarm.body}</h5>
+                  </a>
+                )}
+              </div>
             );
 
             // <div>{alarm["title"]}</div>;
           })}
-
-          <button
-            onClick={() => {
-              closeModal();
-            }}
-            className="rounded hover:rounded-lg bg-blue-300 mr-3 pl-4 pr-4 pt-1 pb-1 font-new"
-          >
-            확인
-          </button>
-          <button
-            onClick={closeModal}
-            className="rounded hover:rounded-lg bg-red-300 mr-3 pl-4 pr-4 pt-1 pb-1 font-new"
-          >
-            취소
-          </button>
         </Modal>
       </div>
     </>
