@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // // class형
 import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
@@ -32,6 +33,8 @@ class DeviceComponent extends Component {
       url: "https://teachablemachine.withgoogle.com/models/aQ8m5azCG/",
       modelURL: undefined,
       metadataURL: undefined,
+      lastAlarmTime: null,
+      throttleTime: 10000, // 10초
       paramsSessions: {
         mediaMode: "ROUTED",
         recordingMode: "MANUAL",
@@ -150,13 +153,51 @@ class DeviceComponent extends Component {
   async predict() {
     // predict can take in an image, video or canvas html element
     const prediction = await this.state.model.predict(this.state.webcam.canvas);
-    for (let i = 0; i < this.state.maxPredictions; i++) {
-      const classPrediction =
-        prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-      // labelContainer.childNodes[i].innerHTML = classPrediction;
-      console.log(classPrediction);
+    // for (let i = 0; i < this.state.maxPredictions; i++) {
+    //   const classPrediction =
+    //     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+    //   labelContainer.childNodes[i].innerHTML = classPrediction;
+    //   console.log(classPrediction);
+    // }
+
+    const cur = prediction[1].probability.toFixed(2);
+
+    const rolling = {
+      serialNumber: "todak8",
+      alarmType: "rolling",
+      message: "아기가 뒤집기를 했습니다. 확인해주세요.",
+    };
+
+    // 스로틀링 이벤트 처리
+    if(cur > 0.9){
+      const currentTime = new Date().getTime();
+      
+      if(!this.state.lastAlarmTime || currentTime - this.state.lastAlarmTime >= this.state.throttleTime){
+        fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(rolling),
+        })
+        .then((response) => {
+          console.log("뒤집기 알람 요청 성공!!!", response);
+          // return response.json();
+        })
+        .catch((error)  => {
+          console.error("Error:", error);
+        });
+
+        this.state.lastAlarmTime = currentTime;
+      }
     }
   }
+
+  async stopWebcam() {
+    await this.state.webcam.stop();
+  }
+
+
   // joinSession
   joinSession() {
     // 세션에 참여
@@ -183,17 +224,16 @@ class DeviceComponent extends Component {
           var subscribers = this.state.subscribers; // 세션에 참여한 사람들
           subscribers.push(subscriber); // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           console.log("subscribers", subscribers);
-
+          
           // Update the state with the new subscribers
           this.setState({
             subscribers: subscribers, // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           });
         });
-
         // tmImage
         console.log("init");
         this.init();
-
+        
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // 세션에 참여한 사람이 나갔을 때
