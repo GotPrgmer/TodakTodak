@@ -224,24 +224,15 @@ class DeviceComponent extends Component {
           subscribers.push(subscriber); // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           console.log("subscribers", subscribers);
           
-          // tmImage
-          console.log("init");
-          this.init();
           // Update the state with the new subscribers
           this.setState({
             subscribers: subscribers, // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           });
         });
-
-        mySession.on("signal:chat", (event) => {
-          console.log("chat");
-          console.log(event.data);
-          this.setState({
-            chat: this.state.chat + "\n" + event.data,
-          });
-        });
-
-
+        // tmImage
+        console.log("init");
+        this.init();
+        
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // 세션에 참여한 사람이 나갔을 때
