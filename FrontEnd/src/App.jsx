@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { jwtToken } from "./states/recoilHomeState";
 import {
   alarmBodyAtom,
+  alarmDataAtom,
   alarmLinkAtom,
   alarmTitleAtom,
 } from "./states/recoilAlarmState";
@@ -25,11 +26,27 @@ function App() {
   // Alarm 상태관리
   // let alarmDataList = [];
   // console.log(alarmDataList);
-  const [alarmTitle, setAlarmTitle] = useRecoilState(alarmTitleAtom);
-  console.log(alarmTitle);
-  const [alarmBody, setAlarmBody] = useRecoilState(alarmBodyAtom);
-  console.log(alarmBody);
-  const [alarmLink, setAlarmLink] = useRecoilState(alarmLinkAtom);
+  // const [alarmTitle, setAlarmTitle] = useRecoilState(alarmTitleAtom);
+  // console.log(alarmTitle);
+  // const [alarmBody, setAlarmBody] = useRecoilState(alarmBodyAtom);
+  // console.log(alarmBody);
+  const [alarmData, setAlarmData] = useRecoilState(alarmDataAtom);
+
+  console.log(alarmData);
+
+  const alarmDataHandler = (context, alarmRecoil) => {
+    const alarmDataList = [...alarmRecoil];
+    if (alarmDataList.length <= 10) {
+      alarmDataList.unshift(context);
+    } else {
+      alarmDataList.pop();
+      alarmDataList.unshift(context);
+    }
+    console.log(alarmDataList);
+    return alarmDataList;
+  };
+
+  // console.log(alarmDataList);
 
   const firebaseConfig = {
     apiKey: "AIzaSyC28lmSh_y2INMvoK4DuOUCPngBObbMkNM",
@@ -76,7 +93,7 @@ function App() {
                     return response.json();
                   })
                   .then((data) => {
-                    console.log(data);
+                    // console.log(data);
                   })
                   .catch((error) => {
                     console.error("Error:", error);
@@ -92,24 +109,20 @@ function App() {
               // ...
             });
           onMessage(messaging, (payload) => {
-            console.log("Message received.", payload);
-            setAlarmTitle(payload.notification.title);
-            setAlarmBody(payload.notification.body);
-            // setAlarmLink(payload.fcmOptions.link);
-
-            const title = payload.notification.title;
-            const options = {
-              body: payload.notification.boby,
+            const message = {
+              title: payload.notification.title,
+              body: payload.notification.body,
             };
-            return new Notification(title, options);
-            // console.log("notification", notification);
-
-            // const title = payload.notification.title;
-            // const options = {
-            //   body: payload.notification.body,
-            // };
-            // console.log(self.registration.showNotification(title, options));
-            // return self.registration.showNotification(title, options);
+            setAlarmData((prevAlarmData) => {
+              const alarmDataList = [...prevAlarmData];
+              if (alarmDataList.length >= 10) {
+                alarmDataList.pop();
+              }
+              alarmDataList.unshift(message);
+              console.log(alarmDataList);
+              return alarmDataList;
+            });
+            console.log(alarmData);
           });
         } else {
           console.log("Do not get token");
