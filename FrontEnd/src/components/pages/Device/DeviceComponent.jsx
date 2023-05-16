@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // // class형
 import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
@@ -159,7 +160,7 @@ class DeviceComponent extends Component {
     //   console.log(classPrediction);
     // }
 
-    cur = prediction[1].probability.toFixed(2);
+    const cur = prediction[1].probability.toFixed(2);
 
     const rolling = {
       serialNumber: "todak8",
@@ -186,7 +187,7 @@ class DeviceComponent extends Component {
           console.error("Error:", error);
         });
 
-        lastAlarmTime = currentTime;
+        this.state.lastAlarmTime = currentTime;
       }
     }
   }
