@@ -21,15 +21,12 @@
         // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
         // the link to your model provided by Teachable Machine export panel
-        const URL = "https://teachablemachine.withgoogle.com/models/aQ8m5azCG/";
+        const URL = "./my_model/";
 
         let model, webcam, labelContainer, maxPredictions;
         let rolling_flag = false;
         let time_interval_flag = false;
         let rolling_count = 0;
-
-        let lastAlarmTime = null;
-        const throttleTime = 10000; // 10 seconds
     
         // Load the image model and setup the webcam
         async function init() {
@@ -74,19 +71,29 @@
                 labelContainer.childNodes[i].innerHTML = classPrediction;
             }
 
-            cur = prediction[1].probability.toFixed(2);
+            cur = prediction[0].probability.toFixed(2);
 
             const rolling = {
-                serialNumber: "todak8",
+                serialNumber: "todak2",
                 alarmType: "rolling",
                 message: "아기가 뒤집기를 했습니다. 확인해주세요.",
             };
-            
+
             // 아기가 뒤집어졌을 때
             if (cur > 0.9) {
-                const currentTime = new Date().getTime();
+                // 아기가 뒤집한 경우가 지속될 때
+                if (cur > 0.9 && rolling_flag == false) {
+                    rolling_count += 1;
+                    if (rolling_count >= 5) {
+                        rolling_flag = true;
+                        rolling_count = 0;
+                    }
+                }
+                else if (cur < 0.9 && rolling_flag == false) {
+                    rolling_count = 0;
+                }
 
-                if(!lastAlarmTime || currentTime - lastAlarmTime >= throttleTime){
+                if (rolling_flag == true && time_interval_flag == false) {
                     fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
                         headers: {
                             "Content-Type": "application/json",
@@ -102,11 +109,44 @@
                     .catch((error) => {
                         console.error("Error:", error);
                     });
-
-                    lastAlarmTime = currentTime;
+                    time_interval_flag = true;
                 }
             }
+        }
 
+        const rolling_continue = {
+            serialNumber: "todak2",
+            alarmType: "rolling",
+            message: "아기가 계속 뒤집혀 있습니다. 확인해주세요.",
+        };
+
+        if (rolling_flag == true) {
+            if (time_interval_flag == true) {
+                setTimeout(() => {
+                    if (cur > 0.9) {
+                        fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            method: "POST",
+                            // mode: "cors",
+                            body: JSON.stringify(rolling_continue),
+                        })
+                            .then((response) => {
+                                console.log("뒤집기 알람 요청 성공!!!!!", response);
+                                time_interval_flag = true;
+                                return response.json;
+                            })
+                            .catch((error) => {
+                                console.error("Error:", error);
+                            });
+                    }
+                    else {
+                        rolling_flag = false;
+                    }
+                }, 10000);
+                time_interval_flag = false;
+            }
         }
     </script>
 </body>
