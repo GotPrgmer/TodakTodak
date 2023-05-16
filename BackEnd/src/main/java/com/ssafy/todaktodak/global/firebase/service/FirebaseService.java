@@ -71,7 +71,7 @@ public class FirebaseService {
 
     // 파라미터를 FCM이 요구하는 body 형태로 만들어준다.
     private String makeMessage(String targetToken, String title, String Context,String link) throws JsonProcessingException {
-        String nowTime = DateTime.now().toString("yyyy-mm-dd hh:mm:ss");
+        String nowTime = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
         Map<String, Object> message = new HashMap<>();
         message.put("validate_only", false);
 
