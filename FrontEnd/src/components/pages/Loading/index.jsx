@@ -29,7 +29,7 @@ function Loading() {
           `https://todaktodak.kr:8080/api/login/oauth2/code/kakao?code=${code}`
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           // console.log(response.data.jwt_token)
           setBabyData(response.data.baby_ids);
           setTokenData(response.data.jwt_token);
@@ -37,7 +37,7 @@ function Loading() {
             navigateToHome();
           }
         })
-        .catch((error) => console.log("!!!" + error));
+        .catch((error) => console.log(error));
     }
 
     transferCode();
