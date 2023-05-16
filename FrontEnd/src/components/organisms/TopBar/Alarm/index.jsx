@@ -1,9 +1,13 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Modal from "react-modal";
-import { modalStateAtom } from "../../../../states/recoilAlarmState";
+import {
+  alarmDataAtom,
+  modalStateAtom,
+} from "../../../../states/recoilAlarmState";
 
 function Alarm() {
+  const alarmData = useRecoilValue(alarmDataAtom);
   const [IsOpen, setIsOpen] = useRecoilState(modalStateAtom);
 
   // Modal을 Open하는 함수
@@ -25,6 +29,17 @@ function Alarm() {
           onRequestClose={closeModal}
           contentLabel="Example Modal"
         >
+          {alarmData.map((alarm, idx) => {
+            return (
+              <>
+                <div>{alarm.title}</div>
+                <div>{alarm.body}</div>
+              </>
+            );
+
+            // <div>{alarm["title"]}</div>;
+          })}
+
           <button
             onClick={() => {
               closeModal();

@@ -1,4 +1,7 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 const modalStateAtom = atom({
   key: "modalStateAtom",
@@ -20,4 +23,16 @@ const alarmLinkAtom = atom({
   default: "",
 });
 
-export { modalStateAtom, alarmTitleAtom, alarmBodyAtom, alarmLinkAtom };
+const alarmDataAtom = atom({
+  key: "alarmDataAtom",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export {
+  modalStateAtom,
+  alarmTitleAtom,
+  alarmBodyAtom,
+  alarmLinkAtom,
+  alarmDataAtom,
+};
