@@ -27,8 +27,7 @@ oauth2:
       kakao:
         client-id: ${KAKAO_RESTAPI_KEY}
         client-secret: ${KAKAO_CLIENT_SECRET_KEY}
-        redirect-uri1: ${KAKAO_REDIRECT_URI1}
-        redirect-uri2: ${KAKAO_REDIRECT_URI2}
+        redirect-uri: ${KAKAO_REDIRECT_URI}
         client-authentication-method: POST
         authorization-grant-type: authorization_code
         scope:
