@@ -30,6 +30,7 @@ const deviceDataAtom = atom({
 const serialNumberAtom = atom({
   key: "serialNumberAtom",
   default: "",
+  effects_UNSTABLE: [persistAtom],
 });
 
 export { bottomBarAtom, babyPK, jwtToken, deviceDataAtom, serialNumberAtom };

@@ -17,9 +17,15 @@ import Crylist from "./../../organisms/Cry/index";
 import ModalCalender from "../../organisms/Cry/Calendar";
 
 import { useRecoilValue } from "recoil";
-import { jwtToken, babyPK } from "../../../states/recoilHomeState";
+import {
+  jwtToken,
+  babyPK,
+  deviceDataAtom,
+  serialNumberAtom,
+} from "../../../states/recoilHomeState";
 import axios from "axios";
 import { ExpirationPlugin } from "workbox-expiration";
+import NotFound from "../NotFound";
 
 ChartJS.register(
   CategoryScale,
@@ -55,6 +61,8 @@ function Cry() {
   const jwt_token = useRecoilValue(jwtToken);
   const baby_pk = useRecoilValue(babyPK);
   // const jwt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTY4NDEzNzM4NywiZXhwIjoxNjg0MTQ4MTg3fQ.82lyOvCWw8wY8WeOvHrIHDw8bbJwj5MTstDEzRzGUUE'
+  const deviceData = useRecoilValue(deviceDataAtom);
+  const serialNumber = useRecoilValue(serialNumberAtom);
 
   const [labels, setLabels] = useState([]);
   const [values, setValues] = useState([]);
@@ -265,48 +273,54 @@ function Cry() {
 
   return (
     <>
-      <TopBar />
-      <div className={`${isMoreBtn ? "h-[85vh]" : "h-screen"}  px-5`}>
-        <div className="w-full pt-5">
-          <ModalCalender dateSelect={dateSelect} />
-        </div>
-
-        <div className="font-new">
-          <div className="h-[45vh]">
-            <Bar options={options} data={data} />
-          </div>
-          <div className="mt-10 px-3">
-            <div className="flex justify-between mb-3">
-              <p className="text-xl font-semibold">
-                울음기록{" "}
-                <span className="text-lg">
-                  {clickedDate.substring(5, 7) +
-                    "/" +
-                    clickedDate.substring(8, 10) +
-                    " (" +
-                    week[new Date(clickedDate).getDay()] +
-                    ")"}
-                </span>
-              </p>
-              <button
-                className={`${
-                  isMoreBtn &&
-                  cryLogs[clickedDate] &&
-                  cryLogs[clickedDate].length >= 3
-                    ? ""
-                    : "hidden"
-                } text-green-400 font-semibold`}
-                onClick={btnClick}
-              >
-                더 보기
-              </button>
+      {deviceData.serial_number === serialNumber ? (
+        <div>
+          {" "}
+          <TopBar />
+          <div className={`${isMoreBtn ? "h-[85vh]" : "h-screen"}  px-5`}>
+            <div className="w-full pt-5">
+              <ModalCalender dateSelect={dateSelect} />
             </div>
-            <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked} />
-          </div>
-        </div>
-      </div>
 
-      <BottomBar />
+            <div className="font-new">
+              <div className="h-[45vh]">
+                <Bar options={options} data={data} />
+              </div>
+              <div className="mt-10 px-3">
+                <div className="flex justify-between mb-3">
+                  <p className="text-xl font-semibold">
+                    울음기록{" "}
+                    <span className="text-lg">
+                      {clickedDate.substring(5, 7) +
+                        "/" +
+                        clickedDate.substring(8, 10) +
+                        " (" +
+                        week[new Date(clickedDate).getDay()] +
+                        ")"}
+                    </span>
+                  </p>
+                  <button
+                    className={`${
+                      isMoreBtn &&
+                      cryLogs[clickedDate] &&
+                      cryLogs[clickedDate].length >= 3
+                        ? ""
+                        : "hidden"
+                    } text-green-400 font-semibold`}
+                    onClick={btnClick}
+                  >
+                    더 보기
+                  </button>
+                </div>
+                <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked} />
+              </div>
+            </div>
+          </div>
+          <BottomBar />
+        </div>
+      ) : (
+        <NotFound />
+      )}
     </>
   );
 }

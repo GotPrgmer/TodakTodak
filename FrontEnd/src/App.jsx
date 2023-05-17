@@ -15,6 +15,7 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useEffect } from "react";
 import { jwtToken } from "./states/recoilHomeState";
 import { alarmDataAtom, isReadAlarmAtom } from "./states/recoilAlarmState";
+import NotFound from "./components/pages/NotFound";
 
 function App() {
   // Alarm Read 관리
@@ -131,6 +132,7 @@ function App() {
             <Route path="/edit" element={<Edit />} />
             <Route path="/api/login/oauth2/code/kakao" element={<Loading />} />
             <Route path="/device" element={<Device />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </div>
