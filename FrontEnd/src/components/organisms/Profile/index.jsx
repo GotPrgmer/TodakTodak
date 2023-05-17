@@ -4,6 +4,7 @@ import editIcon from "../../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { babyPK, jwtToken } from "../../../states/recoilHomeState";
+import Enroll from "./Enroll";
 
 function BabyProfile() {
   const [data, setData] = useState([]);
@@ -33,6 +34,10 @@ function BabyProfile() {
   return (
     <div className="h-[60vh] text-center grid place-items-center bg-cover rounded-b-[30px] bg-[url('https://i.pinimg.com/564x/8a/1a/34/8a1a34828d8650b0bbd96dcd71e2dafa.jpg')]">
       <div className="h-5/6 w-full">
+        <div>
+          <Enroll />
+        </div>
+
         <div className="flex justify-end mr-5">
           <button>
             <img

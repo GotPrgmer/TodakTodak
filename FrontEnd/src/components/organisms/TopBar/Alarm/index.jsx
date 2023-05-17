@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Modal from "react-modal";
 import {
