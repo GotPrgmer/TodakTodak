@@ -8,6 +8,7 @@ import {
 } from "../../../../states/recoilAlarmState";
 import ReadAlarm from "../../../../assets/ReadAlarm.png";
 import unReadAlarm from "../../../../assets/unReadAlarm.png";
+import { bottomBarAtom } from "../../../../states/recoilHomeState";
 
 function Alarm() {
   const customStyles = {
@@ -23,6 +24,7 @@ function Alarm() {
     },
   };
 
+  const [bottomBar, setBottomBar] = useRecoilState(bottomBarAtom);
   const [alarmData, setAlarmData] = useRecoilState(alarmDataAtom);
   const [isReadAlarm, setIsReadAlarm] = useRecoilState(isReadAlarmAtom);
   const IsOpen = useRecoilValue(modalStateAtom);
@@ -61,6 +63,7 @@ function Alarm() {
                         a.id === alarm.id ? updatedAlarm : a
                       );
                       setAlarmData(updatedAlarmData);
+                      setBottomBar(1);
                     }}
                     href="/video"
                     className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -80,6 +83,9 @@ function Alarm() {
                   </a>
                 ) : (
                   <a
+                    onClick={() => {
+                      setBottomBar(1);
+                    }}
                     href="/video"
                     className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                   >
