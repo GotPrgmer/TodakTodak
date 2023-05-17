@@ -50,7 +50,7 @@ function Alarm() {
           {alarmData.map((alarm, idx) => {
             return (
               <div
-                className="grid items-center justify-center text-center bg-white rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700 font-mun"
+                className="sc grid grid-cols-1 items-center justify-center text-center bg-white rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700 font-mun"
                 key={idx}
               >
                 {alarm.isRead === false ? (
@@ -63,20 +63,38 @@ function Alarm() {
                       setAlarmData(updatedAlarmData);
                     }}
                     href="/video"
-                    className="pt-5 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                    className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                   >
-                    <img src={unReadAlarm} alt="" className="w-10 h-10" />
-                    <p className="text-xs">{alarm.body.split(",")[0]}</p>
-                    <p>{alarm.body.split(",")[1]}</p>
+                    <div className="flex justify-center">
+                      <img src={unReadAlarm} alt="" className="w-10 h-10" />
+                      <div>
+                        <p className="mt-2 text-xs ml-5 mr-3 text-left ">
+                          {alarm.body.split(",")[0]}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col text-xs">
+                      <div>{alarm.body.split(",")[1].split(" ")[0]}</div>
+                      <div>{alarm.body.split(",")[1].split(" ")[1]}</div>
+                    </div>
                   </a>
                 ) : (
                   <a
                     href="/video"
-                    className="pt-5 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                    className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                   >
-                    <img src={ReadAlarm} alt="" className="w-10 h-10" />
-                    <p className="text-xs">{alarm.body.split(",")[0]}</p>
-                    <p>{alarm.body.split(",")[1]}</p>
+                    <div className="flex justify-center">
+                      <img src={ReadAlarm} alt="" className="w-10 h-10" />
+                      <div>
+                        <p className="mt-2 text-xs ml-5 mr-3 text-left ">
+                          {alarm.body.split(",")[0]}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col text-xs">
+                      <div>{alarm.body.split(",")[1].split(" ")[0]}</div>
+                      <div>{alarm.body.split(",")[1].split(" ")[1]}</div>
+                    </div>
                   </a>
                 )}
               </div>
