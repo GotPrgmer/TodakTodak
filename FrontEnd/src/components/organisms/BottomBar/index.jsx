@@ -7,9 +7,13 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import PersonIcon from "@mui/icons-material/Person";
 import { useRecoilState } from "recoil";
 import { bottomBarAtom } from "../../../states/recoilHomeState";
+import { modalStateAtom } from "../../../states/recoilAlarmState";
 
 function BottomBar(props) {
   const [value, setValue] = useRecoilState(bottomBarAtom);
+  const [modalState, setModalState] = useRecoilState(modalStateAtom);
+  // console.log(modalState);
+  const leaveSession = props.leaveSession;
 
   return (
     <div>
@@ -19,6 +23,7 @@ function BottomBar(props) {
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
+            setModalState(false);
           }}
           sx={{ bgcolor: "#FFDEDE", color: "#fff" }}
         >
@@ -28,7 +33,7 @@ function BottomBar(props) {
             value={0}
             component={Link}
             to="/profile"
-            onClick={props.leaveSession}
+            onClick={leaveSession}
           />
           <BottomNavigationAction
             label={<span style={{ fontFamily: "new" }}>실시간영상</span>}
@@ -45,7 +50,7 @@ function BottomBar(props) {
             value={2}
             component={Link}
             to="/cry"
-            onClick={props.leaveSession}
+            onClick={leaveSession}
           />
           <BottomNavigationAction
             label={<span style={{ fontFamily: "new" }}>마이페이지</span>}
@@ -53,7 +58,7 @@ function BottomBar(props) {
             value={3}
             component={Link}
             to="/mypage"
-            onClick={props.leaveSession}
+            onClick={leaveSession}
           />
         </BottomNavigation>
       </Box>
