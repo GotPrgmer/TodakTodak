@@ -17,9 +17,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -71,7 +73,15 @@ public class FirebaseService {
 
     // 파라미터를 FCM이 요구하는 body 형태로 만들어준다.
     private String makeMessage(String targetToken, String title, String Context,String link) throws JsonProcessingException {
-        String nowTime = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
+        TimeZone time;
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss (z Z)");
+
+        time = TimeZone.getTimeZone("Asia/Seoul");
+        df.setTimeZone(time);
+
+        String nowTime = df.format(date);
         Map<String, Object> message = new HashMap<>();
         message.put("validate_only", false);
 
