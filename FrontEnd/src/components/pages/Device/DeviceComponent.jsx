@@ -163,7 +163,7 @@ class DeviceComponent extends Component {
     const cur = prediction[1].probability.toFixed(2);
 
     const rolling = {
-      serialNumber: "todak8",
+      serialNumber: "todak13",
       alarmType: "rolling",
       message: "아기가 뒤집기를 했습니다. 확인해주세요.",
     };
