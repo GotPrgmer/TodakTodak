@@ -66,8 +66,8 @@ function Alarm() {
                     className="pt-5 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                   >
                     <img src={unReadAlarm} alt="" className="w-10 h-10" />
-                    <h1>{alarm.title}</h1>
-                    <h5 className="text-xs">{alarm.body}</h5>
+                    <p className="text-xs">{alarm.body.split(",")[0]}</p>
+                    <p>{alarm.body.split(",")[1]}</p>
                   </a>
                 ) : (
                   <a
@@ -75,8 +75,8 @@ function Alarm() {
                     className="pt-5 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                   >
                     <img src={ReadAlarm} alt="" className="w-10 h-10" />
-                    <h1>{alarm.title}</h1>
-                    <h5 className="text-xs">{alarm.body}</h5>
+                    <p className="text-xs">{alarm.body.split(",")[0]}</p>
+                    <p>{alarm.body.split(",")[1]}</p>
                   </a>
                 )}
               </div>
