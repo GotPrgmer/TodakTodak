@@ -27,7 +27,7 @@ class Video extends Component {
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
       // SessionId는 Camera Serial Number(로그인 후 시도)
-      mySessionId: "todaktodak1002",
+      mySessionId: "todaktodak1013",
       // mySessionId: this.deviceData.session_id,
       // UserName은 로그인 한 후 생성되는 pk 번호
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
@@ -236,7 +236,7 @@ class Video extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "todaktodak1002",
+      mySessionId: "todaktodak1013",
       // mySessionId: this.deviceData["session_id"],
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: this.babyId,
