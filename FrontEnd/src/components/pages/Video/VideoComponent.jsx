@@ -297,57 +297,57 @@ class Video extends Component {
       <>
         <TopBar />
         <div className="container">
-          {this.state.session === undefined
-            ? this.joinSession()
-            : ////////////////////////////////////////////////////////////////////////////////////////
-              // <div id="join">
-              //   {/* <div id="img-div">
-              //     <img
-              //       src="resources/images/openvidu_grey_bg_transp_cropped.png"
-              //       alt="OpenVidu logo"
-              //     />
-              //   </div> */}
-              //   <div id="join-dialog" className="jumbotron vertical-center">
-              //     {/* <h1> Join a video session </h1> */}
-              //     <form className="form-group" onSubmit={this.joinSession}>
-              //       {/* userName 변경 form */}
-              //       {/* <p>
-              //         <label>Participant: </label>
-              //         <input
-              //           className="form-control"
-              //           type="text"
-              //           id="userName"
-              //           value={myUserName}
-              //           onChange={this.handleChangeUserName}
-              //           required
-              //         />
-              //       </p> */}
-              //       {/* SessionId 변경 form */}
-              //       {/* <p>
-              //         <label> Session: </label>
-              //         <input
-              //           className="form-control"
-              //           type="text"
-              //           id="sessionId"
-              //           value={mySessionId}
-              //           onChange={this.handleChangeSessionId}
-              //           required
-              //         />
-              //       </p> */}
-              //       <p className="text-center">
-              //         <input
-              //           className="btn btn-lg btn-success"
-              //           name="commit"
-              //           type="submit"
-              //           value="JOIN"
-              //         />
-              //       </p>
-              //       {/* <JoinButton /> */}
-              //     </form>
-              //   </div>
-              // </div>
-              ///////////////////////////////////////////////////////////////////////////////////////////////
-              null}
+          {this.state.session === undefined ? (
+            // ? this.joinSession()
+            ////////////////////////////////////////////////////////////////////////////////////////
+            <div id="join">
+              {/* <div id="img-div">
+                  <img
+                    src="resources/images/openvidu_grey_bg_transp_cropped.png"
+                    alt="OpenVidu logo"
+                  />
+                </div> */}
+              <div id="join-dialog" className="jumbotron vertical-center">
+                {/* <h1> Join a video session </h1> */}
+                <form className="form-group" onSubmit={this.joinSession}>
+                  {/* userName 변경 form */}
+                  {/* <p>
+                      <label>Participant: </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        id="userName"
+                        value={myUserName}
+                        onChange={this.handleChangeUserName}
+                        required
+                      />
+                    </p> */}
+                  {/* SessionId 변경 form */}
+                  {/* <p>
+                      <label> Session: </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        id="sessionId"
+                        value={mySessionId}
+                        onChange={this.handleChangeSessionId}
+                        required
+                      />
+                    </p> */}
+                  <p className="text-center">
+                    <input
+                      className="btn btn-lg btn-success"
+                      name="commit"
+                      type="submit"
+                      value="JOIN"
+                    />
+                  </p>
+                  {/* <JoinButton /> */}
+                </form>
+              </div>
+            </div>
+          ) : ///////////////////////////////////////////////////////////////////////////////////////////////
+          null}
 
           {this.state.session !== undefined ? (
             <div id="session">
