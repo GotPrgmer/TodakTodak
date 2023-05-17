@@ -33,7 +33,7 @@ function Login() {
 
   return (
     <>
-      <div className="w-screen h-screen font-new bg-contain grid place-items-center bg-[url('https://i.pinimg.com/236x/99/3a/d8/993ad857f55996def0822f3294758ef3.jpg')]">
+      <div className="relative w-screen h-screen font-new bg-contain grid place-items-center bg-[url('https://i.pinimg.com/236x/99/3a/d8/993ad857f55996def0822f3294758ef3.jpg')]">
         <div className="w-full text-center">
           {/* <img className="w-36 mx-auto" src={Babyone} alt="" />` */}
           <img src={Logo} alt="" className="w-5/6 mx-auto" />
@@ -49,7 +49,7 @@ function Login() {
             </a>
           </div>
         </div>
-        <div className="fixed bottom-0 z-50 w-full flex justify-center">
+        <div className="absolute bottom-0 z-50 w-full flex justify-center">
           <img className="w-2/5" src={Babyone} alt="" />
         </div>
       </div>
