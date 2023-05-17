@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { useRecoilValue } from "recoil";
-import { deviceDataAtom } from "../../../../states/recoilHomeState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  deviceDataAtom,
+  serialNumberAtom,
+} from "../../../../states/recoilHomeState";
 
 function Enroll() {
   const customStyles = {
@@ -21,7 +24,6 @@ function Enroll() {
   const deviceData = useRecoilValue(deviceDataAtom);
 
   const [IsOpen, setIsOpen] = useState(false);
-  console.log(IsOpen);
 
   // Modal을 Open하는 함수
   const openModal = () => {
@@ -32,12 +34,11 @@ function Enroll() {
   const closeModal = () => {
     setIsOpen(false);
   };
-
-  const [serialNumber, setSerialNumber] = useState("");
-  console.log(serialNumber);
-  const [serialNumberText, setSerialNumberText] = useState([]);
-  const serialNumberTextHandler = (event) => {
-    setSerialNumberText(serialNumber);
+  const [serialNumberText, setSerialNumberText] = useState("");
+  const [serialNumber, setSerialNumber] = useState(serialNumberAtom);
+  const serialNumberHandler = () => {
+    setSerialNumber(serialNumberText);
+    console.log(serialNumber);
   };
 
   return (
@@ -56,14 +57,14 @@ function Enroll() {
           value={serialNumber}
           placeholder="기기번호를 입력해주세요."
           onChange={(e) => {
-            setSerialNumber(e.target.value);
+            setSerialNumberText(e.target.value);
           }}
         ></input>
         <button
           type="submit"
           onClick={() => {
             closeModal();
-            serialNumberTextHandler();
+            serialNumberHandler();
           }}
         >
           확인
