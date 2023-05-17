@@ -33,6 +33,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,8 +55,11 @@ public class OauthService {
     @Value("${oauth2.client.registration.kakao.client-id}")
     private String CLIENT_ID;
 
-    @Value("${oauth2.client.registration.kakao.redirect-uri}")
-    private String REDIRECT_URI;
+    @Value("${oauth2.client.registration.kakao.redirect-uri1}")
+    private String REDIRECT_URI1;
+
+    @Value("${oauth2.client.registration.kakao.redirect-uri2}")
+    private String REDIRECT_URI2;
 
     @Value("${oauth2.client.registration.kakao.client-secret}")
     private String CLIENT_SECRET;
@@ -102,26 +106,44 @@ public class OauthService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", GRANT_TYPE);
-        params.add("client_id", CLIENT_ID);
-        params.add("redirect_uri", REDIRECT_URI + "kakao");
-        params.add("code", code);
-        params.add("client_secret", CLIENT_SECRET);
+        LinkedMultiValueMap<String, String> params1 = new LinkedMultiValueMap<>();
+        params1.add("grant_type", GRANT_TYPE);
+        params1.add("client_id", CLIENT_ID);
+        params1.add("redirect_uri", REDIRECT_URI1 + "kakao");
+        params1.add("code", code);
+        params1.add("client_secret", CLIENT_SECRET);
 
-        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest1 = new HttpEntity<>(params1, headers);
+
+        LinkedMultiValueMap<String, String> params2 = new LinkedMultiValueMap<>();
+        params2.add("grant_type", GRANT_TYPE);
+        params2.add("client_id", CLIENT_ID);
+        params2.add("redirect_uri", REDIRECT_URI2 + "kakao");
+        params2.add("code", code);
+        params2.add("client_secret", CLIENT_SECRET);
+
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest2 = new HttpEntity<>(params2, headers);
 
         String url = GET_TOKEN_URI;
 
-        ResponseEntity<String> accessTokenResponse = restTemplate.postForEntity(url, kakaoTokenRequest, String.class);
+
 
         KakaoAccessTokenDto kakaoAccessTokenDto = null;
 
         try {
-            kakaoAccessTokenDto = objectMapper.readValue(accessTokenResponse.getBody(), KakaoAccessTokenDto.class);
-        } catch (JsonProcessingException e) {
+            ResponseEntity<String> accessTokenResponse1 = restTemplate.postForEntity(url, kakaoTokenRequest1, String.class);
+            kakaoAccessTokenDto = objectMapper.readValue(accessTokenResponse1.getBody(), KakaoAccessTokenDto.class);
+        } catch (Exception e) {
             //글로벌로 예외처리 하기
-            throw new CustomException(ErrorCode.JSON_DATA_INVALID);
+            log.info("이건아님");
+        }
+        try{
+            ResponseEntity<String> accessTokenResponse2 = restTemplate.postForEntity(url, kakaoTokenRequest2, String.class);
+            kakaoAccessTokenDto = objectMapper.readValue(accessTokenResponse2.getBody(), KakaoAccessTokenDto.class);
+
+        } catch(Exception e){
+            log.info("이건아님");
+
         }
         return kakaoAccessTokenDto;
     }
