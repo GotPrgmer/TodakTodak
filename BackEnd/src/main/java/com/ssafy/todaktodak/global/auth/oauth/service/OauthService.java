@@ -86,7 +86,7 @@ public class OauthService {
 
 
 
-    public ResponseEntity<LoginResponseDto> verification(String code){
+    public ResponseEntity<LoginResponseDto> verification(String code) throws JsonProcessingException {
         KakaoAccessTokenDto kakaoAccessTokenDto = getAccessTokenByCode(code);
 
         SocialUserResponseDto socialUserResponseDto = getUserInfoByAccessToken(kakaoAccessTokenDto.getAccessToken());
@@ -101,7 +101,7 @@ public class OauthService {
     }
 
 
-    public KakaoAccessTokenDto getAccessTokenByCode(String code) {
+    public KakaoAccessTokenDto getAccessTokenByCode(String code) throws JsonProcessingException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -128,24 +128,32 @@ public class OauthService {
 
 
 
-        KakaoAccessTokenDto kakaoAccessTokenDto = null;
-
+        ResponseEntity<String> accessTokenResponse1 = null;
+        ResponseEntity<String> accessTokenResponse2 = null;
         try {
-            ResponseEntity<String> accessTokenResponse1 = restTemplate.postForEntity(url, kakaoTokenRequest1, String.class);
-            kakaoAccessTokenDto = objectMapper.readValue(accessTokenResponse1.getBody(), KakaoAccessTokenDto.class);
+            accessTokenResponse1 = restTemplate.postForEntity(url, kakaoTokenRequest1, String.class);
         } catch (Exception e) {
             //글로벌로 예외처리 하기
             log.info("이건아님");
         }
         try{
-            ResponseEntity<String> accessTokenResponse2 = restTemplate.postForEntity(url, kakaoTokenRequest2, String.class);
-            kakaoAccessTokenDto = objectMapper.readValue(accessTokenResponse2.getBody(), KakaoAccessTokenDto.class);
+            accessTokenResponse2 = restTemplate.postForEntity(url, kakaoTokenRequest2, String.class);
 
         } catch(Exception e){
             log.info("이건아님");
-
         }
+        KakaoAccessTokenDto kakaoAccessTokenDto = objectMapper.readValue(getNonNullResponse(accessTokenResponse1, accessTokenResponse2).getBody(),KakaoAccessTokenDto.class);
+
         return kakaoAccessTokenDto;
+    }
+    public ResponseEntity<String> getNonNullResponse(ResponseEntity<String> response1, ResponseEntity<String> response2) {
+        if (response1 != null) {
+            return response1;
+        } else if (response2 != null) {
+            return response2;
+        } else {
+            return null;
+        }
     }
     public SocialUserResponseDto getUserInfoByAccessToken(String accessToken) {
 
