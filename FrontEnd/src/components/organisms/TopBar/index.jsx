@@ -28,11 +28,11 @@ function TopBar() {
     <>
       <Box className="sticky z-10 h-[8vh] lg:px-8 lg:py-4 bg-[#FFDEDE] ">
         <AppBar position="sticky">
-          <Toolbar className="ml-5vh h-5vh bg-[#FFDEDE] flex justify-end mr-2vh">
-            <div className="w-20vh h-5vh">
+          <Toolbar className=" ml-5vh h-5vh bg-[#FFDEDE] flex justify-center mr-1vh relative">
+            <div className="h-5vh">
               <img className="h-[8vh] " src={Logo} alt="" />
             </div>
-            <div className="h-[4vh] w-[4vh] ml-[11vh]">
+            <div className="h-[4vh] w-[4vh] absolute right-[2vh]">
               <button onClick={openModal}>
                 {isReadAlarm === true ? (
                   <img src={unNotification} alt="" />
