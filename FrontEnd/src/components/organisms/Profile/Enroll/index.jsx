@@ -22,6 +22,7 @@ function Enroll() {
   };
 
   const deviceData = useRecoilValue(deviceDataAtom);
+  console.log(deviceData);
 
   const [IsOpen, setIsOpen] = useState(false);
 
@@ -35,7 +36,8 @@ function Enroll() {
     setIsOpen(false);
   };
   const [serialNumberText, setSerialNumberText] = useState("");
-  const [serialNumber, setSerialNumber] = useState(serialNumberAtom);
+  console.log(serialNumberText);
+  const [serialNumber, setSerialNumber] = useRecoilState(serialNumberAtom);
   const serialNumberHandler = () => {
     setSerialNumber(serialNumberText);
     console.log(serialNumber);
@@ -53,13 +55,23 @@ function Enroll() {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <input
-          value={serialNumber}
-          placeholder="기기번호를 입력해주세요."
-          onChange={(e) => {
-            setSerialNumberText(e.target.value);
-          }}
-        ></input>
+        {serialNumber === deviceData.serial_number ? (
+          <input
+            value={serialNumber}
+            placeholder="기기번호를 입력해주세요."
+            onChange={(e) => {
+              setSerialNumberText(e.target.value);
+            }}
+          />
+        ) : (
+          <input
+            placeholder="기기번호를 입력해주세요."
+            onChange={(e) => {
+              setSerialNumberText(e.target.value);
+            }}
+          />
+        )}
+
         <button
           type="submit"
           onClick={() => {
