@@ -72,11 +72,11 @@ public class Baby {
     @Column(name = "baby_constellation")
     private String babyConstellation;
 
-    @OneToMany(mappedBy = "baby",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "baby",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @Builder.Default
     private List<Cry> cryList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "baby")
+    @OneToOne(mappedBy = "baby",fetch = FetchType.LAZY)
     private Device device;
 
 
