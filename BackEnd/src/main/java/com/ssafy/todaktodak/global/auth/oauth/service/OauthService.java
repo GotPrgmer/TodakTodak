@@ -134,7 +134,7 @@ public class OauthService {
             accessTokenResponse1 = restTemplate.postForEntity(url, kakaoTokenRequest1, String.class);
         } catch (Exception e) {
             //글로벌로 예외처리 하기
-            log.info("이건아님");
+            log.info("이건아님1");
         }
         try{
             accessTokenResponse2 = restTemplate.postForEntity(url, kakaoTokenRequest2, String.class);
