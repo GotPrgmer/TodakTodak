@@ -10,7 +10,6 @@ import { bottomBarAtom } from "../../../states/recoilHomeState";
 
 function BottomBar(props) {
   const [value, setValue] = useRecoilState(bottomBarAtom);
-  console.log(value);
 
   return (
     <div>
