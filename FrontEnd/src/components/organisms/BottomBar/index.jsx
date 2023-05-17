@@ -10,6 +10,7 @@ import { bottomBarAtom } from "../../../states/recoilHomeState";
 
 function BottomBar(props) {
   const [value, setValue] = useRecoilState(bottomBarAtom);
+  console.log(value);
 
   return (
     <div>
@@ -20,7 +21,7 @@ function BottomBar(props) {
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
-          sx={{ bgcolor: '#FFDEDE', color: '#fff' }}
+          sx={{ bgcolor: "#FFDEDE", color: "#fff" }}
         >
           <BottomNavigationAction
             label={<span style={{ fontFamily: "new" }}>홈</span>}
@@ -31,7 +32,7 @@ function BottomBar(props) {
             onClick={props.leaveSession}
           />
           <BottomNavigationAction
-            label={<span style={{ fontFamily: "new"}}>실시간 영상</span>}
+            label={<span style={{ fontFamily: "new" }}>실시간영상</span>}
             icon={<CameraIndoorIcon />}
             value={1}
             component={Link}
