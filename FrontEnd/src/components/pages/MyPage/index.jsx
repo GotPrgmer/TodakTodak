@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TopBar from "../../organisms/TopBar";
 import BottomBar from "../../organisms/BottomBar";
 import NotFound from "../NotFound";
@@ -16,6 +16,10 @@ import { useNavigate } from "react-router-dom";
 
 function MyPage() {
   const [bottomBar, setBottomBar] = useRecoilState(bottomBarAtom);
+
+  useEffect(() => {
+    setBottomBar(3);
+  }, []);
 
   const logout = () => {
     setTokenData("");
