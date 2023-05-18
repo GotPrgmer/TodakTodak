@@ -153,12 +153,12 @@ class DeviceComponent extends Component {
   async predict() {
     // predict can take in an image, video or canvas html element
     const prediction = await this.state.model.predict(this.state.webcam.canvas);
-    // for (let i = 0; i < this.state.maxPredictions; i++) {
-    //   const classPrediction =
-    //     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-    //   labelContainer.childNodes[i].innerHTML = classPrediction;
-    //   console.log(classPrediction);
-    // }
+    for (let i = 0; i < this.state.maxPredictions; i++) {
+      const classPrediction =
+        prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+      labelContainer.childNodes[i].innerHTML = classPrediction;
+      console.log(classPrediction);
+    }
 
     const cur = prediction[1].probability.toFixed(2);
 
@@ -271,7 +271,7 @@ class DeviceComponent extends Component {
                 videoSource: undefined, // The source of video. If undefined default webcam
                 publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                 publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                resolution: "200x1000", // The resolution of your video
+                resolution: "150x500", // The resolution of your video
                 frameRate: 30, // The frame rate of your video
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
                 mirror: true, // Whether to mirror your local video or not
