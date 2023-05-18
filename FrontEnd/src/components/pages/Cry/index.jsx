@@ -277,43 +277,43 @@ function Cry() {
         <div>
           {" "}
           <TopBar />
-          <div className={`${isMoreBtn ? "h-[85vh]" : "h-screen"}  px-5`}>
+          {/* <div className={`${isMoreBtn ? "h-[85vh]" : "h-screen"}  px-5`}> */}
+          <div className=" px-5">
             <div className="w-full pt-5">
               <ModalCalender dateSelect={dateSelect} />
             </div>
-
-            <div className="font-new">
-              <div className="h-[45vh]">
-                <Bar options={options} data={data} />
+          </div>
+          <div className="font-new">
+            <div className="h-[45vh]">
+              <Bar options={options} data={data} />
+            </div>
+            <div className="flex flex-col mt-10 px-3 mb-[10vh] h-[45vh] overflow-scroll">
+              <div className="flex justify-between mb-3">
+                <p className="text-xl font-semibold">
+                  울음기록
+                  <span className="text-lg">
+                    {clickedDate.substring(5, 7) +
+                      "/" +
+                      clickedDate.substring(8, 10) +
+                      " (" +
+                      week[new Date(clickedDate).getDay()] +
+                      ")"}
+                  </span>
+                </p>
+                <button
+                  className={`${
+                    isMoreBtn &&
+                    cryLogs[clickedDate] &&
+                    cryLogs[clickedDate].length >= 3
+                      ? ""
+                      : "hidden"
+                  } text-green-400 font-semibold`}
+                  onClick={btnClick}
+                >
+                  더 보기
+                </button>
               </div>
-              <div className="mt-10 px-3">
-                <div className="flex justify-between mb-3">
-                  <p className="text-xl font-semibold">
-                    울음기록{" "}
-                    <span className="text-lg">
-                      {clickedDate.substring(5, 7) +
-                        "/" +
-                        clickedDate.substring(8, 10) +
-                        " (" +
-                        week[new Date(clickedDate).getDay()] +
-                        ")"}
-                    </span>
-                  </p>
-                  <button
-                    className={`${
-                      isMoreBtn &&
-                      cryLogs[clickedDate] &&
-                      cryLogs[clickedDate].length >= 3
-                        ? ""
-                        : "hidden"
-                    } text-green-400 font-semibold`}
-                    onClick={btnClick}
-                  >
-                    더 보기
-                  </button>
-                </div>
-                <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked} />
-              </div>
+              <Crylist logs={cryLogs[clickedDate]} isClicked={isClicked} />
             </div>
           </div>
           <BottomBar />

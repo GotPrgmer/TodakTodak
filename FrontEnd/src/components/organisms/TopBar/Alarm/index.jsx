@@ -8,6 +8,7 @@ import {
 } from "../../../../states/recoilAlarmState";
 import ReadAlarm from "../../../../assets/ReadAlarm.png";
 import unReadAlarm from "../../../../assets/unReadAlarm.png";
+import deleteButton from "../../../../assets/deleteButton.png";
 import { bottomBarAtom } from "../../../../states/recoilHomeState";
 
 function Alarm() {
@@ -40,6 +41,10 @@ function Alarm() {
     setIsReadAlarm(true);
   }
 
+  const deleteWholeAlarmHandler = () => {
+    setAlarmData([]);
+  };
+
   return (
     <>
       <div className="h-[8vh]">
@@ -49,6 +54,16 @@ function Alarm() {
           style={customStyles}
           contentLabel="Example Modal"
         >
+          <div className="absolute top-0 right-0 mt-3 mr-3">
+            <button
+              type="button"
+              onClick={deleteWholeAlarmHandler}
+              className="flex items-center"
+            >
+              <img src={deleteButton} alt="" className="w-5 h-5 mr-1" />
+              <p>전체 삭제</p>
+            </button>
+          </div>
           {alarmData.map((alarm, idx) => {
             return (
               <div
