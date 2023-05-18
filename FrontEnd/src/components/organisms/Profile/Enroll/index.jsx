@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Modal from "react-modal";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -22,7 +22,6 @@ function Enroll() {
   };
 
   const deviceData = useRecoilValue(deviceDataAtom);
-  console.log(deviceData);
 
   const [IsOpen, setIsOpen] = useState(false);
 
@@ -36,12 +35,17 @@ function Enroll() {
     setIsOpen(false);
   };
   const [serialNumberText, setSerialNumberText] = useState("");
-  console.log(serialNumberText);
   const [serialNumber, setSerialNumber] = useRecoilState(serialNumberAtom);
+
   const serialNumberHandler = () => {
     setSerialNumber(serialNumberText);
-    console.log(serialNumber);
   };
+
+  const resetSerialNumberHandler = useCallback(() => {
+    setSerialNumberText("");
+    setSerialNumber("");
+    closeModal();
+  }, []);
 
   return (
     <>
@@ -49,6 +53,7 @@ function Enroll() {
         <p>기기 등록</p>
       </button>
       <Modal
+        shouldCloseOnOverlayClick={false}
         ariaHideApp={false}
         isOpen={IsOpen}
         onRequestClose={closeModal}
@@ -56,31 +61,49 @@ function Enroll() {
         contentLabel="Example Modal"
       >
         {serialNumber === deviceData.serial_number ? (
-          <input
-            value={serialNumber}
-            placeholder="기기번호를 입력해주세요."
-            onChange={(e) => {
-              setSerialNumberText(e.target.value);
-            }}
-          />
+          <div>
+            <input
+              readOnly
+              value={serialNumber}
+              placeholder="기기번호를 입력해주세요."
+              onChange={(e) => {
+                setSerialNumberText(e.target.value);
+                e.preventDefault();
+              }}
+              className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
         ) : (
-          <input
-            placeholder="기기번호를 입력해주세요."
-            onChange={(e) => {
-              setSerialNumberText(e.target.value);
-            }}
-          />
+          <div>
+            <input
+              placeholder="기기번호를 입력해주세요."
+              onChange={(e) => {
+                setSerialNumberText(e.target.value);
+              }}
+              className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
         )}
 
-        <button
-          type="submit"
-          onClick={() => {
-            closeModal();
-            serialNumberHandler();
-          }}
-        >
-          확인
-        </button>
+        <div className="mt-5 left-20px font-mun flex justify-center">
+          <button
+            type="submit"
+            onClick={() => {
+              serialNumberHandler();
+              closeModal();
+            }}
+            className="rounded hover:rounded-lg bg-blue-300 mr-3 pl-4 pr-4 pt-1 pb-1 font-new"
+          >
+            확인
+          </button>
+          <button
+            type="button"
+            onClick={resetSerialNumberHandler}
+            className="rounded hover:rounded-lg bg-red-300 mr-3 pl-4 pr-4 pt-1 pb-1 font-new"
+          >
+            초기화
+          </button>
+        </div>
       </Modal>
     </>
   );
