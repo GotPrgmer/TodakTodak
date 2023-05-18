@@ -5,6 +5,11 @@ import awsConfig from "./awsConfig.json";
 import { Auth } from "aws-amplify";
 import temp from "../../../assets/temperature.png";
 import humid from "../../../assets/humidity.png";
+import {
+  deviceDataAtom,
+  serialNumberAtom,
+} from "../../../states/recoilHomeState";
+import { useRecoilValue } from "recoil";
 
 function init(awsConfig) {
   Amplify.configure({
@@ -27,6 +32,9 @@ function init(awsConfig) {
 Auth.currentCredentials().then((creds) => console.log(creds));
 
 function SensorDataPage() {
+  const deviceData = useRecoilValue(deviceDataAtom);
+  const serialNumber = useRecoilValue(serialNumberAtom);
+
   init(awsConfig);
   const [values, setValues] = useState({ C: 25, H: 34 });
 
@@ -41,28 +49,51 @@ function SensorDataPage() {
     });
   });
 
-  return (
-    <div className="w-full flex text-2xl h-[25vh]">
-      <div className="relative w-1/2 h-[20vh] flex items-center justify-center">
-        <img src={temp} alt="" />
-        <div className="z-1 absolute mt-24">
-          <p className="text-center font-bold">
-            {values.C} <span className="text-xl">°C</span>
-          </p>
-          <p className="text-lg text-center">온도</p>
+  return [
+    deviceData.serial_number === serialNumber ? (
+      <div className="w-full flex text-2xl h-[25vh]">
+        <div className="relative w-1/2 h-[20vh] flex items-center justify-center">
+          <img src={temp} alt="" />
+          <div className="z-1 absolute mt-24">
+            <p className="text-center font-bold">
+              {values.C} <span className="text-xl">°C</span>
+            </p>
+            <p className="text-lg text-center">온도</p>
+          </div>
+        </div>
+        <div className="relative w-1/2 h-[20vh] flex items-center justify-center">
+          <img src={humid} alt="" />
+          <div className="z-1 absolute mt-24">
+            <p className="text-center font-bold">
+              {values.H} <span className="text-xl">%</span>
+            </p>
+            <p className="text-lg text-center">습도</p>
+          </div>
         </div>
       </div>
-      <div className="relative w-1/2 h-[20vh] flex items-center justify-center">
-        <img src={humid} alt="" />
-        <div className="z-1 absolute mt-24">
-          <p className="text-center font-bold">
-            {values.H} <span className="text-xl">%</span>
-          </p>
-          <p className="text-lg text-center">습도</p>
+    ) : (
+      <div className="w-full flex text-2xl h-[25vh]">
+        <div className="relative w-1/2 h-[20vh] flex items-center justify-center">
+          <img src={temp} alt="" />
+          <div className="z-1 absolute mt-24">
+            <p className="text-center font-bold">
+              - <span className="text-xl">°C</span>
+            </p>
+            <p className="text-lg text-center">온도</p>
+          </div>
+        </div>
+        <div className="relative w-1/2 h-[20vh] flex items-center justify-center">
+          <img src={humid} alt="" />
+          <div className="z-1 absolute mt-24">
+            <p className="text-center font-bold">
+              - <span className="text-xl">%</span>
+            </p>
+            <p className="text-lg text-center">습도</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    ),
+  ];
 }
 
 export default SensorDataPage;
