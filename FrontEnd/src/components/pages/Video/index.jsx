@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import VideoComponent from "./VideoComponent";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   babyPK,
+  bottomBarAtom,
   deviceDataAtom,
   jwtToken,
   serialNumberAtom,
@@ -10,11 +11,16 @@ import {
 import NotFound from "../NotFound";
 
 function Video() {
+  const [bottomBar, setBottomBar] = useRecoilState(bottomBarAtom);
   const babyId = useRecoilValue(babyPK);
   const jwt_token = useRecoilValue(jwtToken);
   const deviceData = useRecoilValue(deviceDataAtom);
   const serialNumber = deviceData.serial_number;
   const serialNumberText = useRecoilValue(serialNumberAtom);
+
+  useEffect(() => {
+    setBottomBar(1);
+  }, []);
 
   return (
     <>

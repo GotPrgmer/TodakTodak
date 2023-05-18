@@ -16,12 +16,13 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import Crylist from "./../../organisms/Cry/index";
 import ModalCalender from "../../organisms/Cry/Calendar";
 
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   jwtToken,
   babyPK,
   deviceDataAtom,
   serialNumberAtom,
+  bottomBarAtom,
 } from "../../../states/recoilHomeState";
 import axios from "axios";
 import { ExpirationPlugin } from "workbox-expiration";
@@ -38,6 +39,11 @@ ChartJS.register(
 );
 
 function Cry() {
+  const [bottomBar, setBottomBar] = useRecoilState(bottomBarAtom);
+  useEffect(() => {
+    setBottomBar(2);
+  }, []);
+
   let today = new Date();
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const [date, setDate] = useState([
