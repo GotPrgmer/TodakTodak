@@ -153,12 +153,12 @@ class DeviceComponent extends Component {
   async predict() {
     // predict can take in an image, video or canvas html element
     const prediction = await this.state.model.predict(this.state.webcam.canvas);
-    // for (let i = 0; i < this.state.maxPredictions; i++) {
-    //   const classPrediction =
-    //     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-    //   labelContainer.childNodes[i].innerHTML = classPrediction;
-    //   console.log(classPrediction);
-    // }
+    for (let i = 0; i < this.state.maxPredictions; i++) {
+      const classPrediction =
+        prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+      labelContainer.childNodes[i].innerHTML = classPrediction;
+      console.log(classPrediction);
+    }
 
     const cur = prediction[1].probability.toFixed(2);
 
