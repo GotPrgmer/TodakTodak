@@ -51,7 +51,7 @@ public class BabyService {
         //babyId로 아기 조회
         Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
         if ( baby.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
         Baby findBaby = baby.get();
         Integer year= findBaby.getBabyBirthYear();
@@ -70,7 +70,7 @@ public class BabyService {
         Integer userIdToInteger = Integer.parseInt(userId);
         Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
         if ( baby.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
 
         Baby findBaby = baby.get();
@@ -104,7 +104,7 @@ public class BabyService {
         Integer userIdToInteger = Integer.parseInt(userId);
         Optional<User> user = userRepository.findById(userIdToInteger);
         if ( user.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();
         String imageUrl = null;

@@ -186,7 +186,7 @@ public class OauthService {
         Optional<User> user = userRepository.findUserByUserEmail(email);
 
         if ( user.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();
         // User 객체 사용
@@ -244,7 +244,7 @@ public class OauthService {
         Optional<User> user = userRepository.findUserByUserId(userIdNumber);
 
         if ( user.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();
         //엑세스토큰 재발급
