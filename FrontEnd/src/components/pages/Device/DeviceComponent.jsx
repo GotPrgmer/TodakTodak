@@ -18,7 +18,7 @@ class DeviceComponent extends Component {
     super(props);
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: "todaktodak1013",
+      mySessionId: "todaktodak1014",
       // mySessionId: this.deviceData.session_id, // SessionId는 기기에서 고정한다.
       myUserName: "todakDevice",
       // UserName은 기기에서 고정한다.
@@ -40,7 +40,7 @@ class DeviceComponent extends Component {
         recordingMode: "MANUAL",
         defaultOutputMode: "COMPOSED",
         defaultRecordingLayout: "BEST_FIT",
-        customSessionId: "todaktodak1013",
+        customSessionId: "todaktodak1014",
         // customSessionId: "todak",
       },
       paramsConnections: {},
@@ -163,7 +163,7 @@ class DeviceComponent extends Component {
     const cur = prediction[1].probability.toFixed(2);
 
     const rolling = {
-      serialNumber: "todak13",
+      serialNumber: "todak14",
       alarmType: "rolling",
       message: "아기가 뒤집기를 했습니다. 확인해주세요.",
     };
@@ -331,7 +331,7 @@ class DeviceComponent extends Component {
       session: undefined,
       subscribers: [],
       // mySessionId: "todak",
-      mySessionId: "todaktodak1013",
+      mySessionId: "todaktodak1014",
       // myUserName: "Participant" + Math.floor(Math.random() * 100),
       myUserName: "todakDevice",
       mainStreamManager: undefined,
@@ -342,7 +342,7 @@ class DeviceComponent extends Component {
         defaultOutputMode: "COMPOSED",
         defaultRecordingLayout: "BEST_FIT",
         // customSessionId: this.deviceData.session_id,
-        customSessionId: "todaktodak1013",
+        customSessionId: "todaktodak1014",
       },
     });
   }

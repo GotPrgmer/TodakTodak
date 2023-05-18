@@ -361,10 +361,10 @@ class Video extends Component {
           {this.state.session !== undefined ? (
             // <div id="session">
             <>
-              <div id="session-header">
+              {/* <div id="session-header">
                 <h1 id="session-title">{mySessionId}</h1>
-              </div>
-              <div id="video-container" className="vertical-center ">
+              </div> */}
+              <div id="video-container" className=" ">
                 {/* w-[699px] h-[1050px] rounded-[30px] */}
                 <UserVideoComponent streamManager={this.state.subscribers[0]} />
               </div>
