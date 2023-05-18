@@ -43,6 +43,7 @@ function Alarm() {
 
   const deleteWholeAlarmHandler = () => {
     setAlarmData([]);
+    setIsReadAlarm(true);
   };
 
   return (
