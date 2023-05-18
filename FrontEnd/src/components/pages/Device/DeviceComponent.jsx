@@ -35,6 +35,7 @@ class DeviceComponent extends Component {
       metadataURL: undefined,
       lastAlarmTime: null,
       throttleTime: 10000, // 10초
+      flip: false,
       paramsSessions: {
         mediaMode: "ROUTED",
         recordingMode: "MANUAL",
@@ -166,11 +167,37 @@ class DeviceComponent extends Component {
 
     const cur = prediction[1].probability.toFixed(2);
 
+    const frontCur = prediction[0].probability.toFixed(2);
+
     const rolling = {
       serialNumber: "todak14",
       alarmType: "rolling",
       message: "아기가 뒤집기를 했습니다. 확인해주세요.",
     };
+
+    const turnFront = {
+      serialNumber: "todak14",
+      alarmType: "turnFront",
+      message: "아기가 다시 원상태로 돌아왔습니다.",
+    };
+
+    if (frontCur > 0.9 && flip === true) {
+      fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(turnFront),
+      })
+        .then((response) => {
+          console.log("원상태 복귀 알람 요청 성공!!!", response);
+          // return response.json();
+          this.state.flip = false;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
 
     // 스로틀링 이벤트 처리
     if (cur > 0.9) {
@@ -189,6 +216,7 @@ class DeviceComponent extends Component {
         })
           .then((response) => {
             console.log("뒤집기 알람 요청 성공!!!", response);
+            this.state.flip = true;
             // return response.json();
           })
           .catch((error) => {
