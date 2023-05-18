@@ -167,7 +167,7 @@ class DeviceComponent extends Component {
 
     const cur = prediction[1].probability.toFixed(2);
 
-    const frontCur = prediction[0].probability.toFixed(2);
+    const frontCur = prediction[2].probability.toFixed(2);
 
     const rolling = {
       serialNumber: "todak14",
