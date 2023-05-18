@@ -65,65 +65,67 @@ function Alarm() {
               <p>전체 삭제</p>
             </button>
           </div>
-          {alarmData.map((alarm, idx) => {
-            return (
-              <div
-                className="sc grid grid-cols-1 items-center justify-center text-center bg-white rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700 font-mun"
-                key={idx}
-              >
-                {alarm.isRead === false ? (
-                  <a
-                    onClick={() => {
-                      const updatedAlarm = { ...alarm, isRead: true };
-                      const updatedAlarmData = alarmData.map((a) =>
-                        a.id === alarm.id ? updatedAlarm : a
-                      );
-                      setAlarmData(updatedAlarmData);
-                      setBottomBar(1);
-                    }}
-                    href="/video"
-                    className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-                  >
-                    <div className="flex justify-center">
-                      <img src={unReadAlarm} alt="" className="w-10 h-10" />
-                      <div>
-                        <p className="mt-2 text-xs ml-5 mr-3 text-left ">
-                          {alarm.body.split(",")[0]}
-                        </p>
+          <div className="mt-[5vh]">
+            {alarmData.map((alarm, idx) => {
+              return (
+                <div
+                  className="flex items-center justify-center text-center bg-white rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700 font-mun"
+                  key={idx}
+                >
+                  {alarm.isRead === false ? (
+                    <a
+                      onClick={() => {
+                        const updatedAlarm = { ...alarm, isRead: true };
+                        const updatedAlarmData = alarmData.map((a) =>
+                          a.id === alarm.id ? updatedAlarm : a
+                        );
+                        setAlarmData(updatedAlarmData);
+                        setBottomBar(1);
+                      }}
+                      href="/video"
+                      className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                    >
+                      <div className="flex justify-center">
+                        <img src={unReadAlarm} alt="" className="w-10 h-10" />
+                        <div>
+                          <p className="mt-2 text-xs ml-5 mr-3 text-left ">
+                            {alarm.body.split(",")[0]}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col text-xs">
-                      <div>{alarm.body.split(",")[1].split(" ")[0]}</div>
-                      <div>{alarm.body.split(",")[1].split(" ")[1]}</div>
-                    </div>
-                  </a>
-                ) : (
-                  <a
-                    onClick={() => {
-                      setBottomBar(1);
-                    }}
-                    href="/video"
-                    className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-                  >
-                    <div className="flex justify-center">
-                      <img src={ReadAlarm} alt="" className="w-10 h-10" />
-                      <div>
-                        <p className="mt-2 text-xs ml-5 mr-3 text-left ">
-                          {alarm.body.split(",")[0]}
-                        </p>
+                      <div className="flex flex-col text-xs">
+                        <div>{alarm.body.split(",")[1].split(" ")[0]}</div>
+                        <div>{alarm.body.split(",")[1].split(" ")[1]}</div>
                       </div>
-                    </div>
-                    <div className="flex flex-col text-xs">
-                      <div>{alarm.body.split(",")[1].split(" ")[0]}</div>
-                      <div>{alarm.body.split(",")[1].split(" ")[1]}</div>
-                    </div>
-                  </a>
-                )}
-              </div>
-            );
+                    </a>
+                  ) : (
+                    <a
+                      onClick={() => {
+                        setBottomBar(1);
+                      }}
+                      href="/video"
+                      className="flex justify-center pt-1 pl-3 pr-3 mb-5 block max-w-l items-center bg-gray-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                    >
+                      <div className="flex justify-center">
+                        <img src={ReadAlarm} alt="" className="w-10 h-10" />
+                        <div>
+                          <p className="mt-2 text-xs ml-5 mr-3 text-left ">
+                            {alarm.body.split(",")[0]}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col text-xs">
+                        <div>{alarm.body.split(",")[1].split(" ")[0]}</div>
+                        <div>{alarm.body.split(",")[1].split(" ")[1]}</div>
+                      </div>
+                    </a>
+                  )}
+                </div>
+              );
 
-            // <div>{alarm["title"]}</div>;
-          })}
+              // <div>{alarm["title"]}</div>;
+            })}
+          </div>
         </Modal>
       </div>
     </>
