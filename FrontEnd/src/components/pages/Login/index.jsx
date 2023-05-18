@@ -1,12 +1,17 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { babyPK, jwtToken } from "../../../states/recoilHomeState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  babyPK,
+  bottomBarAtom,
+  jwtToken,
+} from "../../../states/recoilHomeState";
 import Logo from "../../../assets/Logo.png";
 import KakaoBtn from "../../../assets/kakaologin.png";
 import Babyone from "../../../assets/babyone.png";
 
 function Login() {
+  const [bottomBar, setBottomBarAtom] = useRecoilState(bottomBarAtom);
   const jwt_token = useRecoilValue(jwtToken);
   // console.log(jwt_token);
   const babyLists = useRecoilValue(babyPK);
@@ -27,6 +32,7 @@ function Login() {
 
   useEffect(() => {
     if (jwt_token) {
+      setBottomBarAtom(0);
       navigateToHome();
     }
   }, []);
