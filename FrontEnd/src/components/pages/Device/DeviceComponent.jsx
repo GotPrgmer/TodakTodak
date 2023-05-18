@@ -166,15 +166,16 @@ class DeviceComponent extends Component {
 
     const cur = prediction[1].probability.toFixed(2);
 
-    const rolling = {
+    let rolling = {
       serialNumber: "todak14",
       alarmType: "rolling",
       message: "아기가 뒤집기를 했습니다. 확인해주세요.",
     };
-
+    console.log("rolling.message", rolling.message);
     // 스로틀링 이벤트 처리
     if (cur > 0.9) {
       const currentTime = new Date().getTime();
+      rolling.message += "/ TimeStamp: " + currentTime.toString();
 
       if (
         !this.state.lastAlarmTime ||
