@@ -110,7 +110,11 @@ function MyPage() {
               <p className="text-lg mx-[2vh] text-slate-500">회사 정보</p>
               <div className="bg-white w-full">
                 <div className="my-[1vh] px-[2vh] pt-[1vh] flex justify-between">
-                  <p>회사소개 영상</p>
+                  <p>
+                    <a href="https://www.youtube.com/watch?v=NH3NIwqC9iM">
+                      회사소개 영상
+                    </a>
+                  </p>
                 </div>
                 <hr className="mx-[2vh]" />
                 <div className="my-[2vh] px-[2vh] pb-[1vh] flex justify-between">
