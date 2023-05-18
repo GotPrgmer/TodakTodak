@@ -159,6 +159,7 @@ function App() {
                 alarmDataList.pop();
               }
               alarmDataList.unshift(message);
+              console.log("alarmTime", new Date().getTime());
               // console.log(alarmDataList);
               return alarmDataList;
             });
