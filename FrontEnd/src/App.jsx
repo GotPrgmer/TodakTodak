@@ -12,7 +12,7 @@ import Device from "./components/pages/Device";
 import Login from "./components/pages/Login";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { babyPK, jwtToken, deviceDataAtom } from "./states/recoilHomeState";
 import { alarmDataAtom, isReadAlarmAtom } from "./states/recoilAlarmState";
 import NotFound from "./components/pages/NotFound";
@@ -22,6 +22,7 @@ function App() {
   const babyId = useRecoilValue(babyPK);
   const jwt_token = useRecoilValue(jwtToken);
   const [deviceData, setDeviceData] = useRecoilState(deviceDataAtom);
+  const [flip, setFlip] = useState(false);
   // console.log(deviceData);
 
   useEffect(() => {
@@ -141,6 +142,11 @@ function App() {
             });
           onMessage(messaging, (payload) => {
             console.log(payload);
+            if (payload.notification.title === "rolling") {
+              setFlip(false);
+            } else if (payload.notification.title === "turnFront") {
+              setFlip(true);
+            }
             const message = {
               id: payload.messageId,
               title: payload.notification.title,
