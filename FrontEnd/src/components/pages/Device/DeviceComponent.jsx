@@ -206,6 +206,9 @@ class DeviceComponent extends Component {
     // --- 1) Get an OpenVidu object ---
 
     this.OV = new OpenVidu();
+    // tmImage
+    console.log("init");
+    this.init();
 
     // --- 2) Init a session ---
 
@@ -232,9 +235,6 @@ class DeviceComponent extends Component {
             subscribers: subscribers, // 세션에 참여한 사람들의 스트림을 subscribers에 저장
           });
         });
-        // tmImage
-        console.log("init");
-        this.init();
 
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
