@@ -182,6 +182,7 @@ class DeviceComponent extends Component {
     };
 
     if (frontCur > 0.9 && this.state.flip === true) {
+      this.state.flip = false;
       fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
         headers: {
           "Content-Type": "application/json",
@@ -192,7 +193,6 @@ class DeviceComponent extends Component {
         .then((response) => {
           console.log("원상태 복귀 알람 요청 성공!!!", response);
           // return response.json();
-          this.state.flip = false;
         })
         .catch((error) => {
           console.error("Error:", error);
