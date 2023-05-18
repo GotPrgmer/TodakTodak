@@ -21,9 +21,8 @@ function App() {
   // device 정보 호출
   const babyId = useRecoilValue(babyPK);
   const jwt_token = useRecoilValue(jwtToken);
-  // console.log(jwt_token);
   const [deviceData, setDeviceData] = useRecoilState(deviceDataAtom);
-  console.log(deviceData);
+  // console.log(deviceData);
 
   useEffect(() => {
     async function loadData() {
@@ -42,7 +41,7 @@ function App() {
           console.log(e);
           return e;
         });
-      console.log(response);
+      // console.log(response);
     }
     loadData();
   }, []);
@@ -154,11 +153,11 @@ function App() {
                 alarmDataList.pop();
               }
               alarmDataList.unshift(message);
-              console.log(alarmDataList);
+              // console.log(alarmDataList);
               return alarmDataList;
             });
             setIsReadAlarm(false);
-            console.log(alarmData);
+            // console.log(alarmData);
           });
         } else {
           console.log("Do not get token");
