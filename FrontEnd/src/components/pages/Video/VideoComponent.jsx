@@ -5,7 +5,6 @@ import React, { Component } from "react";
 import UserVideoComponent from "./UserVideoComponent";
 import TopBar from "../../organisms/TopBar";
 import BottomBar from "../../organisms/BottomBar";
-import baby from "../../../assets/Logo.png";
 // const APPLICATION_SERVER_URL =
 //   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
 // console.log(process.env.NODE_ENV);
