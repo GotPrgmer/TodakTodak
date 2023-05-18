@@ -157,9 +157,11 @@ class DeviceComponent extends Component {
       // const classPrediction =
       //   prediction[i].className + ": " + prediction[i].probability.toFixed(2);
       // labelContainer.childNodes[i].innerHTML = classPrediction;
-      console.log(
-        prediction[i].className + ": " + prediction[i].probability.toFixed(2)
-      );
+      if (i === 1) {
+        console.log(
+          prediction[i].className + ": " + prediction[i].probability.toFixed(2)
+        );
+      }
     }
 
     const cur = prediction[1].probability.toFixed(2);
@@ -273,7 +275,7 @@ class DeviceComponent extends Component {
                 videoSource: undefined, // The source of video. If undefined default webcam
                 publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                 publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                resolution: "100x350", // The resolution of your video
+                resolution: "100x200", // The resolution of your video
                 frameRate: 30, // The frame rate of your video
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
                 mirror: true, // Whether to mirror your local video or not
