@@ -40,7 +40,7 @@ public class DeviceService {
         //babyId로 아기 조회
         Optional<Device> device = deviceRepository.findByBabyBabyId(babyId);
         if ( device.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
         Device findDevice = device.get();
 
@@ -52,19 +52,19 @@ public class DeviceService {
     public DeviceAlarmResponseDto deviceAlarm(DeviceAlarmRequestDto request) throws IOException {
         Optional<Device> device = deviceRepository.findByDeviceSerialNumber(request.getSerialNumber());
         if ( device.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
         Device findDevice = device.get();
 
         Optional<Baby> baby = babyRepository.findById(findDevice.getBaby().getBabyId());
         if ( baby.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
         Baby findBaby = baby.get();
 
         Optional<User> user = userRepository.findUserByUserId(findBaby.getUser().getUserId());
         if ( user.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();
 
@@ -81,7 +81,7 @@ public class DeviceService {
         //babyId로 아기 조회
         Optional<Device> device = deviceRepository.findByBabyBabyId(babyId);
         if ( device.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
         Device findDevice = device.get();
         findDevice.updateSessionId(deviceInfoUpdateRequestDto.getSessionId());

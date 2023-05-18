@@ -44,7 +44,7 @@ public class CryService {
 
 
         if ( baby.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
 
         Baby findBaby = baby.get();
@@ -77,7 +77,7 @@ public class CryService {
 
 
         if ( baby.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
 
         Baby findBaby = baby.get();

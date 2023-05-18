@@ -71,7 +71,7 @@ public class UserService {
         // 사용자 조회
         Optional<User> user = userRepository.findUserByUserId(userIdToInteger);
         if ( user.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         return user.get();
     }
