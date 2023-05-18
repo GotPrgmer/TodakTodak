@@ -178,45 +178,21 @@ function App() {
 
   return (
     <>
-      {flip ? (
-        <div className="bg-blend-color-burn">
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/video" element={<Video />} />
-              <Route path="/cry" element={<Cry />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/edit" element={<Edit />} />
-              <Route
-                path="/api/login/oauth2/code/kakao"
-                element={<Loading />}
-              />
-              <Route path="/device" element={<Device />} />
-              <Route path="/*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
-      ) : (
-        <div>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/video" element={<Video />} />
-              <Route path="/cry" element={<Cry />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/edit" element={<Edit />} />
-              <Route
-                path="/api/login/oauth2/code/kakao"
-                element={<Loading />}
-              />
-              <Route path="/device" element={<Device />} />
-              <Route path="/*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
-      )}
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/video" element={<Video />} />
+            <Route path="/cry" element={<Cry />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/api/login/oauth2/code/kakao" element={<Loading />} />
+            <Route path="/device" element={<Device />} />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </>
   );
 }
