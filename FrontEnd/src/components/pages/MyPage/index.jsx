@@ -10,13 +10,17 @@ import {
   jwtToken,
   deviceDataAtom,
   serialNumberAtom,
+  bottomBarAtom,
 } from "../../../states/recoilHomeState";
 import { useNavigate } from "react-router-dom";
 
 function MyPage() {
+  const [bottomBar, setBottomBar] = useRecoilState(bottomBarAtom);
+
   const logout = () => {
     setTokenData("");
     setBabyData([]);
+    setBottomBar(0);
     navigateToLogin();
   };
 
