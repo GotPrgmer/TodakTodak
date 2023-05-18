@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Profile from "./components/pages/Profile";
@@ -9,15 +10,69 @@ import Edit from "./components/pages/Edit";
 import Loading from "./components/pages/Loading";
 import Device from "./components/pages/Device";
 import Login from "./components/pages/Login";
-
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { useEffect } from "react";
-import { jwtToken } from "./states/recoilHomeState";
+import { babyPK, jwtToken, deviceDataAtom } from "./states/recoilHomeState";
 import { alarmDataAtom, isReadAlarmAtom } from "./states/recoilAlarmState";
 import NotFound from "./components/pages/NotFound";
 
 function App() {
+  // device 정보 호출
+  const babyId = useRecoilValue(babyPK);
+  const jwt_token = useRecoilValue(jwtToken);
+  // console.log(jwt_token);
+  const [deviceData, setDeviceData] = useRecoilState(deviceDataAtom);
+  console.log(deviceData);
+
+  useEffect(() => {
+    async function loadData() {
+      const response = await axios
+        .get(`https://todaktodak.kr:8080/api/device/info/${babyId}`, {
+          headers: {
+            Authorization: `Bearer ${jwt_token}`,
+          },
+        })
+        .then((res) => {
+          setDeviceData(res.data);
+          // console.log("device정보", res.data);
+          return res.data;
+        })
+        .catch((e) => {
+          console.log(e);
+          return e;
+        });
+      console.log(response);
+    }
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    async function updateData() {
+      const response = await axios
+        .patch(
+          `https://todaktodak.kr:8080/api/device/info/update/${babyId}`,
+          {
+            sessionId: "todaktodak" + (1000 + parseInt(babyId)).toString(),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${jwt_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setDeviceData(res.data);
+          // console.log(res.data);
+          return res;
+        })
+        .catch((e) => {
+          return e;
+        });
+    }
+    console.log(updateData());
+  }, [babyId, jwt_token]);
+
   // Alarm Read 관리
   const [isReadAlarm, setIsReadAlarm] = useRecoilState(isReadAlarmAtom);
 
@@ -111,9 +166,6 @@ function App() {
       });
     }
   }
-
-  const jwt_token = useRecoilValue(jwtToken);
-  // console.log(jwt_token);
 
   useEffect(() => {
     requestPermission();
