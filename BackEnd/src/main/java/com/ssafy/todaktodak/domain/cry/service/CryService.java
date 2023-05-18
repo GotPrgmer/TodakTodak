@@ -15,7 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -82,20 +85,12 @@ public class CryService {
         //cryLogList를 날짜별로 리스트를 만들어서 해당 리스트에 add를 해서 마지막에 dto에 넣어주는 방식으로 하면될듯
         Map<String, Object> temp = new HashMap<>();
         for (Cry cry : cryLogList){
-
-            LocalDateTime cryCreatedTimeSeoul = ZonedDateTime.of(cry.getCryCreatedDate(), ZoneId.of("Asia/Seoul")).toLocalDateTime();
-            LocalDateTime cryStartDateSeoul = ZonedDateTime.of(cry.getCryStartDate(), ZoneId.of("Asia/Seoul")).toLocalDateTime();
-
-            String tempDate = cryCreatedTimeSeoul.toString().substring(0,10); //날짜
+            String tempDate = cry.getCryCreatedDate().toString().substring(0,10); //날짜
             LinkedHashSet hs = new LinkedHashSet();
             for (Cry c : cryLogList){  //순회를 돌면서
-                LocalDateTime cryStartDateSeoulOfC = ZonedDateTime.of(c.getCryStartDate(), ZoneId.of("Asia/Seoul")).toLocalDateTime();
-                LocalDateTime cryEndDateSeoulOfC = ZonedDateTime.of(c.getCryEndDate(), ZoneId.of("Asia/Seoul")).toLocalDateTime();
-                LocalDateTime cryCreatedTimeSeoulOfC = ZonedDateTime.of(c.getCryCreatedDate(), ZoneId.of("Asia/Seoul")).toLocalDateTime();
-
-                if (cryCreatedTimeSeoulOfC.toString().substring(0, 10).equals(tempDate)){ //날짜가 같다면
+                if (c.getCryCreatedDate().toString().substring(0, 10).equals(tempDate)){ //날짜가 같다면
                     hs.add(Arrays.asList(
-                            c.getCryTime().toString(), cryStartDateSeoulOfC.toString().substring(11,16), cryEndDateSeoulOfC.toString().substring(11,16)
+                            c.getCryTime().toString(), c.getCryStartDate().toString().substring(11,16), c.getCryEndDate().toString().substring(11,16)
                     ));   // hashset에 담아보자
                 }
             }
@@ -105,7 +100,7 @@ public class CryService {
                 arr.add(iter.next());
             }
 
-            temp.put(cryStartDateSeoul.toString().substring(0,10), arr);
+            temp.put(cry.getCryStartDate().toString().substring(0,10), arr);
         }
         ArrayList<Map<String, Object>> logs = new ArrayList<Map<String, Object>>();
 
@@ -138,7 +133,7 @@ public class CryService {
         }
 
         Collections.sort(logs, new Comparator<Map<String, Object>>() {
-//
+            //
             public int compare(Map<String, Object> log1, Map<String, Object> log2) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");;
                 LocalDate date1 = LocalDate.parse((String)log1.get("date"), formatter);
