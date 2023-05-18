@@ -29,8 +29,11 @@ function TopBar() {
 
   return (
     <>
-      <Box className="sticky z-10 h-[8vh] lg:px-8 lg:py-4 bg-[#FFDEDE] ">
-        <AppBar position="sticky">
+      <Box
+        sx={{ display: "flex" }}
+        className="sticky z-10 h-[8vh] lg:px-8 lg:py-4 bg-[#FFDEDE] "
+      >
+        <AppBar component="nav">
           <Toolbar className=" ml-5vh h-5vh bg-[#FFDEDE] flex justify-center mr-1vh relative">
             <div className="h-5vh">
               <img className="h-[8vh] " src={Logo} alt="" />
