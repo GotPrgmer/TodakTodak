@@ -181,7 +181,7 @@ class DeviceComponent extends Component {
       message: "아기가 다시 원상태로 돌아왔습니다.",
     };
 
-    if (frontCur > 0.9 && flip === true) {
+    if (frontCur > 0.9 && this.state.flip === true) {
       fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
         headers: {
           "Content-Type": "application/json",
