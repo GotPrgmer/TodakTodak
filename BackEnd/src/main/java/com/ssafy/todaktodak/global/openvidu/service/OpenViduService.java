@@ -86,13 +86,13 @@ public class OpenViduService {
     public Device findDeviceWithUserAndBaby(Integer babyId, Integer userId) {
         Optional<Baby> findBaby = babyRepository.findByBabyIdAndUserUserId(babyId, userId);
         if (findBaby.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
         Baby getBaby = findBaby.get();
         //device에 넣기
         Optional<Device> findDevice = deviceRepository.findByBabyBabyId(getBaby.getBabyId());
         if (findDevice.isEmpty()) {
-            throw new CustomException(ErrorCode.ENTITY_NOT_FOUND);
+            throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
 
         Device getDevice = findDevice.get();

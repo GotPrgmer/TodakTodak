@@ -24,7 +24,10 @@ public enum ErrorCode {
     // 컨트롤러 단
     BIRTH_DATE_INVALID(HttpStatus.BAD_REQUEST, 2000, "태어난 날을 잘못 설정하였습니다."),
 
-    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, 2001, "엔티티를 찾을 수 없습니다."),
+    BABY_NOT_FOUND(HttpStatus.NOT_FOUND, 2001, "아기를 찾을 수 없습니다."),
+
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 2001, "유저를 찾을 수 없습니다."),
+    DEVICE_NOT_FOUND(HttpStatus.NOT_FOUND, 2001, "디바이스를 찾을 수 없습니다."),
 
     JSON_DATA_INVALID(HttpStatus.BAD_REQUEST, 2002, "반환값이 유효하지 않습니다."),
 
