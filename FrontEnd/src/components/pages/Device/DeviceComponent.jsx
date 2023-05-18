@@ -168,7 +168,7 @@ class DeviceComponent extends Component {
     const cur = prediction[1].probability.toFixed(2);
 
     const frontCur = prediction[2].probability.toFixed(2);
-
+    console.log("프론트 확률:  " + frontCur);
     const rolling = {
       serialNumber: "todak14",
       alarmType: "rolling",
@@ -218,6 +218,7 @@ class DeviceComponent extends Component {
             console.log("뒤집기 알람 요청 성공!!!", response);
             this.state.flip = true;
             // return response.json();
+            console.log(this.state.flip);
           })
           .catch((error) => {
             console.error("Error:", error);
