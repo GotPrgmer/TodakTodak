@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://localhost:3306/todaktodak?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ${LOCAL_NAME}
+    password: ${LOCAL_PASSWORD}
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      properties:
+        hibernate:
+          format_sql: true
+          enable_lazy_load_no_trans: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+
+oauth2:
+  client:
+    registration:
+      kakao:
+        client-id: ${KAKAO_RESTAPI_KEY}
+        client-secret: ${KAKAO_CLIENT_SECRET_KEY}
+        redirect-uri: http://localhost:3000/api/login/oauth2/code/
+        client-authentication-method: POST
+        authorization-grant-type: authorization_code
+        scope:
+          - profile_nickname
+          - account_email #동의 항목
+        client-name: Kakao
+    provider:
+      kakao:
+        authorization-uri: https://kauth.kakao.com/oauth/authorize
+        token-uri: https://kauth.kakao.com/oauth/token
+        user-info-uri: https://kapi.kakao.com/v2/user/me
+        user-name-attribute: id
+
+OPENVIDU_URL: https://todaktodak.kr:8443/
+OPENVIDU_SECRET: noinjung
+fcm:
+  key:
+    path: ${FCM_KEY_LOCATION}
+    scope: https://www.googleapis.com/auth/cloud-platform
+    project-id: ${FCM_PROJECT_ID}

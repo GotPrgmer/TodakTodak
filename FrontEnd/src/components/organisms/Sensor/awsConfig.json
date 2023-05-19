@@ -1,0 +1,8 @@
+{
+    "cognitoUserPoolId": "ap-northeast-2_uI9Yqs0VM",
+    "cognitoUserPoolClientId": "6m70g5hqqdbjhi1k9sp2gj9ohv",
+    "cognitoIdentityPoolId": "ap-northeast-2:6fab3277-0052-48d3-b31e-ae73126b5f22",
+    "region": "ap-northeast-2",
+    "mqttBrokerEndpoint": "aw9r86eiouxek-ats.iot.ap-northeast-2.amazonaws.com",
+    "topic": "raspi/data"
+}
