@@ -57,15 +57,15 @@
 
 <img title="" src="./exec/assets/page1.png" alt="Group 6.svg" width="679">
 
-<img title="" src="./exec/assets/사용자화면2.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page2.png" alt="Group 6.svg" width="679">
 
-<img title="" src="./exec/assets/사용자화면3.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page3.png" alt="Group 6.svg" width="679">
 
-<img title="" src="./exec/assets/사용자화면4.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page4.png" alt="Group 6.svg" width="679">
 
-<img title="" src="./exec/assets/사용자화면5.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page5.png" alt="Group 6.svg" width="679">
 
-<img title="" src="./exec/assets/사용자화면6.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page6.png" alt="Group 6.svg" width="679">
 
 ### Member & Role 👪
 
