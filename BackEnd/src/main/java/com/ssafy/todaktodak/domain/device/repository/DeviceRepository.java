@@ -7,13 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface DeviceRepository extends JpaRepository<Device,Integer> {
+public interface DeviceRepository extends JpaRepository<Device, Integer> {
 
-    Optional<Device> findByDeviceId(Integer deviceId);
 
     Optional<Device> findByBabyBabyId(Integer babyId);
 
-    Optional<Device> findByDeviceSessionId(String sessionId);
 
     Optional<Device> findByDeviceSerialNumber(String SerialNumber);
 

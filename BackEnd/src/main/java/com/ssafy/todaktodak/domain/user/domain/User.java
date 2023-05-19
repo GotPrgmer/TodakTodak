@@ -4,7 +4,6 @@ import com.ssafy.todaktodak.domain.baby.domain.Baby;
 import com.ssafy.todaktodak.domain.user.dto.UserFcmUpdateRequestDto;
 import com.ssafy.todaktodak.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.todaktodak.global.auth.oauth.dto.SocialUserResponseDto;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +13,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +57,13 @@ public class User {
     private LocalDateTime userCreatedDate;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Baby> babys = new ArrayList<Baby>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Baby> babys = new ArrayList<>();
 
 
     @Column(name = "user_updated_date")
     @LastModifiedDate
     private LocalDateTime userUpdatedDate;
-
 
 
     public static User kakaoSignupUser(SocialUserResponseDto socialUserResponseDto) {
@@ -80,6 +79,7 @@ public class User {
         this.userNickname = request.getUserNickname();
         this.userImageUrl = userImageUrl;
     }
+
     public void updateUserFcm(UserFcmUpdateRequestDto request) {
         this.fcmKey = request.getFcmKey();
     }

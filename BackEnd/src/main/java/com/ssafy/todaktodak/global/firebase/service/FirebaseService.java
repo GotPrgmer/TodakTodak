@@ -3,14 +3,9 @@ package com.ssafy.todaktodak.global.firebase.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.WebpushConfig;
-import com.google.firebase.messaging.WebpushNotification;
-import com.ssafy.todaktodak.global.firebase.dto.FcmMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 @Slf4j
@@ -49,16 +42,15 @@ public class FirebaseService {
     }
 
 
-
     public void sendMessageTo(String targetToken, String title, String bodyContext) throws IOException {
-        String API_URL = "https://fcm.googleapis.com/v1/projects/"+ FcmProjectId +"/messages:send";
+        String API_URL = "https://fcm.googleapis.com/v1/projects/" + FcmProjectId + "/messages:send";
         String link = "https://todaktodak.kr/video";
-        String message = makeMessage(targetToken, title, bodyContext,link);
+        String message = makeMessage(targetToken, title, bodyContext, link);
 
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-        RequestBody requestBody = RequestBody.create(JSON,message);
+        RequestBody requestBody = RequestBody.create(JSON, message);
         Request request = new Request.Builder()
                 .url(API_URL)
                 .post(requestBody)
@@ -72,7 +64,7 @@ public class FirebaseService {
     }
 
     // 파라미터를 FCM이 요구하는 body 형태로 만들어준다.
-    private String makeMessage(String targetToken, String title, String Context,String link) throws JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String Context, String link) throws JsonProcessingException {
         TimeZone time;
         Date date = new Date();
         DateFormat df = new SimpleDateFormat(
@@ -108,25 +100,6 @@ public class FirebaseService {
 
         fcmOptions.put("link", link);
 
-//        Message message = Message.builder()
-//                .setToken(targetToken)
-//                .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
-//                        .setNotification(new WebpushNotification(title, body,link))
-//                        .build())
-//                .build();
-//        FcmMessageDto fcmMessage = FcmMessageDto.builder()
-//                .message(FcmMessageDto.Message.builder()
-//                        .token(targetToken)
-//                        .notification(FcmMessageDto.Notification.builder()
-//                                .title(title)
-//                                .body(body)
-//                                .image(null)
-//                                .build()
-//                        )
-//                        .build()
-//                )
-//                .validate_only(false)
-//                .build();
 
         return objectMapper.writeValueAsString(message);
     }

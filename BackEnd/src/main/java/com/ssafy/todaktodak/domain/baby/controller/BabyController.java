@@ -24,36 +24,35 @@ public class BabyController {
     private final BabyService babyService;
 
     @GetMapping("/baby/info/{babyId}")
-    public BabyInfoResponseDto babyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId){
+    public BabyInfoResponseDto babyInfo(Authentication authentication, @PathVariable("babyId") Integer babyId) {
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-        return babyService.babyInfo(babyId,principal.getUsername());
+        return babyService.babyInfo(babyId, principal.getUsername());
     }
 
-    @PatchMapping(value = "/baby/info/update/{babyId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/baby/info/update/{babyId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public BabyInfoResponseDto babyInfoUpdate(Authentication authentication,
                                               @PathVariable("babyId") Integer babyId,
-                                              @RequestPart(value = "babyImage",required = false) MultipartFile babyImage,
-                                              @RequestPart(value="request")  BabyUpdateRequestDto babyUpdateRequestDto)
+                                              @RequestPart(value = "babyImage", required = false) MultipartFile babyImage,
+                                              @RequestPart(value = "request") BabyUpdateRequestDto babyUpdateRequestDto)
             throws IOException {
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-        return babyService.babyInfoUpdate(babyId,babyImage,babyUpdateRequestDto,principal.getUsername());
+        return babyService.babyInfoUpdate(babyId, babyImage, babyUpdateRequestDto, principal.getUsername());
     }
 
-    @PostMapping(value = "/baby/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping(value = "/baby/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public BabyInfoResponseDto babyAdd(Authentication authentication,
-                                              @RequestPart(value = "babyImage",required = false) MultipartFile babyImage,
-                                              @RequestPart(value="request") BabyAddRequestDto babyAddRequestDto)
+                                       @RequestPart(value = "babyImage", required = false) MultipartFile babyImage,
+                                       @RequestPart(value = "request") BabyAddRequestDto babyAddRequestDto)
             throws IOException {
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-        return babyService.babyAdd(babyImage,babyAddRequestDto,principal.getUsername());
+        return babyService.babyAdd(babyImage, babyAddRequestDto, principal.getUsername());
     }
-
 
 
 }

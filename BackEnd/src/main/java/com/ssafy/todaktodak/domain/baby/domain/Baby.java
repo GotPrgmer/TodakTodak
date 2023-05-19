@@ -6,7 +6,6 @@ import com.ssafy.todaktodak.domain.baby.dto.BabyUpdateRequestDto;
 import com.ssafy.todaktodak.domain.cry.domain.Cry;
 import com.ssafy.todaktodak.domain.device.domain.Device;
 import com.ssafy.todaktodak.domain.user.domain.User;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +16,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,13 +72,12 @@ public class Baby {
     @Column(name = "baby_constellation")
     private String babyConstellation;
 
-    @OneToMany(mappedBy = "baby",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "baby", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private List<Cry> cryList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "baby",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "baby", fetch = FetchType.LAZY)
     private Device device;
-
 
 
     @Column(name = "baby_created_date", updatable = false)
@@ -91,9 +90,7 @@ public class Baby {
     private LocalDateTime babyUpdatedDate;
 
 
-
-
-    public static Baby newBabyCreate(User user, String babyImage){
+    public static Baby newBabyCreate(User user, String babyImage) {
         return Baby.builder()
                 .user(user)
                 .babyName("이름")
@@ -108,7 +105,7 @@ public class Baby {
                 .build();
     }
 
-    public static Baby newBabyAdd(User user, BabyAddRequestDto babyAddRequestDto,String babyConstellation,String babyZodiak, String babyImage){
+    public static Baby newBabyAdd(User user, BabyAddRequestDto babyAddRequestDto, String babyConstellation, String babyZodiak, String babyImage) {
         return Baby.builder()
                 .user(user)
                 .babyName(babyAddRequestDto.getBabyName())
@@ -123,7 +120,7 @@ public class Baby {
                 .build();
     }
 
-    public void updateBaby(BabyUpdateRequestDto babyUpdateRequestDto,String babyConstellation,String babyZodiak,String imageUrl) {
+    public void updateBaby(BabyUpdateRequestDto babyUpdateRequestDto, String babyConstellation, String babyZodiak, String imageUrl) {
         this.babyNickname = babyUpdateRequestDto.getBabyNickname();
         this.babyName = babyUpdateRequestDto.getBabyName();
         this.babyImageUrl = imageUrl;
@@ -133,8 +130,6 @@ public class Baby {
         this.babyBirthDay = babyUpdateRequestDto.getBabyBirthDay();
         this.babyConstellation = babyConstellation;
         this.babyZodiak = babyZodiak;
-
-
 
 
     }
