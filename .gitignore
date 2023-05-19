@@ -5,7 +5,9 @@
 .gradle/
 build/
 
+# frontend
 *./node_modules
+*./amplify
 
 # Local configuration file (sdk path, etc)
 local.properties
