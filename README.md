@@ -55,7 +55,7 @@
 
 ### 📜 프로젝트 결과물
 
-<img title="" src="./exec/assets/사용자화면1.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page1.png" alt="Group 6.svg" width="679">
 
 <img title="" src="./exec/assets/사용자화면2.png" alt="Group 6.svg" width="679">
 
