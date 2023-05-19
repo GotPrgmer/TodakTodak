@@ -55,17 +55,17 @@
 
 ### 📜 프로젝트 결과물
 
-<img title="" src="./exec/assets/page1.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page1.png" alt="Group 6.svg" width="200">
 
-<img title="" src="./exec/assets/page2.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page2.png" alt="Group 6.svg" width="200">
 
-<img title="" src="./exec/assets/page3.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page3.png" alt="Group 6.svg" width="200">
 
-<img title="" src="./exec/assets/page4.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page4.png" alt="Group 6.svg" width="200">
 
-<img title="" src="./exec/assets/page5.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page5.png" alt="Group 6.svg" width="200">
 
-<img title="" src="./exec/assets/page6.png" alt="Group 6.svg" width="679">
+<img title="" src="./exec/assets/page6.png" alt="Group 6.svg" width="200">
 
 ### Member & Role 👪
 
