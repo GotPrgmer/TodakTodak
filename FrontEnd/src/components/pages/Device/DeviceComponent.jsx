@@ -182,7 +182,7 @@ class DeviceComponent extends Component {
       message: "아기가 다시 원상태로 돌아왔습니다.",
     };
 
-    if (frontCur > 0.9 && this.state.flip === true) {
+    if (frontCur > 0.8 && this.state.flip === true) {
       this.state.flip = false;
       fetch(`https://todaktodak.kr:8080/api/device/alarm`, {
         headers: {
@@ -201,7 +201,7 @@ class DeviceComponent extends Component {
     }
 
     // 스로틀링 이벤트 처리
-    if (cur > 0.9) {
+    if (cur > 0.8) {
       const currentTime = new Date().getTime();
       // rolling["TimeStamp"] = currentTime;
 
