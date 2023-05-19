@@ -55,17 +55,17 @@
 
 ### 📜 프로젝트 결과물
 
-![사용자화면6.png](assets/e02ef76788c70b3764f6fdd705e95cba3e8bd65b.png)
+![사용자화면6.png](./exec/assets/e02ef76788c70b3764f6fdd705e95cba3e8bd65b.png)
 
-![사용자화면5.png](assets/cadf704ed22496c19f102e834ea622ed8c890070.png)
+![사용자화면5.png](./exec/assets/cadf704ed22496c19f102e834ea622ed8c890070.png)
 
-![사용자화면4.png](assets/7905388e6b02368c132510c2f9b463c7e71c9f3d.png)
+![사용자화면4.png](./exec/assets/7905388e6b02368c132510c2f9b463c7e71c9f3d.png)
 
-![사용자화면3.png](assets/5c9ac1553ba3fc2a70dd6b706759a553885bd22a.png)
+![사용자화면3.png](./exec/assets/5c9ac1553ba3fc2a70dd6b706759a553885bd22a.png)
 
-![사용자화면2.png](assets/e02ef76788c70b3764f6fdd705e95cba3e8bd65b.png)
+![사용자화면2.png](./exec/assets/e02ef76788c70b3764f6fdd705e95cba3e8bd65b.png)
 
-![사용자 화면1.png](assets/c4f39c40d02e91f4c8ba8357e5514ec6051946f2.png)
+![사용자 화면1.png](./exec/assets/c4f39c40d02e91f4c8ba8357e5514ec6051946f2.png)
 
 ### Member & Role 👪
 
