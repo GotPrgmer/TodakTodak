@@ -46,21 +46,21 @@ public class BabyService {
     private String DEFAULT_IMAGE_S3;
 
     @Transactional
-    public BabyInfoResponseDto babyInfo(Integer babyId,String userId){
+    public BabyInfoResponseDto babyInfo(Integer babyId, String userId) {
         Integer userIdToInteger = Integer.parseInt(userId);
         //babyId로 아기 조회
-        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
-        if ( baby.isEmpty()) {
+        Optional<Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId, userIdToInteger);
+        if (baby.isEmpty()) {
             throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
         Baby findBaby = baby.get();
-        Integer year= findBaby.getBabyBirthYear();
+        Integer year = findBaby.getBabyBirthYear();
         Integer month = findBaby.getBabyBirthMonth();
         Integer day = findBaby.getBabyBirthDay();
-        Integer babyDDay = findDDay(year,month,day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        Integer babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
 
 
-        return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
+        return BabyInfoResponseDto.ofBaby(findBaby, babyDDay);
         //
     }
 
@@ -68,8 +68,8 @@ public class BabyService {
     public BabyInfoResponseDto babyInfoUpdate(Integer babyId, MultipartFile file, BabyUpdateRequestDto babyUpdateRequestDto, String userId) throws IOException {
         //babyId로 아기 조회
         Integer userIdToInteger = Integer.parseInt(userId);
-        Optional <Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId,userIdToInteger);
-        if ( baby.isEmpty()) {
+        Optional<Baby> baby = babyRepository.findByBabyIdAndUserUserId(babyId, userIdToInteger);
+        if (baby.isEmpty()) {
             throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
 
@@ -89,13 +89,13 @@ public class BabyService {
         Integer day = babyUpdateRequestDto.getBabyBirthDay();
 
         // 별자리 찾기
-        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        String babyConstellation = findConstellation(month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         // 띠 찾기
-        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        String babyZodiac = findZodiac(year).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         // dday 계산
         Integer babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
-        findBaby.updateBaby(babyUpdateRequestDto,babyConstellation,babyZodiac,imageUrl);
-        return BabyInfoResponseDto.ofBaby(findBaby,babyDDay);
+        findBaby.updateBaby(babyUpdateRequestDto, babyConstellation, babyZodiac, imageUrl);
+        return BabyInfoResponseDto.ofBaby(findBaby, babyDDay);
     }
 
     @Transactional
@@ -103,7 +103,7 @@ public class BabyService {
         //사용자 조회
         Integer userIdToInteger = Integer.parseInt(userId);
         Optional<User> user = userRepository.findById(userIdToInteger);
-        if ( user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();
@@ -120,19 +120,19 @@ public class BabyService {
         Integer day = babyAddRequestDto.getBabyBirthDay();
 
         // 별자리 찾기
-        String babyConstellation = findConstellation(month, day).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        String babyConstellation = findConstellation(month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         // 띠 찾기
-        String babyZodiac = findZodiac(year).orElseThrow(()-> new CustomException(BIRTH_DATE_INVALID));;
+        String babyZodiac = findZodiac(year).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
         // dday 계산
         Integer babyDDay = findDDay(year, month, day).orElseThrow(() -> new CustomException(BIRTH_DATE_INVALID));
-        Baby newBaby = Baby.newBabyAdd(findUser,babyAddRequestDto,babyConstellation,babyZodiac,imageUrl);
+        Baby newBaby = Baby.newBabyAdd(findUser, babyAddRequestDto, babyConstellation, babyZodiac, imageUrl);
         babyRepository.save(newBaby);
-        Device newDevice =  Device.newDeviceCreate(newBaby);
+        Device newDevice = Device.newDeviceCreate(newBaby);
         deviceRepository.save(newDevice);
-        return BabyInfoResponseDto.ofBaby(newBaby,babyDDay);
+        return BabyInfoResponseDto.ofBaby(newBaby, babyDDay);
     }
 
-    public Optional<String> findConstellation(Integer month,Integer day){
+    public Optional<String> findConstellation(Integer month, Integer day) {
         if (month == null || day == null) {
             return Optional.empty();
         }
@@ -147,8 +147,8 @@ public class BabyService {
 
     }
 
-    public Optional<String> findZodiac(Integer year){
-        if (year == null || 1900>year){
+    public Optional<String> findZodiac(Integer year) {
+        if (year == null || 1900 > year) {
             return Optional.empty();
         }
         String[] zodiacSigns = {
@@ -161,8 +161,8 @@ public class BabyService {
 
     }
 
-    public Optional<Integer> findDDay(Integer year,Integer month, Integer day){
-        if (year == null || month == null || day == null){
+    public Optional<Integer> findDDay(Integer year, Integer month, Integer day) {
+        if (year == null || month == null || day == null) {
             return Optional.empty();
         }
 
@@ -171,8 +171,8 @@ public class BabyService {
 
 
         // 아기 생일 날짜로 밀리타임 계산
-        long dayFromMill = 1000 * 60 * 60 * 24;
-        LocalDateTime birtDayDateTime = LocalDateTime.of(year,month,day,0,0);
+        int dayFromMill = (1000 * 60) * (60 * 24);
+        LocalDateTime birtDayDateTime = LocalDateTime.of(year, month, day, 0, 0);
         Instant birthInstant = birtDayDateTime.atZone(ZoneId.systemDefault()).toInstant();
         long birthEpochMilli = birthInstant.toEpochMilli();
 
@@ -182,7 +182,7 @@ public class BabyService {
         long currentEpochMilli = currentInstant.toEpochMilli();
 
         Integer dDay = Math.toIntExact((currentEpochMilli - birthEpochMilli) / dayFromMill);
-        if (dDay <0){
+        if (dDay < 0) {
             return Optional.empty();
         }
 

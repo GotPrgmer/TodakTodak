@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Optional;
 
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -95,7 +94,6 @@ public class OpenViduService {
             throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
 
-        Device getDevice = findDevice.get();
-        return getDevice;
+        return findDevice.get();
     }
 }

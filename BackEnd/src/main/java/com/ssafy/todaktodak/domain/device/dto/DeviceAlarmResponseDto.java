@@ -12,7 +12,7 @@ public class DeviceAlarmResponseDto {
     private String message;
 
 
-    public static DeviceAlarmResponseDto of(String message,String fcmKey){
+    public static DeviceAlarmResponseDto of(String message, String fcmKey) {
         return DeviceAlarmResponseDto.builder()
                 .fcmKey(fcmKey)
                 .message(message)

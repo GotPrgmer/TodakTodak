@@ -16,13 +16,13 @@ public class CryController {
     private final CryService cryService;
 
     @PostMapping(value = "/cry/record")
-    public CryRecordingResponseDto cryRecording(@RequestBody CryRecordingRequestDto cryRecordingRequestDto){
+    public CryRecordingResponseDto cryRecording(@RequestBody CryRecordingRequestDto cryRecordingRequestDto) {
         return cryService.cryRecording(cryRecordingRequestDto);
     }
 
     @GetMapping(value = "/cry/logging")
-    public ResponseEntity<String> cryLogging(@RequestParam Integer babyId, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer day){
-        return cryService.cryLogging(babyId, year, month, day );
+    public ResponseEntity<String> cryLogging(@RequestParam Integer babyId, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer day) {
+        return cryService.cryLogging(babyId, year, month, day);
     }
 
 }

@@ -34,12 +34,11 @@ public class DeviceService {
     private final FirebaseService firebaseService;
 
 
-
     @Transactional
-    public DeviceInfoResponseDto deviceInfo(Integer babyId){
+    public DeviceInfoResponseDto deviceInfo(Integer babyId) {
         //babyId로 아기 조회
         Optional<Device> device = deviceRepository.findByBabyBabyId(babyId);
-        if ( device.isEmpty()) {
+        if (device.isEmpty()) {
             throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
         Device findDevice = device.get();
@@ -51,36 +50,35 @@ public class DeviceService {
     @Transactional
     public DeviceAlarmResponseDto deviceAlarm(DeviceAlarmRequestDto request) throws IOException {
         Optional<Device> device = deviceRepository.findByDeviceSerialNumber(request.getSerialNumber());
-        if ( device.isEmpty()) {
+        if (device.isEmpty()) {
             throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
         Device findDevice = device.get();
 
         Optional<Baby> baby = babyRepository.findById(findDevice.getBaby().getBabyId());
-        if ( baby.isEmpty()) {
+        if (baby.isEmpty()) {
             throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
         Baby findBaby = baby.get();
 
         Optional<User> user = userRepository.findUserByUserId(findBaby.getUser().getUserId());
-        if ( user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();
 
-        firebaseService.sendMessageTo(findUser.getFcmKey(),request.getAlarmType(), request.getMessage());
+        firebaseService.sendMessageTo(findUser.getFcmKey(), request.getAlarmType(), request.getMessage());
 
         return DeviceAlarmResponseDto.of(request.getMessage(), findUser.getFcmKey());
-
 
 
     }
 
     @Transactional
-    public DeviceInfoResponseDto deviceInfoUpdate(Integer babyId, DeviceInfoUpdateRequestDto deviceInfoUpdateRequestDto){
+    public DeviceInfoResponseDto deviceInfoUpdate(Integer babyId, DeviceInfoUpdateRequestDto deviceInfoUpdateRequestDto) {
         //babyId로 아기 조회
         Optional<Device> device = deviceRepository.findByBabyBabyId(babyId);
-        if ( device.isEmpty()) {
+        if (device.isEmpty()) {
             throw new CustomException(ErrorCode.DEVICE_NOT_FOUND);
         }
         Device findDevice = device.get();

@@ -1,7 +1,6 @@
 package com.ssafy.todaktodak.domain.cry.domain;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -52,7 +52,7 @@ public class Cry {
     @LastModifiedDate
     private LocalDateTime cryUpdatedDate;
 
-    public static Cry newCryRecordCreate(Baby baby,LocalDateTime cryStartDate,LocalDateTime cryEndDate,Long cryTime){
+    public static Cry newCryRecordCreate(Baby baby, LocalDateTime cryStartDate, LocalDateTime cryEndDate, Long cryTime) {
         return Cry.builder()
                 .baby(baby)
                 .cryTime(cryTime)
@@ -60,8 +60,6 @@ public class Cry {
                 .cryEndDate(cryEndDate)
                 .build();
     }
-
-
 
 
 }

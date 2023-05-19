@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BabyRepository extends JpaRepository<Baby,Integer> {
+public interface BabyRepository extends JpaRepository<Baby, Integer> {
 
     List<Baby> findBabiesByUserUserId(Integer userId);
 
     Optional<Baby> findById(Integer babyId);
 
-    Optional<Baby> findByBabyIdAndUserUserId(Integer babyId,Integer userId);
+    Optional<Baby> findByBabyIdAndUserUserId(Integer babyId, Integer userId);
 
 }

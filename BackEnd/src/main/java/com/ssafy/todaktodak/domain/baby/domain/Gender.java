@@ -8,8 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @AllArgsConstructor
 public enum Gender {
-    X("unknown"),M("male") ,F("female");
-
+    X("unknown"), M("male"), F("female");
 
 
     private final String label;
@@ -27,19 +26,19 @@ public enum Gender {
     }
 
     public static Gender ofString(String gender) throws IllegalArgumentException {
-        if (Gender.X.getLabel().equals(gender) ) {
+        if (Gender.X.getLabel().equals(gender)) {
             return Gender.X;
         } else if (Gender.M.getLabel().equals(gender)) {
             return Gender.M;
         } else if (Gender.F.getLabel().equals(gender)) {
             return Gender.F;
-        }else{
-                throw new IllegalArgumentException("Invalid gender value: " + gender);
-            }
+        } else {
+            throw new IllegalArgumentException("Invalid gender value: " + gender);
         }
-
-
     }
+
+
+}
 
 
 

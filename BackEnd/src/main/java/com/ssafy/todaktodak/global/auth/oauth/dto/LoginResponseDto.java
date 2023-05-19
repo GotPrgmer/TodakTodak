@@ -22,7 +22,7 @@ public class LoginResponseDto {
 
     private String jwtToken;
 
-    public static LoginResponseDto ofLoginInfo(User user, List babyIds, String jwtToken) {
+    public static LoginResponseDto ofLoginInfo(User user, List<Integer> babyIds, String jwtToken) {
         return LoginResponseDto.builder()
                 .id(user.getUserId())
                 .babyIds(babyIds)
