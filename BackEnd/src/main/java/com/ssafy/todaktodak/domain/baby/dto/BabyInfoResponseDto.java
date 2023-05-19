@@ -33,13 +33,13 @@ public class BabyInfoResponseDto {
 
     private String babyConstellation;
 
-    public static BabyInfoResponseDto ofBaby(Baby baby,Integer DDay){
+    public static BabyInfoResponseDto ofBaby(Baby baby, Integer dDay) {
 
         return BabyInfoResponseDto.builder()
                 .babyId(baby.getBabyId())
                 .parentEmail(baby.getUser().getUserEmail())
 
-                .babyDDay(DDay)
+                .babyDDay(dDay)
 
                 .babyNickname(baby.getBabyNickname())
 

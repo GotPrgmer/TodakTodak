@@ -21,32 +21,31 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/info")
-    public UserInfoResponseDto userInfo(Authentication authentication){
+    public UserInfoResponseDto userInfo(Authentication authentication) {
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
         return userService.userInfo(principal.getUsername());
     }
 
-    @PatchMapping(value = "/user/info/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/user/info/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserInfoUpdateResponseDto userInfoUpdate(Authentication authentication,
-                                                    @RequestPart(value = "userImage",required = false) MultipartFile userImage,
-                                                    @RequestPart(value="request") UserInfoUpdateRequestDto request)
+                                                    @RequestPart(value = "userImage", required = false) MultipartFile userImage,
+                                                    @RequestPart(value = "request") UserInfoUpdateRequestDto request)
             throws IOException {
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-        return userService.userInfoUpdate(principal.getUsername(),request,userImage);
+        return userService.userInfoUpdate(principal.getUsername(), request, userImage);
     }
 
-    @PatchMapping(value = "/user/fcmKey", consumes = {MediaType.APPLICATION_JSON_VALUE })
+    @PatchMapping(value = "/user/fcmKey", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public UserFcmUpdateResponseDto userFcmEdit(Authentication authentication,
-                                              @RequestBody() UserFcmUpdateRequestDto request)
-            throws IOException {
+                                                @RequestBody() UserFcmUpdateRequestDto request) {
 
         UserDetails principal = (UserDetails) authentication.getPrincipal();
 
-        return userService.userFcmEdit(principal.getUsername(),request);
+        return userService.userFcmEdit(principal.getUsername(), request);
     }
 
 }

@@ -18,9 +18,10 @@ import static com.ssafy.todaktodak.global.error.ErrorCode.BAD_REQUEST;
 @RequiredArgsConstructor
 public class CookieUtil {
 
-    public <T> ResponseEntity<T> setTokenCookie(String refreshToken,T inputDto){
+    public <T> ResponseEntity<T> setTokenCookie(String refreshToken, T inputDto) {
+        int cookieTime = 7 * 24 * 60 * 60;
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
-                .maxAge(7 * 24 * 60 * 60) // 쿠키 유효기간 설정 (초 단위)
+                .maxAge(cookieTime) // 쿠키 유효기간 설정 (초 단위)
                 .path("/") // 쿠키의 경로 설정
                 .secure(true) // HTTPS에서만 쿠키를 전송하도록 설정
                 .sameSite("None") // SameSite 설정

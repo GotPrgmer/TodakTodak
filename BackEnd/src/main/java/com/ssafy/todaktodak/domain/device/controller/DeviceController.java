@@ -21,15 +21,15 @@ public class DeviceController {
 
 
     @GetMapping("/device/info/{babyId}")
-    public DeviceInfoResponseDto deviceInfo(@PathVariable("babyId") Integer babyId){
+    public DeviceInfoResponseDto deviceInfo(@PathVariable("babyId") Integer babyId) {
 
         return deviceService.deviceInfo(babyId);
     }
 
     @PatchMapping("/device/info/update/{babyId}")
-    public DeviceInfoResponseDto deviceInfoUpdate(@PathVariable("babyId") Integer babyId,@RequestBody DeviceInfoUpdateRequestDto deviceInfoUpdateRequestDto){
+    public DeviceInfoResponseDto deviceInfoUpdate(@PathVariable("babyId") Integer babyId, @RequestBody DeviceInfoUpdateRequestDto deviceInfoUpdateRequestDto) {
 
-        return deviceService.deviceInfoUpdate(babyId,deviceInfoUpdateRequestDto);
+        return deviceService.deviceInfoUpdate(babyId, deviceInfoUpdateRequestDto);
     }
 
     @PostMapping("/device/alarm")

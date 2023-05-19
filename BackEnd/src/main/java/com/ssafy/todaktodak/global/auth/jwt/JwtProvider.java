@@ -46,11 +46,10 @@ public class JwtProvider {
     }
 
     public String getId(String token) {
-        String id = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
-        return id;
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
-    public Authentication getAuthentication(JwtToken jwtToken, String token) {
+    public Authentication getAuthentication(String token) {
         Claims claims = this.getTokenClaims(token);
         String authority = (String) claims.get(AUTHORITIES_KEY);
         Role inputAuthority = null;
@@ -76,16 +75,15 @@ public class JwtProvider {
 
     public String getRoleFromToken(String token) {
         Claims claims = getTokenClaims(token);
-        String roleList = claims.get(AUTHORITIES_KEY, String.class);
-        return roleList;
+        return claims.get(AUTHORITIES_KEY, String.class);
     }
 
     public Claims getTokenClaims(String token) {
-            return Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody(); // token의 Body가 하기 exception들로 인해 유효하지 않으면 각각에 해당하는 로그 콘솔에 찍음
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody(); // token의 Body가 하기 exception들로 인해 유효하지 않으면 각각에 해당하는 로그 콘솔에 찍음
 
     }
 

@@ -1,7 +1,6 @@
 package com.ssafy.todaktodak.global.firebase.dto;
 
 import com.google.firebase.messaging.WebpushConfig;
-import com.google.firebase.messaging.WebpushNotification;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

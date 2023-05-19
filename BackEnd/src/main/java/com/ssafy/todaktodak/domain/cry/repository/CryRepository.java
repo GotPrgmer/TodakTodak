@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 
-public interface CryRepository extends JpaRepository<Cry,Integer> {
+public interface CryRepository extends JpaRepository<Cry, Integer> {
 
     List<Cry> findAllByBabyAndCryStartDateBetween(Baby baby, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

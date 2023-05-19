@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class BabyAddRequestDto{
+public class BabyAddRequestDto {
     private String babyNickname;
 
     private String babyName;
