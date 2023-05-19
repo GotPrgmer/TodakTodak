@@ -1,0 +1,48 @@
+{
+  "name": "hello-world",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "16.20.0",
+    "npm": "8.19.4"
+  },
+  "dependencies": {
+    "amazon-cognito-identity-js": "^6.2.0",
+    "aws-amplify": "^5.2.0",
+    "aws-iot-device-sdk": "^2.2.12",
+    "aws-sdk": "^2.1375.0",
+    "mqtt": "^4.3.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/aws-iot-device-sdk": "^2.2.4",
+    "web-vitals": "^3.3.1"
+  }
+}

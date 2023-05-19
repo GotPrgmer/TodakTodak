@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active : ${ACTIVE}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 30MB
+  redis:
+    host: todaktodak.kr
+    post: 6379
+    password: ${REDIS_PASSWORD}
+
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+
+jwt:
+  secret : ${JWT_SECRET}
+  expiration-accesstoken-minutes : 10080
+  expiration-refreshtoken-minutes : 10080
+  token-prefix : "Bearer "
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${S3_ACCESS_KEY}
+      secretKey: ${S3_SECRET_KEY}
+    s3:
+      bucket: ${BUCKET_ADDRESS}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    profiles:
+      include: Administrator
+
+
+  http2:
+    enabled: true
+s3-default-image : ${S3_DEFAULT_IMAGE}
+s3-baby-default-image : ${S3_BABY_IMAGE}
+s3-user-default-image : ${S3_USER_IMAGE}
