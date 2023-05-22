@@ -14,14 +14,14 @@
 - 실시간 아기 영상 스트리밍 제공
 
 - 아기 뒤집기 및 울음소리 알림 제공
-  
+
   > <span style="color:red"><b>아기 상태 확인 -> 효율적인 육아</b></span>
 
 ## ❗ 특장점
 
-- 아기 뒤집기 판단이 가능한 ****영상 인식 ai**** 
+- 아기 뒤집기 판단이 가능한 \***\*영상 인식 ai\*\***
 
-- 아기 울음 판단이 가능한 ****음성 인식 ai****  
+- 아기 울음 판단이 가능한 \***\*음성 인식 ai\*\***
 
 ## :star2: 주요 기능
 
@@ -33,25 +33,25 @@
 
 # 🚀 배포 주소 : [ :baby: 토닥토닥](https://todaktodak.kr) [https://todaktodak.kr](https://todaktodak.kr)
 
-### 
+###
 
 ### 🎫 ERD
 
-![](./exec/assets/d75ffafabc717cb680b3739eea92d30a54847fc6.png) 
+![](./exec/assets/d75ffafabc717cb680b3739eea92d30a54847fc6.png)
 
-### 
+###
 
 ### 🍏 API
 
- ![](./exec/assets/3487a319f07f7c99dbcf12e9e7a39e91d5d8f1d3.png)
+![](./exec/assets/3487a319f07f7c99dbcf12e9e7a39e91d5d8f1d3.png)
 
-### 
+###
 
 ### 🎇 서비스 아키텍쳐
 
 <img title="" src="./exec/assets/6ec40421e9d382d02c56e70fafa98c13c5eb38b0.svg" alt="Group 6.svg" width="679">
 
-### 
+###
 
 ### 📜 프로젝트 결과물
 
@@ -67,12 +67,30 @@
 
 <img title="" src="./exec/assets/page6.png" alt="Group 6.svg" width="200">
 
+<img title="" src="./exec/assets/baby_info.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/baby_video.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/crying_alarm.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/crying_record.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/device_register.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/flipflap.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/login.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/logout.gif" alt="Group 6.svg" width="500">
+
+<img title="" src="./exec/assets/temperature_change.gif" alt="Group 6.svg" width="500">
+
 ### Member & Role 👪
 
-| 이름  | 담당 영역    |
-| --- | -------- |
-| 김이삭 | IOT      |
-| 김관섭 | FrontEnd |
-| 김민준 | BackEnd  |
-| 엄희원 | IOT      |
-| 장준호 | FrontEnd |
+| 이름   | 담당 영역 |
+| ------ | --------- |
+| 김이삭 | IOT       |
+| 김관섭 | FrontEnd  |
+| 김민준 | BackEnd   |
+| 엄희원 | IOT       |
+| 장준호 | FrontEnd  |
