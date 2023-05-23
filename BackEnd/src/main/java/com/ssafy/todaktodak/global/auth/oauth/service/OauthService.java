@@ -33,7 +33,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -83,8 +82,7 @@ public class OauthService {
     private final RedisUtil redisUtil;
 
 
-
-    public ResponseEntity<LoginResponseDto> verification(String code){
+    public ResponseEntity<LoginResponseDto> verification(String code) {
         KakaoAccessTokenDto kakaoAccessTokenDto = getAccessTokenByCode(code);
 
         SocialUserResponseDto socialUserResponseDto = getUserInfoByAccessToken(kakaoAccessTokenDto.getAccessToken());
@@ -97,7 +95,6 @@ public class OauthService {
         return kakaoLogin(socialUserResponseDto.getEmail());
 
     }
-
 
 
     public KakaoAccessTokenDto getAccessTokenByCode(String code) {
@@ -130,6 +127,7 @@ public class OauthService {
         }
         return kakaoAccessTokenDto;
     }
+
     public SocialUserResponseDto getUserInfoByAccessToken(String accessToken) {
 
 
@@ -138,28 +136,27 @@ public class OauthService {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
 
-        HttpEntity<MultiValueMap<String, String>> kakaoUserInfoRequest  = new HttpEntity<>(headers);
+        HttpEntity<MultiValueMap<String, String>> kakaoUserInfoRequest = new HttpEntity<>(headers);
 
         String url = GET_USER_INFO_URI;
 
         String userInfo = restTemplate.postForObject(url, kakaoUserInfoRequest, String.class);
 
         SocialUserResponseDto socialUserResponseDto = SocialUserResponseDto.builder().build();
-        try{
+        try {
             JsonNode jsonNode = objectMapper.readTree(userInfo);
             String email = String.valueOf(jsonNode.get("kakao_account").get("email")).replaceAll("^\"|\"$", "");
             String nickname = String.valueOf(jsonNode.get("kakao_account").get("profile").get("nickname")).replaceAll("^\"|\"$", "");
             String imageUrl = String.valueOf(jsonNode.get("kakao_account").get("profile").get("profile_image_url")).replaceAll("^\"|\"$", "");
             socialUserResponseDto.socialUserInfo(email, nickname, imageUrl);
 
-        }
-        catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             throw new CustomException(ErrorCode.JSON_DATA_INVALID);
         }
         return socialUserResponseDto;
     }
 
-    public void signUp (SocialUserResponseDto socialUserResponseDto) {
+    public void signUp(SocialUserResponseDto socialUserResponseDto) {
         // DB 에 중복된 email이 있는지 확인
         String kakaoEmail = socialUserResponseDto.getEmail();
         User duplicateUser = userRepository.findUserByUserEmail(kakaoEmail)
@@ -171,10 +168,10 @@ public class OauthService {
             User newUser = User.kakaoSignupUser(socialUserResponseDto);
             userRepository.save(newUser);
             // 아기 초기 세팅 추가
-            Baby newBaby = Baby.newBabyCreate(newUser,S3_BABY_IMAGE);
+            Baby newBaby = Baby.newBabyCreate(newUser, S3_BABY_IMAGE);
             babyRepository.save(newBaby);
             // 디바이스 설정
-            Device newDevice =  Device.newDeviceCreate(newBaby);
+            Device newDevice = Device.newDeviceCreate(newBaby);
             deviceRepository.save(newDevice);
 
         }
@@ -185,7 +182,7 @@ public class OauthService {
 
         Optional<User> user = userRepository.findUserByUserEmail(email);
 
-        if ( user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();
@@ -200,18 +197,17 @@ public class OauthService {
                 .collect(Collectors.toList());
 
 
-
-        return cookieUtil.setTokenCookie(refreshToken, LoginResponseDto.ofLoginInfo(findUser,babyIds, jwtToken));
+        return cookieUtil.setTokenCookie(refreshToken, LoginResponseDto.ofLoginInfo(findUser, babyIds, jwtToken));
     }
 
-    public ResponseEntity<?> tokenReissue(HttpServletRequest request) {
+    public ResponseEntity<TokenResponseDto> tokenReissue(HttpServletRequest request) {
         //refreshToken얻어오는 방법
         Cookie[] cookies = request.getCookies();
 
         String refreshTokenCookie = null;
         if (cookies == null) {
             throw new CustomException(ErrorCode.BAD_REQUEST);
-            }
+        }
         for (Cookie cookie : cookies) {
             if ("refreshToken".equals(cookie.getName())) {
                 refreshTokenCookie = cookie.getValue();
@@ -243,7 +239,7 @@ public class OauthService {
 
         Optional<User> user = userRepository.findUserByUserId(userIdNumber);
 
-        if ( user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         User findUser = user.get();

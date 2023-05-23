@@ -31,7 +31,7 @@ public class CryService {
 
     private final CryRepository cryRepository;
 
-    public CryRecordingResponseDto cryRecording(CryRecordingRequestDto cryRecordingRequestDto){
+    public CryRecordingResponseDto cryRecording(CryRecordingRequestDto cryRecordingRequestDto) {
         Instant cryStartTimeToInstant = Instant.ofEpochMilli(cryRecordingRequestDto.getCryStartDate());
         Instant cryEndTimeToInstant = Instant.ofEpochMilli(cryRecordingRequestDto.getCryEndDate());
 
@@ -43,7 +43,7 @@ public class CryService {
         Optional<Baby> baby = babyRepository.findById(babyId);
 
 
-        if ( baby.isEmpty()) {
+        if (baby.isEmpty()) {
             throw new CustomException(ErrorCode.BABY_NOT_FOUND);
         }
 

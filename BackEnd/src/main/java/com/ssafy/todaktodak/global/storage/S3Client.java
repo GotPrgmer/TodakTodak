@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-public class S3Client implements StorageClient{
+public class S3Client implements StorageClient {
     private AmazonS3 s3Client;
 
     @Value("${cloud.aws.credentials.accessKey}")

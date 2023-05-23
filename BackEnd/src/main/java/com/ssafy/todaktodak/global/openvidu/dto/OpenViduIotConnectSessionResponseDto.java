@@ -10,7 +10,7 @@ public class OpenViduIotConnectSessionResponseDto {
 
     private String connectionToken;
 
-    public static OpenViduIotConnectSessionResponseDto ofConnection(Connection connection){
+    public static OpenViduIotConnectSessionResponseDto ofConnection(Connection connection) {
 
         return OpenViduIotConnectSessionResponseDto.builder()
                 .connectionToken(connection.getToken())

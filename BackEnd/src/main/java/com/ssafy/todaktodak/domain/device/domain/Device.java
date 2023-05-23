@@ -1,7 +1,6 @@
 package com.ssafy.todaktodak.domain.device.domain;
 
 import com.ssafy.todaktodak.domain.baby.domain.Baby;
-import com.sun.istack.NotNull;
 import io.openvidu.java.client.Connection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -52,10 +52,10 @@ public class Device {
     @LastModifiedDate
     private LocalDateTime deviceUpdatedDate;
 
-    public static Device newDeviceCreate(Baby baby){
+    public static Device newDeviceCreate(Baby baby) {
         return Device.builder()
                 .baby(baby)
-                .deviceSerialNumber("todak"+baby.getBabyId())
+                .deviceSerialNumber("todak" + baby.getBabyId())
                 .build();
     }
 
@@ -63,12 +63,9 @@ public class Device {
         this.deviceSessionId = sessionId;
     }
 
-    public void updateConnectionId(Connection connection){
+    public void updateConnectionId(Connection connection) {
         this.deviceConnectionId = connection.getConnectionId();
     }
-
-
-
 
 
 }

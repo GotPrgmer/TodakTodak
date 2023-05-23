@@ -27,7 +27,6 @@ public class UserService {
     private final S3Client s3Client;
 
 
-
     @Transactional
     public UserInfoResponseDto userInfo(String userId) {
         User findUser = findUserWithUserId(userId);
@@ -46,12 +45,12 @@ public class UserService {
                 s3Client.deleteFile(preImg);
             }
             imageUrl = s3Client.uploadFile(file);
-        // 사용자 이미지 없을 때
+            // 사용자 이미지 없을 때
         } else {
             imageUrl = findUser.getUserImageUrl();
         }
 
-        findUser.updateUser(request,imageUrl);
+        findUser.updateUser(request, imageUrl);
 
         return UserInfoUpdateResponseDto.of(findUser);
 
@@ -61,16 +60,15 @@ public class UserService {
     public UserFcmUpdateResponseDto userFcmEdit(String userId, UserFcmUpdateRequestDto request) {
         User findUser = findUserWithUserId(userId);
         findUser.updateUserFcm(request);
-        String message = "수정이 완료되었습니다.";
         return UserFcmUpdateResponseDto.ofFcm(request.getFcmKey());
     }
 
-    public User findUserWithUserId(String userId){
+    public User findUserWithUserId(String userId) {
         Integer userIdToInteger = Integer.parseInt(userId);
 
         // 사용자 조회
         Optional<User> user = userRepository.findUserByUserId(userIdToInteger);
-        if ( user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         return user.get();
