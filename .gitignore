@@ -477,3 +477,45 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/java,android,androidstudio
+
+# Frontend (fix broken patterns)
+**/node_modules/
+**/amplify/
+**/.env
+**/.env.*
+
+# Frontend build outputs / caches (common)
+**/dist/
+**/build/
+**/.next/
+**/out/
+**/.cache/
+**/.parcel-cache/
+**/.vite/
+**/coverage/
+
+# Logs
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Eclipse / IDE metadata (seen in your repo)
+**/.metadata/
+**/.settings/
+**/.classpath
+**/.project
+**/.recommenders/
+
+# JetBrains / VSCode (some already exist above, but safe)
+**/.idea/
+**/.vscode/
+**/*.iml
+
+# Java/Gradle
+**/.gradle/
